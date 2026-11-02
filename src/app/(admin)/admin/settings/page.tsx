@@ -1,11 +1,18 @@
-import { PageHeader, Card, Scaffold } from "@/shared/ui/page";
+import { AdminSettings } from "@/modules/admin/components/admin-settings";
+import { ThemeToggle } from "@/modules/account/components/theme-toggle";
+import { Card, PageHeader } from "@/shared/ui";
 
-export default function Page() {
+export default function AdminSettingsPage() {
   return (
-    <div>
-      <PageHeader eyebrow="Admin" title="Pengaturan Global" description="Konfigurasi platform." />
-      <Card title="Status">
-        <Scaffold items={["Feature toggle","Integrasi"]} />
+    <div className="space-y-6">
+      <PageHeader
+        eyebrow="Admin"
+        title="Pengaturan Global"
+        description="Feature toggle dan integrasi platform."
+      />
+      <AdminSettings />
+      <Card title="Tema admin">
+        <ThemeToggle />
       </Card>
     </div>
   );

@@ -1,11 +1,18 @@
-import { PageHeader, Card, Scaffold } from "@/shared/ui/page";
+import { NotificationSettings } from "@/modules/account/components/notification-settings";
+import { ThemeToggle } from "@/modules/account/components/theme-toggle";
+import { Card, PageHeader } from "@/shared/ui";
 
-export default function Page() {
+export default function SettingsPage() {
   return (
-    <div>
-      <PageHeader eyebrow="Akun" title="Pengaturan" description="Notifikasi & tampilan." />
-      <Card title="Status">
-        <Scaffold items={["Notifikasi","Tema","Keamanan"]} />
+    <div className="space-y-6">
+      <PageHeader
+        eyebrow="Akun"
+        title="Pengaturan"
+        description="Notifikasi, tema, dan keamanan akun."
+      />
+      <NotificationSettings />
+      <Card title="Tema" description="Perubahan langsung diterapkan.">
+        <ThemeToggle />
       </Card>
     </div>
   );

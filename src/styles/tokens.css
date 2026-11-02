@@ -94,3 +94,26 @@
   /* Focus */
   --focus-ring: 0 0 0 3px rgba(154,52,18,.25);
 }
+
+[data-theme="dark"] {
+  --color-ink: #F5F2EA;
+  --color-accent: #F0A46B;
+  --color-accent-strong: #F7BE92;
+  --color-accent-soft: #3A2418;
+  --color-on-accent: #14130F;
+
+  --color-paper: #14130F;
+  --color-surface: #1D1B16;
+  --color-line: #35312A;
+  --color-muted: #B8B0A2;
+
+  --color-success: #7BC49B;
+  --color-warning: #E2B15E;
+  --color-danger: #F08A80;
+  --color-info: #8AB4FF;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.4);
+  --shadow-md: 0 6px 20px -12px rgba(0,0,0,.7);
+  --shadow-lg: 0 16px 40px -20px rgba(0,0,0,.8);
+  --focus-ring: 0 0 0 3px rgba(240,164,107,.35);
+}

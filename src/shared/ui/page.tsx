@@ -1,4 +1,7 @@
 import type { ReactNode } from "react";
+import { Card } from "./card";
+
+export { Card };
 
 export function PageHeader({
   eyebrow,
@@ -24,23 +27,6 @@ export function PageHeader({
       ) : null}
       {actions ? <div className="mt-4 flex flex-wrap gap-3">{actions}</div> : null}
     </header>
-  );
-}
-
-export function Card({
-  title,
-  children,
-}: {
-  title?: string;
-  children: ReactNode;
-}) {
-  return (
-    <section className="rounded-lg border border-line bg-surface p-5">
-      {title ? (
-        <h2 className="mb-2 font-display text-lg text-ink">{title}</h2>
-      ) : null}
-      {children}
-    </section>
   );
 }
 

@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import "@/styles/tokens.css";
 import "./globals.css";
+import { ToastProvider } from "@/shared/ui/toast";
+
+const themeScript = `(function(){try{var t=localStorage.getItem("jioodev-theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.dataset.theme=t;}catch(e){}})();`;
 
 export const metadata: Metadata = {
   title: "JiooDev — AI-Powered Digital Production Ecosystem",
@@ -14,8 +17,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id">
-      <body className="font-body antialiased">{children}</body>
+    <html lang="id" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body className="font-body antialiased">
+        <a
+          href="#konten"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[100] focus:rounded-md focus:bg-surface focus:px-3 focus:py-2 focus:text-sm focus:text-ink focus:shadow-md"
+        >
+          Lewati ke konten
+        </a>
+        <ToastProvider>{children}</ToastProvider>
+      </body>
     </html>
   );
 }

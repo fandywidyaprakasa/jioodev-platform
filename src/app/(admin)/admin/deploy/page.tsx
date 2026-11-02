@@ -1,12 +1,15 @@
-import { PageHeader, Card, Scaffold } from "@/shared/ui/page";
+import { DeployQueue } from "@/modules/admin/components/deploy-queue";
+import { PageHeader } from "@/shared/ui";
 
-export default function Page() {
+export default function AdminDeployPage() {
   return (
     <div>
-      <PageHeader eyebrow="Admin" title="Deploy" description="Antrian deploy & health." />
-      <Card title="Status">
-        <Scaffold items={["Antrian","Health","Rollback"]} />
-      </Card>
+      <PageHeader
+        eyebrow="Admin"
+        title="Deploy"
+        description="Antrian deploy, health check, dan rollback."
+      />
+      <DeployQueue />
     </div>
   );
 }

@@ -26,7 +26,7 @@ export default function MarketingLayout({
           </Link>
         </div>
       </header>
-      {children}
+      <main id="konten">{children}</main>
       <footer className="border-t border-line">
         <div className="mx-auto flex max-w-5xl flex-col gap-2 px-5 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} JiooDev. AI-Powered Digital Production Ecosystem.</p>

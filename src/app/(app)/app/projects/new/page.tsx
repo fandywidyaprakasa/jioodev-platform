@@ -1,12 +1,15 @@
-import { PageHeader, Card, Scaffold } from "@/shared/ui/page";
+import { NewProjectForm } from "@/modules/projects/components/new-project-form";
+import { PageHeader } from "@/shared/ui";
 
-export default function Page() {
+export default function NewProjectPage() {
   return (
     <div>
-      <PageHeader eyebrow="Project" title="Buat Project" description="Pilih tipe produk." />
-      <Card title="Status">
-        <Scaffold items={["Landing","Website","Commerce"]} />
-      </Card>
+      <PageHeader
+        eyebrow="Project"
+        title="Buat Project"
+        description="Pilih tipe produk untuk memulai alur."
+      />
+      <NewProjectForm />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 export default function HomePage() {
   return (
-    <main className="mx-auto max-w-5xl px-5 py-16">
+    <div className="mx-auto max-w-5xl px-5 py-16">
       <section className="max-w-3xl">
         <p className="text-xs font-bold uppercase tracking-widest text-accent">
           AI-Powered Digital Production
@@ -44,6 +44,6 @@ export default function HomePage() {
           </article>
         ))}
       </section>
-    </main>
+    </div>
   );
 }

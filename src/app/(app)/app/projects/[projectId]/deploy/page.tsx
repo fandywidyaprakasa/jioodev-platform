@@ -1,12 +1,19 @@
-import { PageHeader, Card, Scaffold } from "@/shared/ui/page";
+import { DeployPanel } from "@/modules/admin/components/deploy-panel";
+import { PageHeader } from "@/shared/ui";
 
-export default function Page({ params }: { params: { projectId: string } }) {
+export default function DeployPage({
+  params,
+}: {
+  params: { projectId: string };
+}) {
   return (
     <div>
-      <PageHeader eyebrow="Project" title={`Deploy · ${params.projectId}`} description="Deploy untuk project." />
-      <Card title="Status">
-        <Scaffold items={["Status","Domain"]} />
-      </Card>
+      <PageHeader
+        eyebrow="Project"
+        title="Deploy"
+        description="Pantau status live dan domain."
+      />
+      <DeployPanel projectId={params.projectId} />
     </div>
   );
 }
