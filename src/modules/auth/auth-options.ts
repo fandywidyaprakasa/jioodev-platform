@@ -18,7 +18,10 @@ export const authOptions: NextAuthOptions = {
   pages: { signIn: "/login" },
   callbacks: {
     async signIn({ user }) {
-      if (!user.email) return false;
+      if (!user.email) {
+        await audit({ action: "auth.login.fail", meta: { reason: "no_email" } });
+        return false;
+      }
       try {
         const pb: any = await upsertUser({
           email: user.email,
@@ -31,6 +34,11 @@ export const authOptions: NextAuthOptions = {
         return true;
       } catch (e) {
         console.error("[auth] signIn sync failed", e);
+        await audit({
+          action: "auth.login.fail",
+          email: user.email,
+          meta: { reason: "sync_failed" },
+        });
         return false;
       }
     },
