@@ -1,0 +1,694 @@
+{
+  "_note": "Definisi koleksi Platform (bukan Master Hub). Di-apply via scripts/apply-pb-schema.mjs.",
+  "collections": [
+    {
+      "name": "user_profiles",
+      "type": "base",
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "relation",
+          "collectionName": "users",
+          "maxSelect": 1,
+          "required": true
+        },
+        {
+          "name": "name",
+          "type": "text"
+        },
+        {
+          "name": "phone",
+          "type": "text"
+        },
+        {
+          "name": "company",
+          "type": "text"
+        },
+        {
+          "name": "avatar",
+          "type": "file",
+          "maxSelect": 1
+        },
+        {
+          "name": "locale",
+          "type": "text"
+        },
+        {
+          "name": "timezone",
+          "type": "text"
+        },
+        {
+          "name": "notifications_pref",
+          "type": "json"
+        }
+      ]
+    },
+    {
+      "name": "projects",
+      "type": "base",
+      "fields": [
+        {
+          "name": "client_id",
+          "type": "text"
+        },
+        {
+          "name": "user_id",
+          "type": "relation",
+          "collectionName": "users",
+          "maxSelect": 1
+        },
+        {
+          "name": "guest_session_id",
+          "type": "text"
+        },
+        {
+          "name": "client_label",
+          "type": "text"
+        },
+        {
+          "name": "product_type",
+          "type": "select",
+          "values": [
+            "LAND",
+            "WEB",
+            "COMM"
+          ],
+          "maxSelect": 1
+        },
+        {
+          "name": "status",
+          "type": "text"
+        },
+        {
+          "name": "business_profile_id",
+          "type": "text"
+        },
+        {
+          "name": "template_id",
+          "type": "text"
+        },
+        {
+          "name": "style",
+          "type": "text"
+        },
+        {
+          "name": "layout",
+          "type": "text"
+        },
+        {
+          "name": "active_sections",
+          "type": "json"
+        },
+        {
+          "name": "chosen_variant",
+          "type": "json"
+        },
+        {
+          "name": "preview_url",
+          "type": "text"
+        },
+        {
+          "name": "payment_id",
+          "type": "text"
+        },
+        {
+          "name": "deployment_id",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "name": "business_profiles",
+      "type": "base",
+      "fields": [
+        {
+          "name": "project_id",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "business_name",
+          "type": "text"
+        },
+        {
+          "name": "industry",
+          "type": "text"
+        },
+        {
+          "name": "business_purpose",
+          "type": "json"
+        },
+        {
+          "name": "target_audience",
+          "type": "text"
+        },
+        {
+          "name": "channels",
+          "type": "json"
+        },
+        {
+          "name": "design_pref",
+          "type": "text"
+        },
+        {
+          "name": "business_goals",
+          "type": "text"
+        },
+        {
+          "name": "logo",
+          "type": "file",
+          "maxSelect": 1
+        },
+        {
+          "name": "brand_colors",
+          "type": "json"
+        }
+      ]
+    },
+    {
+      "name": "project_sections",
+      "type": "base",
+      "fields": [
+        {
+          "name": "project_id",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "section_code",
+          "type": "text"
+        },
+        {
+          "name": "variant_id",
+          "type": "text"
+        },
+        {
+          "name": "order",
+          "type": "number"
+        },
+        {
+          "name": "enabled",
+          "type": "bool"
+        },
+        {
+          "name": "content",
+          "type": "json"
+        }
+      ]
+    },
+    {
+      "name": "content_assets",
+      "type": "base",
+      "fields": [
+        {
+          "name": "project_id",
+          "type": "text"
+        },
+        {
+          "name": "type",
+          "type": "select",
+          "values": [
+            "image",
+            "logo",
+            "text"
+          ],
+          "maxSelect": 1
+        },
+        {
+          "name": "file",
+          "type": "file",
+          "maxSelect": 1
+        },
+        {
+          "name": "meta",
+          "type": "json"
+        }
+      ]
+    },
+    {
+      "name": "revision_history",
+      "type": "base",
+      "fields": [
+        {
+          "name": "project_id",
+          "type": "text"
+        },
+        {
+          "name": "actor",
+          "type": "select",
+          "values": [
+            "user",
+            "admin",
+            "ai"
+          ],
+          "maxSelect": 1
+        },
+        {
+          "name": "action",
+          "type": "text"
+        },
+        {
+          "name": "before",
+          "type": "json"
+        },
+        {
+          "name": "after",
+          "type": "json"
+        }
+      ]
+    },
+    {
+      "name": "production_outputs",
+      "type": "base",
+      "fields": [
+        {
+          "name": "project_id",
+          "type": "text"
+        },
+        {
+          "name": "version",
+          "type": "number"
+        },
+        {
+          "name": "html_path",
+          "type": "text"
+        },
+        {
+          "name": "thumbnail",
+          "type": "file",
+          "maxSelect": 1
+        },
+        {
+          "name": "report",
+          "type": "json"
+        },
+        {
+          "name": "quality",
+          "type": "json"
+        },
+        {
+          "name": "status",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "name": "packages",
+      "type": "base",
+      "fields": [
+        {
+          "name": "name",
+          "type": "text"
+        },
+        {
+          "name": "type",
+          "type": "select",
+          "values": [
+            "PAY_PER_USE",
+            "SUBSCRIPTION"
+          ],
+          "maxSelect": 1
+        },
+        {
+          "name": "quota_landing",
+          "type": "number"
+        },
+        {
+          "name": "quota_web",
+          "type": "number"
+        },
+        {
+          "name": "price",
+          "type": "number"
+        },
+        {
+          "name": "duration_days",
+          "type": "number"
+        },
+        {
+          "name": "features",
+          "type": "json"
+        },
+        {
+          "name": "is_active",
+          "type": "bool"
+        },
+        {
+          "name": "sort_order",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "name": "payments",
+      "type": "base",
+      "fields": [
+        {
+          "name": "project_id",
+          "type": "text"
+        },
+        {
+          "name": "user_id",
+          "type": "relation",
+          "collectionName": "users",
+          "maxSelect": 1
+        },
+        {
+          "name": "package_id",
+          "type": "text"
+        },
+        {
+          "name": "amount",
+          "type": "number"
+        },
+        {
+          "name": "invoice_no",
+          "type": "text"
+        },
+        {
+          "name": "method",
+          "type": "select",
+          "values": [
+            "manual",
+            "gateway"
+          ],
+          "maxSelect": 1
+        },
+        {
+          "name": "provider",
+          "type": "select",
+          "values": [
+            "qris",
+            "manual"
+          ],
+          "maxSelect": 1
+        },
+        {
+          "name": "charge_id",
+          "type": "text"
+        },
+        {
+          "name": "reference",
+          "type": "text"
+        },
+        {
+          "name": "qr_string",
+          "type": "text"
+        },
+        {
+          "name": "expires_at",
+          "type": "date"
+        },
+        {
+          "name": "paid_at",
+          "type": "date"
+        },
+        {
+          "name": "raw_response",
+          "type": "json"
+        },
+        {
+          "name": "status",
+          "type": "select",
+          "values": [
+            "PENDING",
+            "CONFIRMED",
+            "FAILED",
+            "REFUNDED"
+          ],
+          "maxSelect": 1
+        },
+        {
+          "name": "proof",
+          "type": "file",
+          "maxSelect": 1
+        }
+      ]
+    },
+    {
+      "name": "subscriptions",
+      "type": "base",
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "relation",
+          "collectionName": "users",
+          "maxSelect": 1
+        },
+        {
+          "name": "package_id",
+          "type": "text"
+        },
+        {
+          "name": "period_start",
+          "type": "date"
+        },
+        {
+          "name": "period_end",
+          "type": "date"
+        },
+        {
+          "name": "quota_landing_total",
+          "type": "number"
+        },
+        {
+          "name": "quota_landing_used",
+          "type": "number"
+        },
+        {
+          "name": "quota_web_total",
+          "type": "number"
+        },
+        {
+          "name": "quota_web_used",
+          "type": "number"
+        },
+        {
+          "name": "status",
+          "type": "select",
+          "values": [
+            "ACTIVE",
+            "EXHAUSTED",
+            "EXPIRED"
+          ],
+          "maxSelect": 1
+        }
+      ]
+    },
+    {
+      "name": "deployments",
+      "type": "base",
+      "fields": [
+        {
+          "name": "project_id",
+          "type": "text"
+        },
+        {
+          "name": "target",
+          "type": "select",
+          "values": [
+            "subdomain",
+            "custom",
+            "container"
+          ],
+          "maxSelect": 1
+        },
+        {
+          "name": "environment",
+          "type": "select",
+          "values": [
+            "preview",
+            "production"
+          ],
+          "maxSelect": 1
+        },
+        {
+          "name": "status",
+          "type": "select",
+          "values": [
+            "PENDING",
+            "PROVISIONING",
+            "LIVE",
+            "DEGRADED",
+            "SUSPENDED",
+            "DELETED"
+          ],
+          "maxSelect": 1
+        },
+        {
+          "name": "live_url",
+          "type": "text"
+        },
+        {
+          "name": "health",
+          "type": "json"
+        }
+      ]
+    },
+    {
+      "name": "domains",
+      "type": "base",
+      "fields": [
+        {
+          "name": "project_id",
+          "type": "text"
+        },
+        {
+          "name": "domain",
+          "type": "text"
+        },
+        {
+          "name": "type",
+          "type": "select",
+          "values": [
+            "subdomain",
+            "custom"
+          ],
+          "maxSelect": 1
+        },
+        {
+          "name": "status",
+          "type": "select",
+          "values": [
+            "PENDING",
+            "VERIFYING",
+            "ACTIVE",
+            "EXPIRED"
+          ],
+          "maxSelect": 1
+        },
+        {
+          "name": "ssl_status",
+          "type": "select",
+          "values": [
+            "none",
+            "issued",
+            "failed"
+          ],
+          "maxSelect": 1
+        },
+        {
+          "name": "verified_at",
+          "type": "date"
+        }
+      ]
+    },
+    {
+      "name": "notifications",
+      "type": "base",
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "relation",
+          "collectionName": "users",
+          "maxSelect": 1
+        },
+        {
+          "name": "type",
+          "type": "text"
+        },
+        {
+          "name": "title",
+          "type": "text"
+        },
+        {
+          "name": "body",
+          "type": "text"
+        },
+        {
+          "name": "link",
+          "type": "text"
+        },
+        {
+          "name": "channel",
+          "type": "select",
+          "values": [
+            "inapp",
+            "email",
+            "wa"
+          ],
+          "maxSelect": 1
+        },
+        {
+          "name": "read",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "activity_log",
+      "type": "base",
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "relation",
+          "collectionName": "users",
+          "maxSelect": 1
+        },
+        {
+          "name": "actor",
+          "type": "select",
+          "values": [
+            "user",
+            "admin",
+            "ai",
+            "system"
+          ],
+          "maxSelect": 1
+        },
+        {
+          "name": "action",
+          "type": "text"
+        },
+        {
+          "name": "entity_type",
+          "type": "text"
+        },
+        {
+          "name": "entity_id",
+          "type": "text"
+        },
+        {
+          "name": "meta",
+          "type": "json"
+        }
+      ]
+    },
+    {
+      "name": "guest_sessions",
+      "type": "base",
+      "fields": [
+        {
+          "name": "token",
+          "type": "text"
+        },
+        {
+          "name": "project_id",
+          "type": "text"
+        },
+        {
+          "name": "expires_at",
+          "type": "date"
+        },
+        {
+          "name": "converted_user_id",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "name": "settings",
+      "type": "base",
+      "fields": [
+        {
+          "name": "key",
+          "type": "text"
+        },
+        {
+          "name": "value",
+          "type": "json"
+        }
+      ]
+    }
+  ]
+}
