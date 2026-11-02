@@ -11,7 +11,7 @@ export default function LoginPage() {
   function google() {
     const params = new URLSearchParams(window.location.search);
     const next = params.get("next") || "/app";
-    document.cookie = `jsdev_remember=${remember ? "1" : "0"}; path=/; max-age=${
+    document.cookie = `jioodev_remember=${remember ? "1" : "0"}; path=/; max-age=${
       remember ? 2592000 : 43200
     }; samesite=lax`;
     setStatus("Mengalihkan ke Google...");

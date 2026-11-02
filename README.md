@@ -1,4 +1,4 @@
-# JSDEV Platform (Next.js)
+# JiooDev Platform (Next.js)
 
 Scaffold Phase 1 (T-010).
 

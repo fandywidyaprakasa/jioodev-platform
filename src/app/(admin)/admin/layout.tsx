@@ -18,7 +18,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <header className="border-b border-line bg-surface">
         <div className="mx-auto flex max-w-7xl items-center gap-4 px-5 py-3">
           <Link href="/admin" className="font-display text-lg font-semibold text-ink">
-            JSDEV Admin
+            JiooDev Admin
           </Link>
           <span className="hidden text-xs text-muted sm:inline">Panel Internal</span>
           <div className="ml-auto flex items-center gap-3">

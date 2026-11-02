@@ -4,14 +4,14 @@ import { getToken } from "next-auth/jwt";
 
 /**
  * Guard.
- * - Mock hanya bila JSDEV_AUTH_MODE=mock DAN (non-production atau ALLOW_INSECURE_MOCK=1).
+ * - Mock hanya bila JIOODEV_AUTH_MODE=mock DAN (non-production atau ALLOW_INSECURE_MOCK=1).
  * - Selain itu wajib sesi NextAuth (JWT bertanda tangan).
  */
 export async function middleware(req: NextRequest) {
   const isProd = process.env.NODE_ENV === "production";
   const allowMock =
-    process.env.JSDEV_AUTH_MODE === "mock" &&
-    (!isProd || process.env.JSDEV_ALLOW_INSECURE_MOCK === "1");
+    process.env.JIOODEV_AUTH_MODE === "mock" &&
+    (!isProd || process.env.JiooDev_ALLOW_INSECURE_MOCK === "1");
   if (allowMock) return NextResponse.next();
 
   const { pathname } = req.nextUrl;
@@ -30,8 +30,8 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // "Remember me" logical expiry (cookie jsdev_remember=0 → 12 jam)
-  const remember = req.cookies.get("jsdev_remember")?.value;
+  // "Remember me" logical expiry (cookie jioodev_remember=0 → 12 jam)
+  const remember = req.cookies.get("jioodev_remember")?.value;
   if (remember === "0") {
     const iat = (token as any).iat as number | undefined;
     if (iat && Date.now() / 1000 - iat > 12 * 3600) {

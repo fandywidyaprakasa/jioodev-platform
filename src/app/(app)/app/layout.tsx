@@ -17,7 +17,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <header className="border-b border-line bg-surface">
         <div className="mx-auto flex max-w-6xl items-center gap-4 px-5 py-3">
           <Link href="/app" className="font-display text-lg font-semibold text-ink">
-            JSDEV
+            JiooDev
           </Link>
           <span className="hidden text-xs text-muted sm:inline">Workspace</span>
           <div className="ml-auto flex items-center gap-3">

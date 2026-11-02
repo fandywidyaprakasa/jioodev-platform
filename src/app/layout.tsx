@@ -3,7 +3,7 @@ import "@/styles/tokens.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "JSDEV — AI-Powered Digital Production Ecosystem",
+  title: "JiooDev — AI-Powered Digital Production Ecosystem",
   description:
     "Ubah kebutuhan bisnis menjadi produk digital siap pakai melalui AI Transformation.",
 };
