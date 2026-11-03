@@ -17,7 +17,10 @@ export async function GET() {
     service: "jioodev-platform",
     checks: {
       pocketbase: pb ? (pbOk ? "ok" : "fail") : "not-configured",
-      masterHub: process.env.MASTER_HUB_URL ? "configured" : "not-configured",
+      masterHub:
+        process.env.MASTER_HUB_URL || process.env.POCKETBASE_MASTER_URL
+          ? "configured"
+          : "not-configured",
       qris: process.env.QRIS_API_URL ? "configured" : "manual",
       hermes:
         process.env.HERMES_JOB_URL || process.env.HERMES_CALLBACK_SECRET
