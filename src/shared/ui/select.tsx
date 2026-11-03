@@ -1,4 +1,4 @@
-import { forwardRef, type SelectHTMLAttributes } from "react";
+import { forwardRef, useId, type SelectHTMLAttributes } from "react";
 
 export interface SelectOption {
   value: string;
@@ -29,7 +29,8 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     },
     ref,
   ) => {
-    const selectId = id ?? name;
+    const generatedId = useId();
+    const selectId = id ?? name ?? generatedId;
     const describedBy = error
       ? `${selectId}-error`
       : hint
@@ -49,8 +50,10 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           name={name}
           aria-invalid={error ? true : undefined}
           aria-describedby={describedBy}
-          className={`h-10 w-full rounded-md border bg-surface px-3 text-sm text-ink disabled:cursor-not-allowed disabled:opacity-60 ${
-            error ? "border-danger" : "border-line focus:border-accent"
+          className={`h-11 w-full rounded-md border bg-surface px-3 text-sm text-ink transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-accent/15 disabled:cursor-not-allowed disabled:opacity-60 sm:h-10 ${
+            error
+              ? "border-danger focus:border-danger focus:ring-danger/15"
+              : "border-line focus:border-accent"
           } ${className}`}
           {...props}
         >

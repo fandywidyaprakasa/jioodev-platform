@@ -50,3 +50,7 @@ export { Empty } from "./empty";
 export type { EmptyProps } from "./empty";
 
 export { PageHeader, Scaffold } from "./page";
+
+export { GoogleIcon } from "./google-icon";
+
+export { ThemeSwitcher } from "./theme-switcher";

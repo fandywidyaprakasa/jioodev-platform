@@ -95,3 +95,34 @@ export async function deleteRecord(collection: string, id: string): Promise<void
     method: "DELETE",
   });
 }
+
+export async function createRecordWithFile<T>(
+  collection: string,
+  form: FormData,
+): Promise<T> {
+  if (!PB) throw new PbError(500, "POCKETBASE_PLATFORM_URL belum diset.");
+  const token = await pbAdminToken();
+  const res = await fetch(`${PB}/api/collections/${collection}/records`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      ...(token ? { Authorization: token } : {}),
+    },
+    body: form,
+    cache: "no-store",
+  });
+  const text = await res.text();
+  let data: unknown = null;
+  try {
+    data = text ? JSON.parse(text) : null;
+  } catch {
+    data = text;
+  }
+  if (!res.ok) {
+    const message =
+      (data as { message?: string } | null)?.message ??
+      `PocketBase upload gagal (${res.status})`;
+    throw new PbError(res.status, message, data);
+  }
+  return data as T;
+}

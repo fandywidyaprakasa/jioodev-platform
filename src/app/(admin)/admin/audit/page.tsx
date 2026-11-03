@@ -1,37 +1,42 @@
-import { api } from "@/shared/lib/api";
+import { listAudit } from "@/shared/lib/activity-server";
 import { dateTimeID } from "@/shared/lib/format";
-import { PageHeader, Table, Tbody, Td, Th, Thead, Tr } from "@/shared/ui";
+import { Empty, PageHeader, Table, Tbody, Td, Th, Thead, Tr } from "@/shared/ui";
+
+export const dynamic = "force-dynamic";
 
 export default async function AdminAuditPage() {
-  const audit = await api.admin.audit();
+  const audit = await listAudit().catch(() => []);
 
   return (
     <div>
       <PageHeader
-        eyebrow="Admin"
         title="Audit Log"
         description="Riwayat aksi admin dan sistem."
       />
-      <Table>
-        <Thead>
-          <Tr>
-            <Th>Aktor</Th>
-            <Th>Aksi</Th>
-            <Th>IP</Th>
-            <Th>Waktu</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {audit.map((item) => (
-            <Tr key={item.id}>
-              <Td>{item.actor}</Td>
-              <Td>{item.action}</Td>
-              <Td>{item.ip}</Td>
-              <Td>{dateTimeID(item.createdAt)}</Td>
+      {audit.length ? (
+        <Table>
+          <Thead>
+            <Tr>
+              <Th>Aktor</Th>
+              <Th>Aksi</Th>
+              <Th>IP</Th>
+              <Th>Waktu</Th>
             </Tr>
-          ))}
-        </Tbody>
-      </Table>
+          </Thead>
+          <Tbody>
+            {audit.map((item) => (
+              <Tr key={item.id}>
+                <Td label="Aktor">{item.actor}</Td>
+                <Td label="Aksi">{item.action}</Td>
+                <Td label="IP">{item.ip || "—"}</Td>
+                <Td label="Waktu">{dateTimeID(item.createdAt)}</Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      ) : (
+        <Empty title="Belum ada audit" description="Aksi admin akan tercatat di sini." />
+      )}
     </div>
   );
 }

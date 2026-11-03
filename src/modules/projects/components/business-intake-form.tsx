@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { api } from "@/shared/lib/api";
 import { Button, Card, Input, Select, useToast } from "@/shared/ui";
 import type { BusinessContext } from "@/shared/types";
@@ -27,6 +27,8 @@ const INDUSTRIES = [
   { value: "GEN", label: "Umum" },
 ];
 
+type FieldErrors = Partial<Record<"businessName" | "industry" | "targetAudience" | "businessPurpose" | "channels" | "designPref" | "businessGoals", string>>;
+
 export function BusinessIntakeForm({
   projectId,
   initial,
@@ -38,6 +40,8 @@ export function BusinessIntakeForm({
   const { toast } = useToast();
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<BusinessContext>(initial);
+  const [errors, setErrors] = useState<FieldErrors>({});
+  const [syncError, setSyncError] = useState("");
   const [pending, startTransition] = useTransition();
   const storageKey = `jioodev:draft:${projectId}`;
 
@@ -58,13 +62,35 @@ export function BusinessIntakeForm({
     return () => window.clearTimeout(timer);
   }, [form, storageKey]);
 
-  const canContinue = useMemo(() => {
-    if (step === 0) {
-      return Boolean(form.businessName.trim() && form.industry && form.targetAudience.trim());
+  function validate(targetStep: number): FieldErrors {
+    const next: FieldErrors = {};
+    if (targetStep === 0) {
+      if (form.businessName.trim().length < 2) {
+        next.businessName = "Nama bisnis minimal 2 karakter.";
+      }
+      if (!form.industry) next.industry = "Pilih industri.";
+      if (!form.targetAudience.trim()) {
+        next.targetAudience = "Target audiens wajib diisi.";
+      }
     }
-    if (step === 1) return form.businessPurpose.length > 0;
-    return Boolean(form.designPref.trim() && form.businessGoals.trim());
-  }, [form, step]);
+    if (targetStep === 1) {
+      if (!form.businessPurpose.length) {
+        next.businessPurpose = "Pilih minimal satu tujuan bisnis.";
+      }
+      if (!form.channels.length) {
+        next.channels = "Pilih minimal satu kanal utama.";
+      }
+    }
+    if (targetStep === 2) {
+      if (!form.designPref.trim()) {
+        next.designPref = "Preferensi desain wajib diisi.";
+      }
+      if (!form.businessGoals.trim()) {
+        next.businessGoals = "Tujuan utama wajib diisi.";
+      }
+    }
+    return next;
+  }
 
   function update<K extends keyof BusinessContext>(key: K, value: BusinessContext[K]) {
     setForm((current) => ({ ...current, [key]: value }));
@@ -82,19 +108,33 @@ export function BusinessIntakeForm({
     });
   }
 
-  function submit() {
+  function persist(moveNext: boolean) {
+    const nextErrors = validate(step);
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length) return;
+
     startTransition(async () => {
       try {
         await api.projects.saveContext(projectId, form);
+        setSyncError("");
+        if (moveNext) {
+          setErrors({});
+          setStep((current) => current + 1);
+          return;
+        }
         window.localStorage.removeItem(storageKey);
         toast({ title: "Business context tersimpan" });
         router.push(`/app/projects/${projectId}/comprehend`);
       } catch (error) {
-        toast({
-          title: "Gagal menyimpan",
-          description: error instanceof Error ? error.message : "Coba lagi.",
-          variant: "error",
-        });
+        const message =
+          error instanceof Error ? error.message : "Draf tersimpan di perangkat ini.";
+        setSyncError(message);
+        if (moveNext) {
+          setErrors({});
+          setStep((current) => current + 1);
+        } else {
+          toast({ title: "Gagal menyimpan", description: message, variant: "error" });
+        }
       }
     });
   }
@@ -102,7 +142,7 @@ export function BusinessIntakeForm({
   return (
     <Card
       title={`Langkah ${step + 1} dari 3`}
-      description="Draf tersimpan otomatis di perangkat ini."
+      description="Draf tersimpan otomatis di perangkat ini dan disinkronkan saat lanjut."
     >
       <div className="mb-5 flex gap-2">
         {[0, 1, 2].map((index) => (
@@ -115,6 +155,12 @@ export function BusinessIntakeForm({
         ))}
       </div>
 
+      {syncError ? (
+        <p role="status" className="mb-4 rounded-md border border-warning/30 bg-warning/10 p-3 text-xs text-warning">
+          {syncError}
+        </p>
+      ) : null}
+
       {step === 0 ? (
         <div className="space-y-4">
           <Input
@@ -123,6 +169,7 @@ export function BusinessIntakeForm({
             value={form.businessName}
             onChange={(event) => update("businessName", event.target.value)}
             placeholder="Contoh: Kopi Pagi Hari"
+            error={errors.businessName}
           />
           <Select
             label="Industri"
@@ -131,6 +178,7 @@ export function BusinessIntakeForm({
             onChange={(event) => update("industry", event.target.value)}
             options={INDUSTRIES}
             placeholder="Pilih industri"
+            error={errors.industry}
           />
           <Input
             label="Target audiens"
@@ -138,13 +186,17 @@ export function BusinessIntakeForm({
             value={form.targetAudience}
             onChange={(event) => update("targetAudience", event.target.value)}
             placeholder="Siapa yang ingin dijangkau?"
+            error={errors.targetAudience}
           />
         </div>
       ) : null}
 
       {step === 1 ? (
         <div className="space-y-5">
-          <fieldset>
+          <fieldset
+            aria-invalid={errors.businessPurpose ? true : undefined}
+            aria-describedby={errors.businessPurpose ? "purpose-error" : undefined}
+          >
             <legend className="text-sm font-medium text-ink">Tujuan bisnis</legend>
             <div className="mt-2 grid gap-2 sm:grid-cols-2">
               {PURPOSES.map(([value, label]) => (
@@ -161,8 +213,16 @@ export function BusinessIntakeForm({
                 </label>
               ))}
             </div>
+            {errors.businessPurpose ? (
+              <p id="purpose-error" className="mt-2 text-xs text-danger">
+                {errors.businessPurpose}
+              </p>
+            ) : null}
           </fieldset>
-          <fieldset>
+          <fieldset
+            aria-invalid={errors.channels ? true : undefined}
+            aria-describedby={errors.channels ? "channels-error" : undefined}
+          >
             <legend className="text-sm font-medium text-ink">Kanal utama</legend>
             <div className="mt-2 grid gap-2 sm:grid-cols-2">
               {CHANNELS.map((channel) => (
@@ -179,6 +239,11 @@ export function BusinessIntakeForm({
                 </label>
               ))}
             </div>
+            {errors.channels ? (
+              <p id="channels-error" className="mt-2 text-xs text-danger">
+                {errors.channels}
+              </p>
+            ) : null}
           </fieldset>
         </div>
       ) : null}
@@ -191,6 +256,7 @@ export function BusinessIntakeForm({
             value={form.designPref}
             onChange={(event) => update("designPref", event.target.value)}
             placeholder="Contoh: hangat, editorial, tipografi tegas"
+            error={errors.designPref}
           />
           <div className="flex flex-col gap-1.5">
             <label htmlFor="businessGoals" className="text-sm font-medium text-ink">
@@ -202,9 +268,20 @@ export function BusinessIntakeForm({
               rows={4}
               value={form.businessGoals}
               onChange={(event) => update("businessGoals", event.target.value)}
-              className="w-full rounded-md border border-line bg-surface px-3 py-2 text-sm text-ink"
+              aria-invalid={errors.businessGoals ? true : undefined}
+              aria-describedby={errors.businessGoals ? "businessGoals-error" : undefined}
+              className={`w-full rounded-md border bg-surface px-3 py-2 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-accent/15 ${
+                errors.businessGoals
+                  ? "border-danger focus:border-danger focus:ring-danger/15"
+                  : "border-line focus:border-accent"
+              }`}
               placeholder="Apa hasil yang ingin dicapai dari website ini?"
             />
+            {errors.businessGoals ? (
+              <p id="businessGoals-error" className="text-xs text-danger">
+                {errors.businessGoals}
+              </p>
+            ) : null}
           </div>
         </div>
       ) : null}
@@ -212,17 +289,20 @@ export function BusinessIntakeForm({
       <div className="mt-6 flex items-center justify-between gap-3">
         <Button
           variant="ghost"
-          onClick={() => setStep((current) => Math.max(0, current - 1))}
-          disabled={step === 0}
+          onClick={() => {
+            setErrors({});
+            setStep((current) => Math.max(0, current - 1));
+          }}
+          disabled={step === 0 || pending}
         >
           Kembali
         </Button>
         {step < 2 ? (
-          <Button onClick={() => setStep((current) => current + 1)} disabled={!canContinue}>
+          <Button onClick={() => persist(true)} loading={pending}>
             Lanjut
           </Button>
         ) : (
-          <Button onClick={submit} loading={pending} disabled={!canContinue}>
+          <Button onClick={() => persist(false)} loading={pending}>
             Simpan & Lanjut
           </Button>
         )}

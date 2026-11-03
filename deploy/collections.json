@@ -289,6 +289,10 @@
         {
           "name": "status",
           "type": "text"
+        },
+        {
+          "name": "revoked_at",
+          "type": "date"
         }
       ]
     },
@@ -324,6 +328,44 @@
         {
           "name": "duration_days",
           "type": "number"
+        },
+        {
+          "name": "max_sections",
+          "type": "number"
+        },
+        {
+          "name": "js_allowed",
+          "type": "bool"
+        },
+        {
+          "name": "cms",
+          "type": "bool"
+        },
+        {
+          "name": "custom_domain",
+          "type": "bool"
+        },
+        {
+          "name": "deploy_included",
+          "type": "number"
+        },
+        {
+          "name": "valid_from",
+          "type": "date"
+        },
+        {
+          "name": "valid_until",
+          "type": "date"
+        },
+        {
+          "name": "status",
+          "type": "select",
+          "values": [
+            "ACTIVE",
+            "EXPIRED",
+            "DRAFT"
+          ],
+          "maxSelect": 1
         },
         {
           "name": "features",

@@ -1,21 +1,23 @@
 import { notFound } from "next/navigation";
 import { DeployPanel } from "@/modules/admin/components/deploy-panel";
-import { api } from "@/shared/lib/api";
 import { dateTimeID } from "@/shared/lib/format";
+import { findProject, toProject } from "@/shared/lib/projects-server";
 import { Card, PageHeader, StatusBadge } from "@/shared/ui";
+
+export const dynamic = "force-dynamic";
 
 export default async function AdminProjectDetailPage({
   params,
 }: {
   params: { projectId: string };
 }) {
-  const project = await api.projects.get(params.projectId);
-  if (!project) notFound();
+  const record = await findProject(params.projectId).catch(() => null);
+  if (!record) notFound();
+  const project = toProject(record);
 
   return (
     <div className="space-y-6">
       <PageHeader
-        eyebrow="Admin"
         title={project.clientLabel}
         description={`${project.productType} · ${dateTimeID(project.createdAt)}`}
         actions={<StatusBadge status={project.status} />}

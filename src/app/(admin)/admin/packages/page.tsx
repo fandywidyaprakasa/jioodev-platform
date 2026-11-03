@@ -1,18 +1,19 @@
 import { PackageManager } from "@/modules/admin/components/package-manager";
-import { api } from "@/shared/lib/api";
+import { listPackages } from "@/shared/lib/admin-server";
 import { PageHeader } from "@/shared/ui";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminPackagesPage() {
-  const packages = await api.admin.packages();
+  const initial = await listPackages().catch(() => []);
 
   return (
     <div>
       <PageHeader
-        eyebrow="Admin"
         title="Paket & Harga"
         description="Kelola paket, harga, dan kuota deploy."
       />
-      <PackageManager initial={packages} />
+      <PackageManager initial={initial} />
     </div>
   );
 }

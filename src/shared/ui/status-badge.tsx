@@ -28,6 +28,7 @@ const statusVariant: Record<string, Variant> = {
 export function StatusBadge({ status }: { status: string }) {
   return (
     <Badge variant={statusVariant[status] ?? "neutral"}>
+      <span className="mr-1.5 h-1.5 w-1.5 rounded-full bg-current" aria-hidden="true" />
       {statusLabel(status)}
     </Badge>
   );

@@ -19,6 +19,8 @@ import type {
   ActivityItem,
   AdminStats,
   AuditItem,
+  Deployment,
+  DomainRecord,
   BusinessContext,
   ComprehendResult,
   CopyField,
@@ -36,8 +38,7 @@ import type {
 
 const BASE = process.env.NEXT_PUBLIC_API_BASE ?? "/api";
 const USE_MOCK =
-  process.env.NEXT_PUBLIC_API_MODE === "mock" ||
-  (typeof window === "undefined" && process.env.NEXT_PUBLIC_API_MODE !== "live");
+  process.env.NEXT_PUBLIC_API_MODE === "mock" || typeof window === "undefined";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${BASE}${path}`, {
@@ -113,6 +114,64 @@ export const api = {
             method: "PUT",
             body: JSON.stringify(context),
           }),
+    deployment: (id: string): Promise<{ deployment: Deployment | null; projectStatus: string }> =>
+      USE_MOCK
+        ? delay({ deployment: null, projectStatus: "PAID" })
+        : request(`/projects/${id}/deploy`),
+    deploy: (id: string): Promise<Deployment> =>
+      USE_MOCK
+        ? delay({
+            id: `dep_${Date.now()}`,
+            projectId: id,
+            target: "coolify",
+            environment: "production",
+            status: "PROVISIONING",
+            liveUrl: `${id}.jioo.site`,
+            health: "PENDING",
+          })
+        : request(`/projects/${id}/deploy`, { method: "POST" }),
+    assets: (id: string): Promise<{ id: string; name: string; url: string; size: number; createdAt: string }[]> =>
+      USE_MOCK ? delay([]) : request(`/projects/${id}/assets`),
+    uploadAsset: async (
+      id: string,
+      file: File,
+    ): Promise<{ id: string; name: string; url: string; size: number; createdAt: string }> => {
+      if (USE_MOCK) {
+        return await delay({
+          id: `asset_${Date.now()}`,
+          name: file.name,
+          url: URL.createObjectURL(file),
+          size: file.size,
+          createdAt: new Date().toISOString(),
+        });
+      }
+      const form = new FormData();
+      form.set("file", file);
+      const response = await fetch(`${BASE}/projects/${id}/assets`, {
+        method: "POST",
+        body: form,
+      });
+      if (!response.ok) {
+        const body = (await response.json().catch(() => null)) as
+          | { error?: { message?: string } }
+          | null;
+        throw new Error(body?.error?.message ?? "Upload gagal.");
+      }
+      return await response.json();
+    },
+    domains: (id: string): Promise<DomainRecord[]> =>
+      USE_MOCK ? delay([]) : request(`/projects/${id}/domains`),
+    addDomain: (id: string, domain: string): Promise<DomainRecord> =>
+      USE_MOCK
+        ? delay({ id: `dom_${Date.now()}`, projectId: id, domain, type: "CNAME", status: "PENDING", sslStatus: "PENDING" })
+        : request(`/projects/${id}/domains`, {
+            method: "POST",
+            body: JSON.stringify({ domain }),
+          }),
+    verifyDomain: (id: string, domainId: string): Promise<DomainRecord> =>
+      USE_MOCK
+        ? delay({ id: domainId, projectId: id, domain: "example.com", type: "CNAME", status: "VERIFIED", sslStatus: "PENDING" })
+        : request(`/projects/${id}/domains/${domainId}/verify`, { method: "POST" }),
     comprehend: (id: string): Promise<ComprehendResult> =>
       USE_MOCK ? delay(mockComprehend) : request(`/projects/${id}/comprehend`, { method: "POST" }),
     confirmComprehend: (
@@ -152,8 +211,10 @@ export const api = {
           }),
   },
   sections: {
-    list: (): Promise<Section[]> =>
-      USE_MOCK ? delay(mockSections) : request("/sections"),
+    list: (projectId: string): Promise<Section[]> =>
+      USE_MOCK
+        ? delay(mockSections)
+        : request(`/projects/${projectId}/sections`),
     update: (projectId: string, sections: Section[]): Promise<Section[]> =>
       USE_MOCK
         ? delay(sections)
@@ -163,29 +224,67 @@ export const api = {
           }),
   },
   copy: {
-    list: (): Promise<CopyField[]> =>
-      USE_MOCK ? delay(mockCopy) : request("/copy"),
-    suggest: (key: string): Promise<string[]> =>
+    list: (projectId: string): Promise<CopyField[]> =>
+      USE_MOCK
+        ? delay(mockCopy)
+        : request(`/projects/${projectId}/copy`),
+    save: (projectId: string, fields: CopyField[]): Promise<CopyField[]> =>
+      USE_MOCK
+        ? delay(fields)
+        : request(`/projects/${projectId}/copy`, {
+            method: "PUT",
+            body: JSON.stringify(fields),
+          }),
+    suggest: (projectId: string, key: string): Promise<string[]> =>
       USE_MOCK
         ? delay([
             `Saran JiooDev untuk ${key}: ringkas, konkret, berorientasi manfaat.`,
             `Versi hangat untuk ${key}: ajak pembaca mengambil langkah kecil.`,
             `Versi tegas untuk ${key}: hilangkan keraguan, tunjukkan hasil.`,
           ])
-        : request("/copy/suggest", {
+        : request(`/projects/${projectId}/copy/suggest`, {
             method: "POST",
             body: JSON.stringify({ key }),
           }),
   },
   payments: {
     get: (projectId: string): Promise<Payment> =>
-      USE_MOCK ? delay({ ...mockPayment, projectId }) : request(`/payments/${projectId}`),
+      USE_MOCK
+        ? delay({ ...mockPayment, projectId })
+        : request(`/projects/${projectId}/payment`),
+    create: (projectId: string, packageId?: string): Promise<Payment> =>
+      USE_MOCK
+        ? delay({ ...mockPayment, projectId })
+        : request(`/projects/${projectId}/payment`, {
+            method: "POST",
+            body: JSON.stringify({ package_id: packageId }),
+          }),
     refresh: (paymentId: string): Promise<Payment> =>
-      USE_MOCK ? delay({ ...mockPayment, id: paymentId }) : request(`/payments/${paymentId}/refresh`, { method: "POST" }),
+      USE_MOCK
+        ? delay({ ...mockPayment, id: paymentId })
+        : request(`/payments/${paymentId}/refresh`, { method: "POST" }),
   },
   account: {
+    profile: (): Promise<{
+      id: string;
+      name: string;
+      email: string;
+      phone: string;
+      company: string;
+      locale: string;
+      timezone: string;
+      notificationsPref?: Record<string, boolean>;
+    }> => (USE_MOCK ? delay({ id: "mock-user", name: "Fandy Widyaprakasa", email: "fandy@jioo.site", phone: "0812-0000-0000", company: "JiooDev", locale: "id", timezone: "Asia/Jakarta" }) : request("/account")),
+    updateProfile: (patch: Record<string, unknown>) =>
+      USE_MOCK
+        ? delay({ ...patch })
+        : request("/account", { method: "PATCH", body: JSON.stringify(patch) }),
     notifications: (): Promise<Notification[]> =>
       USE_MOCK ? delay(mockNotifications) : request("/account/notifications"),
+    markNotificationRead: (id: string): Promise<Notification> =>
+      USE_MOCK
+        ? delay(mockNotifications[0])
+        : request(`/account/notifications/${id}/read`, { method: "POST" }),
     invoices: (): Promise<Invoice[]> =>
       USE_MOCK ? delay(mockInvoices) : request("/account/invoices"),
     subscription: (): Promise<Subscription> =>
@@ -198,8 +297,101 @@ export const api = {
       USE_MOCK ? delay(mockAdminStats) : request("/admin/stats"),
     packages: (): Promise<Package[]> =>
       USE_MOCK ? delay(mockPackages) : request("/admin/packages"),
+    createPackage: (input: {
+      name: string;
+      price: number;
+      deploy_included: number;
+    }): Promise<Package> =>
+      USE_MOCK
+        ? delay({
+            id: `pkg_${Date.now()}`,
+            name: input.name,
+            tier: "FREE",
+            billing_type: "PAY_PER_DEPLOY",
+            price: input.price,
+            max_sections: 5,
+            js_allowed: false,
+            cms: false,
+            custom_domain: false,
+            deploy_included: input.deploy_included,
+            status: "ACTIVE",
+            active: true,
+          })
+        : request("/admin/packages", {
+            method: "POST",
+            body: JSON.stringify(input),
+          }),
+    updatePackage: (
+      id: string,
+      patch: Partial<Pick<Package, "name" | "price" | "deploy_included" | "active">>,
+    ): Promise<Package> =>
+      USE_MOCK
+        ? delay({
+            id,
+            name: "Paket",
+            tier: "FREE",
+            billing_type: "PAY_PER_DEPLOY",
+            price: 0,
+            max_sections: 5,
+            js_allowed: false,
+            cms: false,
+            custom_domain: false,
+            deploy_included: 0,
+            status: "ACTIVE",
+            active: true,
+            ...patch,
+          })
+        : request("/admin/packages", {
+            method: "PATCH",
+            body: JSON.stringify({ id, ...patch }),
+          }),
+    deletePackage: (id: string): Promise<{ ok: true }> =>
+      USE_MOCK
+        ? delay({ ok: true as const })
+        : request(`/admin/packages?id=${encodeURIComponent(id)}`, {
+            method: "DELETE",
+          }),
     audit: (): Promise<AuditItem[]> =>
       USE_MOCK ? delay(mockAudit) : request("/admin/audit"),
+    settings: (): Promise<Record<string, boolean>> =>
+      USE_MOCK
+        ? delay({ mockAuth: false, autoDeploy: false, qrisSandbox: true, emailWorker: false })
+        : request("/admin/settings"),
+    deployments: (): Promise<Deployment[]> =>
+      USE_MOCK ? delay([]) : request("/admin/deploy"),
+    deployProject: (projectId: string): Promise<Deployment> =>
+      USE_MOCK
+        ? delay({ id: `dep_${Date.now()}`, projectId, target: "coolify", environment: "production", status: "PROVISIONING", liveUrl: `${projectId}.jioo.site`, health: "PENDING" })
+        : request(`/admin/deploy/${projectId}`, { method: "POST" }),
+    deployHealth: (projectId: string): Promise<Deployment> =>
+      USE_MOCK
+        ? delay({ id: `dep_${Date.now()}`, projectId, target: "coolify", environment: "production", status: "LIVE", liveUrl: `${projectId}.jioo.site`, health: "OK" })
+        : request(`/admin/deploy/${projectId}/health`, { method: "POST" }),
+    rollbackDeployment: (projectId: string): Promise<Deployment> =>
+      USE_MOCK
+        ? delay({ id: `dep_${Date.now()}`, projectId, target: "coolify", environment: "production", status: "SUSPENDED", liveUrl: `${projectId}.jioo.site`, health: "UNKNOWN" })
+        : request(`/admin/deploy/${projectId}/rollback`, { method: "POST" }),
+    updateSettings: (patch: Record<string, unknown>) =>
+      USE_MOCK
+        ? delay({ ...patch })
+        : request("/admin/settings", {
+            method: "PATCH",
+            body: JSON.stringify(patch),
+          }),
+    refundPayment: (id: string): Promise<{ ok: true; payment: Payment }> =>
+      USE_MOCK
+        ? delay({ ok: true as const, payment: { ...mockPayment, id, status: "REFUNDED" } })
+        : request(`/admin/payments/${id}/refund`, { method: "POST" }),
+    confirmPayment: (id: string): Promise<{ ok: true; payment: Payment }> => {
+      if (!USE_MOCK) {
+        return request(`/admin/payments/${id}/confirm`, { method: "POST" });
+      }
+      const payment = mockPayment.id === id ? mockPayment : { ...mockPayment, id };
+      payment.status = "CONFIRMED";
+      const project = mockProjects.find((item) => item.id === payment.projectId);
+      if (project && project.status === "PICKED") project.status = "PAID";
+      return delay({ ok: true as const, payment });
+    },
   },
 };
 

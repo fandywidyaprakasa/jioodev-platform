@@ -16,7 +16,15 @@ const STATUS_OPTIONS: { value: string; label: string }[] = [
   { value: "DEPLOYED", label: "Live" },
 ];
 
-export function ProjectList({ projects }: { projects: Project[] }) {
+export function ProjectList({
+  projects,
+  basePath = "/app/projects",
+  showCreate = true,
+}: {
+  projects: Project[];
+  basePath?: string;
+  showCreate?: boolean;
+}) {
   const [status, setStatus] = useState("all");
   const filtered = useMemo(
     () =>
@@ -32,12 +40,14 @@ export function ProjectList({ projects }: { projects: Project[] }) {
         title="Belum ada project"
         description="Mulai dari satu tipe produk, lalu isi business context."
         action={
-          <Link
-            href="/app/projects/new"
-            className="rounded-full bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-strong"
-          >
-            Buat Project
-          </Link>
+          showCreate ? (
+            <Link
+              href="/app/projects/new"
+              className="rounded-full bg-accent px-4 py-2 text-sm font-medium text-on-accent hover:bg-accent-strong"
+            >
+              Buat Project
+            </Link>
+          ) : undefined
         }
       />
     );
@@ -68,18 +78,18 @@ export function ProjectList({ projects }: { projects: Project[] }) {
           <Tbody>
             {filtered.map((project) => (
               <Tr key={project.id}>
-                <Td>
+                <Td label="Project">
                   <p className="font-medium text-ink">{project.clientLabel}</p>
-                  <p className="text-xs text-muted">{project.id}</p>
+                  <p className="font-mono text-[10px] text-muted">{project.id}</p>
                 </Td>
-                <Td>{project.productType}</Td>
-                <Td>
+                <Td label="Tipe">{project.productType}</Td>
+                <Td label="Status">
                   <StatusBadge status={project.status} />
                 </Td>
-                <Td>{dateID(project.updatedAt)}</Td>
-                <Td>
+                <Td label="Diperbarui">{dateID(project.updatedAt)}</Td>
+                <Td label="Aksi">
                   <Link
-                    href={`/app/projects/${project.id}`}
+                    href={`${basePath}/${project.id}`}
                     className="text-sm font-medium text-accent hover:underline"
                   >
                     Buka

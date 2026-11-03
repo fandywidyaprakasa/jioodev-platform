@@ -5,19 +5,19 @@ type Size = "sm" | "md" | "lg";
 
 const variantClass: Record<Variant, string> = {
   primary:
-    "bg-accent text-white border-transparent hover:bg-accent-strong disabled:hover:bg-accent",
+    "bg-accent text-on-accent border-transparent hover:bg-accent-strong disabled:hover:bg-accent",
   secondary:
     "bg-surface text-ink border-line hover:border-ink/40 disabled:hover:border-line",
   ghost:
     "bg-transparent text-ink border-transparent hover:bg-accent-soft disabled:hover:bg-transparent",
   danger:
-    "bg-danger text-white border-transparent hover:brightness-90 disabled:hover:brightness-100",
+    "bg-danger text-on-accent border-transparent hover:brightness-90 disabled:hover:brightness-100",
 };
 
 const sizeClass: Record<Size, string> = {
-  sm: "h-8 px-3 text-xs",
-  md: "h-9 px-4 text-sm",
-  lg: "h-10 px-5 text-sm",
+  sm: "h-8 min-h-11 px-3 text-xs md:min-h-0",
+  md: "h-9 min-h-11 px-4 text-sm md:min-h-0",
+  lg: "h-10 min-h-11 px-5 text-sm md:min-h-0",
 };
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -45,7 +45,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         type={props.type ?? "button"}
         disabled={disabled || loading}
         aria-busy={loading || undefined}
-        className={`inline-flex items-center justify-center gap-2 rounded-md border font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-60 ${variantClass[variant]} ${sizeClass[size]} ${className}`}
+        className={`inline-flex items-center justify-center gap-2 rounded-md border font-medium transition-[background-color,border-color,color,box-shadow] duration-150 active:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/35 focus-visible:ring-offset-2 focus-visible:ring-offset-paper disabled:cursor-not-allowed disabled:opacity-60 ${variantClass[variant]} ${sizeClass[size]} ${className}`}
         {...props}
       >
         {loading ? (

@@ -1,0 +1,16 @@
+{
+  "record_type": "variant",
+  "code": "hero-alt",
+  "slot_code": "S-HERO",
+  "html_partial": "sections/S-HERO/hero-alt/index.html",
+  "css_scope": "sections/S-HERO/hero-alt/style.css",
+  "js_scope": "",
+  "compatible_themes": [
+    "base",
+    "alt"
+  ],
+  "compatible_tiers": [
+    "BASIC"
+  ],
+  "status": "READY"
+}

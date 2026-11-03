@@ -1,22 +1,64 @@
 import { NextRequest, NextResponse } from "next/server";
-import { badRequest, notFound, requireUser } from "@/shared/lib/server-auth";
+import { badRequest, notFound, requireActor } from "@/shared/lib/server-auth";
 import {
   canAccess,
   findProject,
+  getBusinessProfile,
   patchProject,
   saveBusinessProfile,
 } from "@/shared/lib/projects-server";
 import type { BusinessContext } from "@/shared/types";
 
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: { id: string } },
+) {
+  const auth = await requireActor();
+  if ("response" in auth) return auth.response;
+
+  const project = await findProject(params.id);
+  if (
+    !project ||
+    !canAccess(
+      project,
+      auth.user.role === "guest" ? undefined : auth.user.id,
+      auth.user.role === "admin",
+      auth.user.guestId,
+    )
+  ) {
+    return notFound();
+  }
+
+  const profile = await getBusinessProfile(params.id);
+  if (!profile) return notFound("Business context belum diisi.");
+  return NextResponse.json({
+    businessName: profile.business_name ?? "",
+    industry: profile.industry ?? "",
+    businessPurpose: profile.business_purpose ?? [],
+    targetAudience: profile.target_audience ?? "",
+    channels: profile.channels ?? [],
+    designPref: profile.design_pref ?? "",
+    businessGoals: profile.business_goals ?? "",
+  } satisfies BusinessContext);
+}
+
 export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } },
 ) {
-  const auth = await requireUser();
+  const auth = await requireActor();
   if ("response" in auth) return auth.response;
 
   const project = await findProject(params.id);
-  if (!project || !canAccess(project, auth.user.id, auth.user.role === "admin")) {
+  if (
+    !project ||
+    !canAccess(
+      project,
+      auth.user.role === "guest" ? undefined : auth.user.id,
+      auth.user.role === "admin",
+      auth.user.guestId,
+    )
+  ) {
     return notFound();
   }
 
@@ -38,10 +80,11 @@ export async function PUT(
   };
 
   try {
+    const current = project.status ?? "DRAFT";
     await saveBusinessProfile(params.id, ctx);
     await patchProject(params.id, {
       client_label: ctx.businessName,
-      status: "INTAKE",
+      status: current === "DRAFT" ? "INTAKE" : current,
     });
     return NextResponse.json(ctx);
   } catch (e) {

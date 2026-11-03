@@ -1,11 +1,14 @@
+import { AssetUploader } from "@/modules/projects/components/asset-uploader";
 import { BusinessIntakeForm } from "@/modules/projects/components/business-intake-form";
-import { currentUser, notFound } from "@/shared/lib/server-auth";
+import { notFound } from "next/navigation";
+import { currentUser } from "@/shared/lib/server-auth";
 import {
   canAccess,
   findProject,
   getBusinessProfile,
 } from "@/shared/lib/projects-server";
 import { mockBusinessContext } from "@/shared/lib/mock-data";
+import { listProjectAssets } from "@/shared/lib/assets-server";
 import type { BusinessContext } from "@/shared/types";
 import { PageHeader } from "@/shared/ui";
 
@@ -18,7 +21,12 @@ export default async function ContextPage({
 }) {
   const user = await currentUser();
   const project = user ? await findProject(params.projectId) : null;
-  if (!project || !user || !canAccess(project, user.id, user.role === "admin")) {
+  if (!project || !user || !canAccess(
+      project,
+      user.role === "guest" ? undefined : user.id,
+      user.role === "admin",
+      user.guestId,
+    )) {
     notFound();
   }
 
@@ -35,14 +43,16 @@ export default async function ContextPage({
       }
     : { ...mockBusinessContext, businessName: "" };
 
+  const assets = await listProjectAssets(params.projectId).catch(() => []);
+
   return (
-    <div>
+    <div className="space-y-4">
       <PageHeader
-        eyebrow="Project"
         title="Business Context"
         description="Isi konteks bisnis agar template dan copy relevan."
       />
       <BusinessIntakeForm projectId={params.projectId} initial={initial} />
+      <AssetUploader projectId={params.projectId} initial={assets} />
     </div>
   );
 }

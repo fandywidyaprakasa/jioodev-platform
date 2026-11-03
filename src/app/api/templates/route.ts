@@ -1,16 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
-import { mockTemplates } from "@/shared/lib/mock-data";
+import { NextResponse } from "next/server";
+import { listTemplates } from "@/shared/lib/templates-server";
 
-export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const productType = searchParams.get("product_type");
-  const query = searchParams.get("q")?.toLowerCase();
+export const dynamic = "force-dynamic";
 
-  const items = mockTemplates.filter((template) => {
-    const byType = !productType || template.productType === productType;
-    const haystack = `${template.name} ${template.code} ${template.industries.join(" ")}`.toLowerCase();
-    return byType && (!query || haystack.includes(query));
-  });
-
-  return NextResponse.json(items);
+export async function GET() {
+  return NextResponse.json(await listTemplates());
 }

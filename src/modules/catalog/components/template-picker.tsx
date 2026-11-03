@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { TemplateGrid } from "./template-grid";
@@ -10,9 +11,11 @@ import type { Template } from "@/shared/types";
 export function TemplatePicker({
   projectId,
   templates,
+  contextNote,
 }: {
   projectId: string;
   templates: Template[];
+  contextNote?: string;
 }) {
   const router = useRouter();
   const { toast } = useToast();
@@ -41,6 +44,11 @@ export function TemplatePicker({
 
   return (
     <div className="space-y-4">
+      {contextNote ? (
+        <p className="rounded-md border border-line bg-paper px-3 py-2 text-xs text-muted">
+          {contextNote}
+        </p>
+      ) : null}
       <TemplateGrid
         templates={templates}
         onSelect={(template) => setSelected(template.code)}
@@ -50,9 +58,17 @@ export function TemplatePicker({
         <p className="text-sm text-muted">
           {selected ? `Dipilih: ${selected}` : "Pilih satu template untuk melanjutkan."}
         </p>
-        <Button onClick={next} disabled={!selected} loading={pending}>
-          Gunakan Template
-        </Button>
+        <div className="flex flex-wrap items-center gap-2">
+          <Link
+            href={`/app/projects/${projectId}`}
+            className="rounded-full border border-line px-4 py-2 text-sm font-medium text-ink hover:border-ink/40"
+          >
+            Kembali ke Project
+          </Link>
+          <Button onClick={next} disabled={!selected} loading={pending}>
+            Gunakan Template
+          </Button>
+        </div>
       </div>
     </div>
   );

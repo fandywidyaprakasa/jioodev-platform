@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { mockPayment } from "@/shared/lib/mock-data";
-import { requireUser } from "@/shared/lib/server-auth";
+import { getPaymentForUser } from "@/shared/lib/payments-server";
+import { notFound, requireUser } from "@/shared/lib/server-auth";
 
 export async function GET(
   _request: NextRequest,
@@ -8,5 +8,12 @@ export async function GET(
 ) {
   const auth = await requireUser();
   if ("response" in auth) return auth.response;
-  return NextResponse.json({ ...mockPayment, id: params.id });
+
+  const payment = await getPaymentForUser(
+    params.id,
+    auth.user.id,
+    auth.user.role === "admin",
+  ).catch(() => null);
+  if (!payment) return notFound("Pembayaran tidak ditemukan.");
+  return NextResponse.json(payment);
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { AlertCircle, CheckCircle2, Info } from "lucide-react";
 import {
   createContext,
   useCallback,
@@ -25,9 +26,15 @@ interface ToastContextValue {
 const ToastContext = createContext<ToastContextValue | null>(null);
 
 const variantClass: Record<ToastVariant, string> = {
-  success: "border-success/30 bg-success/10 text-success",
-  error: "border-danger/30 bg-danger/10 text-danger",
-  info: "border-info/30 bg-info/10 text-info",
+  success: "border-success/25 bg-success/10 text-success",
+  error: "border-danger/25 bg-danger/10 text-danger",
+  info: "border-info/25 bg-info/10 text-info",
+};
+
+const variantIcon: Record<ToastVariant, typeof Info> = {
+  success: CheckCircle2,
+  error: AlertCircle,
+  info: Info,
 };
 
 export function ToastProvider({ children }: { children: ReactNode }) {
@@ -54,12 +61,18 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           <div
             key={item.id}
             role={item.variant === "error" ? "alert" : "status"}
-            className={`pointer-events-auto rounded-md border p-3 text-sm shadow-md ${variantClass[item.variant ?? "info"]}`}
+            className={`pointer-events-auto flex items-start gap-2.5 rounded-md border p-3 text-sm shadow-md ${variantClass[item.variant ?? "info"]}`}
           >
-            <p className="font-medium">{item.title}</p>
-            {item.description ? (
-              <p className="mt-0.5 opacity-80">{item.description}</p>
-            ) : null}
+            {(() => {
+              const Icon = variantIcon[item.variant ?? "info"];
+              return <Icon className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />;
+            })()}
+            <div>
+              <p className="font-medium">{item.title}</p>
+              {item.description ? (
+                <p className="mt-0.5 leading-relaxed opacity-80">{item.description}</p>
+              ) : null}
+            </div>
           </div>
         ))}
       </div>

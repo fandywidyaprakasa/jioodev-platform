@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { requestDeployment } from "@/shared/lib/deploy-server";
 import { requireUser } from "@/shared/lib/server-auth";
 
 export async function POST(
@@ -7,9 +8,13 @@ export async function POST(
 ) {
   const auth = await requireUser("admin");
   if ("response" in auth) return auth.response;
-  return NextResponse.json({
-    ok: true,
-    project_id: params.projectId,
-    status: "PROVISIONING",
-  });
+
+  const deployment = await requestDeployment(params.projectId).catch(() => null);
+  if (!deployment) {
+    return NextResponse.json(
+      { error: { code: "INVALID_TRANSITION", message: "Deploy tidak dapat dijalankan." } },
+      { status: 409 },
+    );
+  }
+  return NextResponse.json(deployment, { status: 202 });
 }

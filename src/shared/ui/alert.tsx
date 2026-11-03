@@ -19,7 +19,7 @@ export function Alert({ tone = "info", title, children }: AlertProps) {
   return (
     <div role="status" className={`rounded-lg border p-3 text-sm ${toneClass[tone]}`}>
       <p className="font-medium">{title}</p>
-      {children ? <div className="mt-1 opacity-90">{children}</div> : null}
+      {children ? <div className="mt-1">{children}</div> : null}
     </div>
   );
 }

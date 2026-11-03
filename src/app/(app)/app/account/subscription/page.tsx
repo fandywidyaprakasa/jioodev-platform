@@ -1,14 +1,26 @@
-import { api } from "@/shared/lib/api";
+import { redirect } from "next/navigation";
+import { getSubscription } from "@/shared/lib/account-server";
+import { currentUser } from "@/shared/lib/server-auth";
 import { dateID } from "@/shared/lib/format";
 import { Card, PageHeader, Progress, Stat, StatusBadge } from "@/shared/ui";
 
+export const dynamic = "force-dynamic";
+
 export default async function SubscriptionPage() {
-  const subscription = await api.account.subscription();
+  const user = await currentUser();
+  if (!user || user.role === "guest") redirect("/login?next=/app/account/subscription");
+  const subscription =
+    (await getSubscription(user.id).catch(() => null)) ?? {
+      plan: "Belum berlangganan",
+      status: "EXPIRED" as const,
+      quotaUsed: 0,
+      quotaTotal: 0,
+      renewAt: new Date().toISOString(),
+    };
 
   return (
     <div>
       <PageHeader
-        eyebrow="Akun"
         title="Paket & Kuota"
         description="Paket aktif, sisa deploy, dan perpanjangan."
       />
@@ -20,7 +32,7 @@ export default async function SubscriptionPage() {
       <Card title="Kuota deploy" className="mt-6">
         <Progress
           value={subscription.quotaUsed}
-          max={subscription.quotaTotal}
+          max={subscription.quotaTotal || 1}
           label={`${subscription.quotaUsed} dari ${subscription.quotaTotal} terpakai`}
         />
         <p className="mt-3 text-sm text-muted">

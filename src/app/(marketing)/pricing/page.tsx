@@ -1,41 +1,111 @@
+import { ArrowRight, Check } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
-import { mockPackages } from "@/shared/lib/mock-data";
+import { listPackages } from "@/shared/lib/admin-server";
 import { rupiah } from "@/shared/lib/format";
-import { Badge, Card, PageHeader } from "@/shared/ui";
+import { Badge, Empty, PageHeader } from "@/shared/ui";
 
-export default function PricingPage() {
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Harga — JiooDev",
+  description: "Paket transparan untuk landing page, website, dan commerce.",
+};
+
+const INCLUDED = [
+  "Business context & comprehend",
+  "Akses Design Foundation",
+  "Preview desktop & mobile",
+];
+
+export default async function PricingPage() {
+  const packages = (await listPackages().catch(() => [])).filter(
+    (item) => item.active,
+  );
+
   return (
-    <div>
+    <div className="mx-auto max-w-6xl px-5 py-14 lg:py-20">
       <PageHeader
-        eyebrow="Harga"
-        title="Harga & Paket"
-        description="Pay-per-deploy untuk mulai cepat, subscription untuk produksi rutin."
+        title="Harga yang mengikuti pekerjaan."
+        description="Mulai per deploy untuk kebutuhan sesekali, atau pilih paket untuk produksi rutin. Tidak ada biaya tersembunyi."
       />
-      <div className="grid gap-4 md:grid-cols-3">
-        {mockPackages.map((item) => (
-          <Card key={item.id} title={item.name}>
-            <p className="font-display text-3xl text-ink">{rupiah(item.price)}</p>
-            <p className="mt-1 text-sm text-muted">{item.quota} deploy · revisi section</p>
-            <ul className="mt-4 space-y-2 text-sm text-muted">
-              <li>Business context & comprehend</li>
-              <li>Template library akses</li>
-              <li>Preview dua sumbu</li>
-              <li>Deploy semi-manual</li>
-            </ul>
-            <div className="mt-5 flex items-center justify-between">
-              <Badge variant={item.active ? "success" : "neutral"}>
-                {item.active ? "Tersedia" : "Segera"}
-              </Badge>
-              <Link
-                href={item.active ? "/register" : "/contact"}
-                className="rounded-full bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-strong"
+
+      {packages.length ? (
+        <div className="grid gap-4 md:grid-cols-3">
+          {packages.map((item, index) => {
+            const featured = index === 0 && packages.length > 1;
+            return (
+              <article
+                key={item.id}
+                className={`flex flex-col rounded-lg border bg-surface p-6 ${
+                  featured ? "border-accent shadow-md" : "border-line shadow-sm"
+                }`}
               >
-                {item.active ? "Mulai" : "Tanya"}
-              </Link>
-            </div>
-          </Card>
-        ))}
-      </div>
+                <div className="flex items-start justify-between gap-3">
+                  <h2 className="text-[15px] font-semibold text-ink">{item.name}</h2>
+                  {featured ? <Badge variant="accent">Paling sering</Badge> : null}
+                </div>
+                <p className="mt-5 font-display text-4xl leading-none tracking-[-0.03em] text-ink">
+                  {rupiah(item.price)}
+                </p>
+                <p className="mt-2 text-sm text-muted">
+                  {item.deploy_included} deploy · {item.max_sections} section · {item.tier}
+                </p>
+                <ul className="mt-6 space-y-2.5 border-t border-line pt-5 text-sm text-muted">
+                  {INCLUDED.map((feature) => (
+                    <li key={feature} className="flex items-start gap-2">
+                      <Check
+                        className="mt-0.5 h-4 w-4 shrink-0 text-success"
+                        aria-hidden="true"
+                      />
+                      {feature}
+                    </li>
+                  ))}
+                  <li className="flex items-start gap-2">
+                    <Check
+                      className="mt-0.5 h-4 w-4 shrink-0 text-success"
+                      aria-hidden="true"
+                    />
+                    Deploy semi-manual
+                  </li>
+                </ul>
+                <Link
+                  href="/register"
+                  className={`mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-5 text-sm font-medium transition-colors duration-150 ${
+                    featured
+                      ? "bg-accent text-on-accent hover:bg-accent-strong"
+                      : "border border-line bg-surface text-ink hover:border-ink/40"
+                  }`}
+                >
+                  Mulai dengan paket ini
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+              </article>
+            );
+          })}
+        </div>
+      ) : (
+        <Empty
+          title="Paket belum tersedia"
+          description="Hubungi kami untuk penawaran awal sementara katalog paket disiapkan."
+          action={
+            <Link
+              href="/contact"
+              className="inline-flex min-h-11 items-center rounded-full bg-accent px-5 text-sm font-medium text-on-accent hover:bg-accent-strong"
+            >
+              Hubungi kami
+            </Link>
+          }
+        />
+      )}
+
+      <p className="mt-8 max-w-[62ch] text-sm leading-relaxed text-muted">
+        Butuh volume lebih besar atau alur khusus?{" "}
+        <Link href="/contact" className="font-medium text-accent hover:underline">
+          Bicarakan kebutuhan Anda
+        </Link>
+        . Kami bantu petakan paket dan kuota yang masuk akal.
+      </p>
     </div>
   );
 }

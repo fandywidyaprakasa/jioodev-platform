@@ -44,9 +44,34 @@ export const authOptions: NextAuthOptions = {
     },
     async jwt({ token, user }) {
       if (user) {
-        (token as any).uid = (user as any).pbId;
-        (token as any).role = (user as any).role ?? "user";
+        if ((user as any).pbId) {
+          (token as any).uid = (user as any).pbId;
+        } else if (user.email) {
+          const pb: any = await upsertUser({
+            email: user.email,
+            name: user.name ?? undefined,
+          }).catch(() => null);
+          if (pb?.id) (token as any).uid = pb.id;
+        }
+        (token as any).role =
+          (user as any).role ??
+          (user.email && adminEmails.includes(user.email.toLowerCase())
+            ? "admin"
+            : "user");
       }
+      if (!(token as any).uid && token.email) {
+        const pb: any = await upsertUser({
+          email: token.email,
+          name: (token.name as string | undefined) ?? undefined,
+        }).catch(() => null);
+        if (pb?.id) (token as any).uid = pb.id;
+        if (!(token as any).role) {
+          (token as any).role = adminEmails.includes(token.email.toLowerCase())
+            ? "admin"
+            : "user";
+        }
+      }
+      (token as any).lastActive = Date.now();
       return token;
     },
     async session({ session, token }) {

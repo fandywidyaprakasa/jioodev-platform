@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { api } from "@/shared/lib/api";
 import { dateTimeID } from "@/shared/lib/format";
 import { Badge, Button, Empty } from "@/shared/ui";
 import type { Notification } from "@/shared/types";
@@ -28,13 +29,14 @@ export function NotificationList({ notifications }: { notifications: Notificatio
             <Button
               size="sm"
               variant="secondary"
-              onClick={() =>
+              onClick={() => {
                 setItems((current) =>
                   current.map((entry) =>
                     entry.id === item.id ? { ...entry, read: true } : entry,
                   ),
-                )
-              }
+                );
+                api.account.markNotificationRead(item.id).catch(() => undefined);
+              }}
             >
               Tandai dibaca
             </Button>

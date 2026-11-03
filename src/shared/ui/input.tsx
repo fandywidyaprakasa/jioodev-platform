@@ -1,4 +1,4 @@
-import { forwardRef, type InputHTMLAttributes } from "react";
+import { forwardRef, useId, type InputHTMLAttributes } from "react";
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -8,7 +8,8 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, hint, error, id, name, className = "", ...props }, ref) => {
-    const inputId = id ?? name;
+    const generatedId = useId();
+    const inputId = id ?? name ?? generatedId;
     const describedBy = error
       ? `${inputId}-error`
       : hint
@@ -28,8 +29,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           name={name}
           aria-invalid={error ? true : undefined}
           aria-describedby={describedBy}
-          className={`h-10 w-full rounded-md border bg-surface px-3 text-sm text-ink placeholder:text-muted/70 disabled:cursor-not-allowed disabled:opacity-60 ${
-            error ? "border-danger" : "border-line focus:border-accent"
+          className={`h-11 w-full rounded-md border bg-surface px-3 text-sm text-ink placeholder:text-muted transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-accent/15 disabled:cursor-not-allowed disabled:opacity-60 sm:h-10 ${
+            error
+              ? "border-danger focus:border-danger focus:ring-danger/15"
+              : "border-line focus:border-accent"
           } ${className}`}
           {...props}
         />

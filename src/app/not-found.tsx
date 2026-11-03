@@ -10,7 +10,7 @@ export default function NotFoundPage() {
         action={
           <Link
             href="/"
-            className="rounded-full bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-strong"
+            className="rounded-full bg-accent px-4 py-2 text-sm font-medium text-on-accent hover:bg-accent-strong"
           >
             Kembali ke Beranda
           </Link>

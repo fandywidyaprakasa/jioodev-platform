@@ -43,6 +43,10 @@ export function statusLabel(status: string): string {
     QUEUED: "Antre",
     PROCESSING: "Proses",
     READY: "Siap",
+    EXHAUSTED: "Kuota habis",
+    EXPIRED: "Kedaluwarsa",
+    SUSPENDED: "Ditangguhkan",
+    DELETED: "Dihapus",
   };
   return labels[status] ?? status;
 }

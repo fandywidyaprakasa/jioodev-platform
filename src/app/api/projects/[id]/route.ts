@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { badRequest, notFound, requireUser } from "@/shared/lib/server-auth";
+import { badRequest, notFound, requireActor } from "@/shared/lib/server-auth";
 import {
   canAccess,
+  canTransition,
   findProject,
   patchProject,
   removeProject,
@@ -30,10 +31,18 @@ const STATUSES: ProjectStatus[] = [
 ];
 
 async function owned(id: string) {
-  const auth = await requireUser();
+  const auth = await requireActor();
   if ("response" in auth) return { response: auth.response };
   const project = await findProject(id);
-  if (!project || !canAccess(project, auth.user.id, auth.user.role === "admin")) {
+  if (
+    !project ||
+    !canAccess(
+      project,
+      auth.user.role === "guest" ? undefined : auth.user.id,
+      auth.user.role === "admin",
+      auth.user.guestId,
+    )
+  ) {
     return { response: notFound() };
   }
   return { project };
@@ -58,6 +67,19 @@ export async function PATCH(
   const body = (await request.json().catch(() => ({}))) as Partial<Project>;
   if (body.status && !STATUSES.includes(body.status)) {
     return badRequest("status tidak valid.", { field: "status" });
+  }
+
+  const current = ownedRes.project.status ?? "DRAFT";
+  if (body.status && !canTransition(current, body.status)) {
+    return NextResponse.json(
+      {
+        error: {
+          code: "INVALID_TRANSITION",
+          message: `Transisi ${current} → ${body.status} tidak diizinkan.`,
+        },
+      },
+      { status: 409 },
+    );
   }
 
   const patch: Record<string, unknown> = {};

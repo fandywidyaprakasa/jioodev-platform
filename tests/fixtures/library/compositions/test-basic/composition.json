@@ -1,0 +1,19 @@
+{
+  "composition_id": "test-basic",
+  "display_name": "Test",
+  "slug": "test",
+  "theme_id": "base",
+  "type": "LANDING",
+  "model": "HTML",
+  "tier": "BASIC",
+  "blocks": [
+    {
+      "slot": "S-HERO",
+      "variant": "hero-split",
+      "enabled": true,
+      "order": 1
+    }
+  ],
+  "status": "READY",
+  "license": "JiooDev Commercial"
+}

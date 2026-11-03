@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { mockNotifications } from "@/shared/lib/mock-data";
+import { markNotificationRead } from "@/shared/lib/account-server";
 import { notFound, requireUser } from "@/shared/lib/server-auth";
 
 export async function POST(
@@ -9,8 +9,9 @@ export async function POST(
   const auth = await requireUser();
   if ("response" in auth) return auth.response;
 
-  const item = mockNotifications.find((entry) => entry.id === params.id);
-  if (!item) return notFound();
-  item.read = true;
-  return NextResponse.json(item);
+  const updated = await markNotificationRead(auth.user.id, params.id).catch(
+    () => null,
+  );
+  if (!updated) return notFound();
+  return NextResponse.json(updated);
 }

@@ -1,15 +1,18 @@
 import { DeployQueue } from "@/modules/admin/components/deploy-queue";
+import { listDeployments } from "@/shared/lib/deploy-server";
 import { PageHeader } from "@/shared/ui";
 
-export default function AdminDeployPage() {
+export const dynamic = "force-dynamic";
+
+export default async function AdminDeployPage() {
+  const deployments = await listDeployments().catch(() => []);
   return (
     <div>
       <PageHeader
-        eyebrow="Admin"
         title="Deploy"
         description="Antrian deploy, health check, dan rollback."
       />
-      <DeployQueue />
+      <DeployQueue initial={deployments} />
     </div>
   );
 }

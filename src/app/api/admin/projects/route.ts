@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
-import { mockProjects } from "@/shared/lib/mock-data";
+import { listProjects } from "@/shared/lib/projects-server";
 import { requireUser } from "@/shared/lib/server-auth";
 
 export async function GET() {
   const auth = await requireUser("admin");
   if ("response" in auth) return auth.response;
-  return NextResponse.json(mockProjects);
+
+  const projects = await listProjects("", true).catch(() => []);
+  return NextResponse.json(projects);
 }

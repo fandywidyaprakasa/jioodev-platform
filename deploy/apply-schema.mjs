@@ -8,10 +8,17 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const ROOT = path.resolve(new URL("..", import.meta.url).pathname);
-const schema = JSON.parse(
-  fs.readFileSync(path.join(ROOT, "pocketbase", "collections.json"), "utf8")
-);
+const DIR = path.dirname(new URL(import.meta.url).pathname);
+const schemaPath = [
+  path.join(DIR, "collections.json"),
+  path.join(DIR, "..", "pocketbase", "collections.json"),
+  path.join(DIR, "..", "..", "pocketbase", "collections.json"),
+].find((candidate) => fs.existsSync(candidate));
+if (!schemaPath) {
+  console.error("collections.json tidak ditemukan");
+  process.exit(1);
+}
+const schema = JSON.parse(fs.readFileSync(schemaPath, "utf8"));
 const PB = process.env.PB_URL;
 const TOKEN = process.env.PB_TOKEN;
 const DRY = process.argv.includes("--dry-run");
@@ -28,6 +35,20 @@ const SYSTEM_FIELDS = [
   { name: "created", type: "autodate", onCreate: true, onUpdate: false },
   { name: "updated", type: "autodate", onCreate: true, onUpdate: true },
 ];
+
+// Platform hanya diakses lewat API server (admin token). Kunci akses langsung.
+const LOCKED_RULES = {
+  listRule: null,
+  viewRule: null,
+  createRule: null,
+  updateRule: null,
+  deleteRule: null,
+};
+
+function rulesFor(def) {
+  return { ...LOCKED_RULES, ...(def.rules || {}) };
+}
+
 if (TOKEN) headers.Authorization = TOKEN;
 
 async function main() {
@@ -65,7 +86,12 @@ async function main() {
       }
       return out;
     });
-    const body = { name: def.name, type: def.type || "base", fields };
+    const body = {
+      name: def.name,
+      type: def.type || "base",
+      fields,
+      ...rulesFor(def),
+    };
     const r = await fetch(`${PB}/api/collections`, {
       method: "POST",
       headers,
@@ -81,23 +107,34 @@ async function main() {
     console.log(`✅ created ${def.name}`);
   }
 
-  // Pastikan koleksi lama punya system fields created/updated.
+  // Pastikan koleksi lama punya system fields created/updated + rules terkunci.
   for (const def of schema.collections) {
     const col = existing.get(def.name);
     if (!col) continue;
     const names = new Set((col.fields || []).map((f) => f.name));
     const missing = SYSTEM_FIELDS.filter((f) => !names.has(f.name));
-    if (!missing.length) continue;
+    const desired = rulesFor(def);
+    const rulesApplied = Object.entries(desired).every(
+      ([key, value]) => col[key] === value,
+    );
+    if (!missing.length && rulesApplied) continue;
+
+    const body = { ...desired };
+    if (missing.length) body.fields = [...(col.fields || []), ...missing];
+
     const r = await fetch(`${PB}/api/collections/${col.id}`, {
       method: "PATCH",
       headers,
-      body: JSON.stringify({ fields: [...(col.fields || []), ...missing] }),
+      body: JSON.stringify(body),
     });
     if (!r.ok) {
       console.error(`❌ patch ${def.name}: ${r.status} ${(await r.text()).slice(0, 200)}`);
       continue;
     }
-    console.log(`🩹 patched ${def.name} (+${missing.map((f) => f.name).join(",")})`);
+    const notes = [];
+    if (missing.length) notes.push(`+${missing.map((f) => f.name).join(",")}`);
+    if (!rulesApplied) notes.push("rules locked");
+    console.log(`🩹 patched ${def.name} (${notes.join("; ")})`);
   }
 }
 

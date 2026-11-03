@@ -1,14 +1,33 @@
 import Link from "next/link";
-import { api } from "@/shared/lib/api";
 import { dateID } from "@/shared/lib/format";
+import { getSubscription, listNotifications } from "@/shared/lib/account-server";
+import { listProjects } from "@/shared/lib/projects-server";
+import { currentUser } from "@/shared/lib/server-auth";
 import { Card, PageHeader, Progress, Stat, StatusBadge } from "@/shared/ui";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage() {
+  const user = await currentUser();
+  const realUser = user && user.role !== "guest" ? user : null;
   const [projects, subscription, notifications] = await Promise.all([
-    api.projects.list(),
-    api.account.subscription(),
-    api.account.notifications(),
+    user
+      ? listProjects(
+          user.role === "guest" ? undefined : user.id,
+          user.role === "admin",
+          user.guestId,
+        ).catch(() => [])
+      : [],
+    realUser ? getSubscription(realUser.id).catch(() => null) : Promise.resolve(null),
+    realUser ? listNotifications(realUser.id).catch(() => []) : Promise.resolve([]),
   ]);
+  const sub = subscription ?? {
+    plan: "Belum berlangganan",
+    status: "EXPIRED" as const,
+    quotaUsed: 0,
+    quotaTotal: 0,
+    renewAt: new Date().toISOString(),
+  };
 
   const activeProjects = projects.filter((project) =>
     ["INTAKE", "COMPREHENDED", "PREVIEWS", "PICKED", "PAID", "DEPLOYED", "ACTIVE"].includes(
@@ -21,13 +40,12 @@ export default async function DashboardPage() {
   return (
     <div>
       <PageHeader
-        eyebrow="Workspace"
         title="Dashboard"
         description="Ringkasan project, kuota, dan aktivitas terbaru."
         actions={
           <Link
             href="/app/projects/new"
-            className="rounded-full bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-strong"
+            className="rounded-full bg-accent px-4 py-2 text-sm font-medium text-on-accent hover:bg-accent-strong"
           >
             Buat Project
           </Link>
@@ -38,15 +56,40 @@ export default async function DashboardPage() {
         <Stat label="Project aktif" value={activeProjects.length} hint={`${projects.length} total`} />
         <Stat
           label="Kuota deploy"
-          value={`${subscription.quotaUsed}/${subscription.quotaTotal}`}
-          hint={subscription.plan}
+          value={`${sub.quotaUsed}/${sub.quotaTotal}`}
+          hint={sub.plan}
         />
         <Stat label="Preview menunggu" value={pending.length} hint="Pilih varian" />
         <Stat label="Notifikasi" value={unread.length} hint="Belum dibaca" />
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-        <Card title="Project terbaru" description="Lanjutkan alur yang sedang berjalan.">
+        <Card
+          title="Project terbaru"
+          description="Lanjutkan alur yang sedang berjalan."
+          actions={
+            projects.length ? (
+              <Link href="/app/projects" className="text-sm font-medium text-accent hover:underline">
+                Lihat semua
+              </Link>
+            ) : null
+          }
+        >
+          {!projects.length ? (
+            <div className="py-6">
+              <p className="text-[15px] font-medium text-ink">Belum ada project.</p>
+              <p className="mt-1 max-w-sm text-sm leading-relaxed text-muted">
+                Mulai dari satu tipe produk, lalu isi konteks bisnis. Varian pertama
+                biasanya siap dalam beberapa menit.
+              </p>
+              <Link
+                href="/app/projects/new"
+                className="mt-4 inline-flex min-h-11 items-center rounded-full bg-accent px-4 text-sm font-medium text-on-accent hover:bg-accent-strong"
+              >
+                Buat project pertama
+              </Link>
+            </div>
+          ) : (
           <ul className="divide-y divide-line">
             {projects.slice(0, 4).map((project) => (
               <li key={project.id} className="flex flex-wrap items-center gap-3 py-3">
@@ -71,26 +114,33 @@ export default async function DashboardPage() {
               </li>
             ))}
           </ul>
+          )}
         </Card>
 
         <div className="space-y-4">
           <Card title="Kuota & paket">
             <Progress
-              value={subscription.quotaUsed}
-              max={subscription.quotaTotal}
-              label={`${subscription.plan} · ${subscription.quotaUsed}/${subscription.quotaTotal}`}
+              value={sub.quotaUsed}
+              max={sub.quotaTotal}
+              label={`${sub.plan} · ${sub.quotaUsed}/${sub.quotaTotal}`}
             />
-            <p className="mt-3 text-sm text-muted">Perpanjangan berikutnya: {dateID(subscription.renewAt)}.</p>
+            <p className="mt-3 text-sm text-muted">Perpanjangan berikutnya: {dateID(sub.renewAt)}.</p>
           </Card>
           <Card title="Aktivitas terbaru">
-            <ul className="space-y-3 text-sm">
-              {notifications.slice(0, 3).map((item) => (
-                <li key={item.id}>
-                  <p className="font-medium text-ink">{item.title}</p>
-                  <p className="text-xs text-muted">{item.body}</p>
-                </li>
-              ))}
-            </ul>
+            {notifications.length ? (
+              <ul className="space-y-3 text-sm">
+                {notifications.slice(0, 3).map((item) => (
+                  <li key={item.id}>
+                    <p className="font-medium text-ink">{item.title}</p>
+                    <p className="mt-0.5 text-xs leading-relaxed text-muted">{item.body}</p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="py-2 text-sm leading-relaxed text-muted">
+                Belum ada aktivitas. Notifikasi pembayaran dan preview akan muncul di sini.
+              </p>
+            )}
           </Card>
         </div>
       </div>

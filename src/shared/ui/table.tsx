@@ -12,7 +12,7 @@ export function Table({
 }: TableHTMLAttributes<HTMLTableElement>) {
   return (
     <div className="w-full overflow-x-auto rounded-lg border border-line">
-      <table className={`w-full border-collapse text-left text-sm ${className}`} {...props}>
+      <table className={`table-cards w-full border-collapse text-left text-sm ${className}`} {...props}>
         {children}
       </table>
     </div>
@@ -69,11 +69,16 @@ export function Th({
 
 export function Td({
   className = "",
+  label,
   children,
   ...props
-}: TdHTMLAttributes<HTMLTableCellElement>) {
+}: TdHTMLAttributes<HTMLTableCellElement> & { label?: string }) {
   return (
-    <td className={`px-4 py-3 text-ink ${className}`} {...props}>
+    <td
+      data-label={label}
+      className={`px-4 py-3 text-ink ${className}`}
+      {...props}
+    >
       {children}
     </td>
   );

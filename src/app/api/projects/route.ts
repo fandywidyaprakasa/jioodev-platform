@@ -1,15 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
-import { badRequest, requireUser } from "@/shared/lib/server-auth";
-import { createProject, listProjects } from "@/shared/lib/projects-server";
+import { badRequest, requireActor } from "@/shared/lib/server-auth";
+import {
+  createProject,
+  listProjects,
+  recordGuestSession,
+} from "@/shared/lib/projects-server";
 import type { ProductType } from "@/shared/types";
 
 const PRODUCT_TYPES: ProductType[] = ["LAND", "WEB", "COMM"];
 
 export async function GET() {
-  const auth = await requireUser();
+  const auth = await requireActor();
   if ("response" in auth) return auth.response;
+  const isGuest = auth.user.role === "guest";
   try {
-    const projects = await listProjects(auth.user.id, auth.user.role === "admin");
+    const projects = await listProjects(
+      isGuest ? undefined : auth.user.id,
+      auth.user.role === "admin",
+      auth.user.guestId,
+    );
     return NextResponse.json(projects);
   } catch (e) {
     console.error("[projects] list failed", e);
@@ -21,7 +30,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  const auth = await requireUser();
+  const auth = await requireActor();
   if ("response" in auth) return auth.response;
 
   const body = (await request.json().catch(() => null)) as
@@ -34,7 +43,19 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const project = await createProject(auth.user.id, body.product_type);
+    const isGuest = auth.user.role === "guest";
+    const project = await createProject(
+      {
+        userId: isGuest ? undefined : auth.user.id,
+        guestId: auth.user.guestId,
+      },
+      body.product_type,
+    );
+    if (isGuest && auth.user.guestId) {
+      await recordGuestSession(auth.user.guestId, project.id).catch(
+        () => undefined,
+      );
+    }
     return NextResponse.json(project, { status: 201 });
   } catch (e) {
     console.error("[projects] create failed", e);

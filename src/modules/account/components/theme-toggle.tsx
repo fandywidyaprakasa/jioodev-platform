@@ -20,11 +20,12 @@ export function ThemeToggle() {
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2" role="group" aria-label="Tema antarmuka">
       <Button
         size="sm"
         variant={theme === "light" ? "primary" : "secondary"}
         onClick={() => apply("light")}
+        aria-pressed={theme === "light"}
       >
         Terang
       </Button>
@@ -32,6 +33,7 @@ export function ThemeToggle() {
         size="sm"
         variant={theme === "dark" ? "primary" : "secondary"}
         onClick={() => apply("dark")}
+        aria-pressed={theme === "dark"}
       >
         Gelap
       </Button>

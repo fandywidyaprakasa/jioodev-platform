@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireUser } from "@/shared/lib/server-auth";
+import { confirmPayment } from "@/shared/lib/admin-server";
+import { logActivity } from "@/shared/lib/activity-server";
+import { notFound, requireUser } from "@/shared/lib/server-auth";
 
 export async function POST(
   _request: NextRequest,
@@ -7,5 +9,17 @@ export async function POST(
 ) {
   const auth = await requireUser("admin");
   if ("response" in auth) return auth.response;
-  return NextResponse.json({ ok: true, payment_id: params.id, status: "CONFIRMED" });
+
+  const payment = await confirmPayment(params.id, auth.user.id).catch(
+    () => null,
+  );
+  if (!payment) return notFound("Pembayaran tidak ditemukan.");
+  await logActivity({
+    userId: auth.user.id,
+    actor: auth.user.email ?? "admin",
+    action: "payment.confirm",
+    entityType: "payment",
+    entityId: params.id,
+  });
+  return NextResponse.json({ ok: true, payment });
 }

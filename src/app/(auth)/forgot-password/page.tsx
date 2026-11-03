@@ -1,39 +1,35 @@
-"use client";
-
 import Link from "next/link";
-import { useState } from "react";
+import { ArrowLeft } from "lucide-react";
 
 export default function ForgotPasswordPage() {
-  const [status, setStatus] = useState("");
   return (
-    <form
-      className="rounded-lg border border-line bg-surface p-6"
-      onSubmit={(e) => {
-        e.preventDefault();
-        setStatus("Reset password akan tersedia pada fase auth.");
-      }}
-    >
-      <h1 className="font-display text-2xl text-ink">Lupa Sandi</h1>
-      <p className="mt-1 text-sm text-muted">Masukkan email untuk tautan reset.</p>
-      <label className="mt-5 block text-sm font-medium text-ink" htmlFor="email">
-        Email
-      </label>
-      <input
-        id="email"
-        type="email"
-        required
-        className="mt-1 w-full rounded-lg border border-line bg-paper px-3 py-2"
-      />
-      <button
-        type="submit"
-        className="mt-5 w-full rounded-full bg-accent px-4 py-2.5 text-sm font-medium text-white hover:bg-accent-strong"
-      >
-        Kirim Tautan
-      </button>
-      {status ? <p className="mt-3 text-xs text-muted">{status}</p> : null}
-      <p className="mt-4 text-sm text-muted">
-        <Link href="/login" className="text-accent">Kembali ke Masuk</Link>
+    <div className="rounded-lg border border-line bg-surface p-6 shadow-sm sm:p-8">
+      <h1 className="font-display text-3xl leading-tight tracking-[-0.025em] text-ink">
+        Akun memakai Google.
+      </h1>
+      <p className="mt-2 text-sm leading-relaxed text-muted">
+        JiooDev tidak menyimpan kata sandi lokal. Untuk memulihkan akses, pulihkan
+        akun Google yang Anda gunakan saat mendaftar, lalu masuk kembali.
       </p>
-    </form>
+      <ol className="mt-6 space-y-3 border-t border-line pt-5 text-sm text-muted">
+        <li>1. Buka halaman pemulihan akun Google.</li>
+        <li>2. Ikuti langkah verifikasi dari Google.</li>
+        <li>3. Kembali ke JiooDev dan masuk dengan akun tersebut.</li>
+      </ol>
+      <Link
+        href="/login"
+        className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-accent px-5 text-sm font-medium text-on-accent transition-colors duration-150 hover:bg-accent-strong"
+      >
+        <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+        Kembali ke Masuk
+      </Link>
+      <p className="mt-4 text-xs leading-relaxed text-muted">
+        Butuh bantuan lain?{" "}
+        <Link href="/contact" className="font-medium text-accent hover:underline">
+          Hubungi kami
+        </Link>
+        .
+      </p>
+    </div>
   );
 }

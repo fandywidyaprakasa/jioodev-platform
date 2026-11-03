@@ -2,13 +2,36 @@ import type { Metadata } from "next";
 import "@/styles/tokens.css";
 import "./globals.css";
 import { ToastProvider } from "@/shared/ui/toast";
+import { AuthSessionProvider } from "@/modules/auth/session-provider";
 
 const themeScript = `(function(){try{var t=localStorage.getItem("jioodev-theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.dataset.theme=t;}catch(e){}})();`;
 
+const siteUrl = process.env.SITE_URL ?? "https://jioo.site";
+
 export const metadata: Metadata = {
-  title: "JiooDev — AI-Powered Digital Production Ecosystem",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "JiooDev — AI-Powered Digital Production Ecosystem",
+    template: "%s · JiooDev",
+  },
   description:
     "Ubah kebutuhan bisnis menjadi produk digital siap pakai melalui AI Transformation.",
+  openGraph: {
+    type: "website",
+    url: siteUrl,
+    siteName: "JiooDev",
+    title: "JiooDev — AI-Powered Digital Production Ecosystem",
+    description:
+      "Business context, template relevan, preview varian, dan deploy terkelola.",
+    locale: "id_ID",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "JiooDev — AI-Powered Digital Production Ecosystem",
+    description:
+      "Business context, template relevan, preview varian, dan deploy terkelola.",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
@@ -28,7 +51,9 @@ export default function RootLayout({
         >
           Lewati ke konten
         </a>
-        <ToastProvider>{children}</ToastProvider>
+        <AuthSessionProvider>
+          <ToastProvider>{children}</ToastProvider>
+        </AuthSessionProvider>
       </body>
     </html>
   );

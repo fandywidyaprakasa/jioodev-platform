@@ -1,60 +1,71 @@
 "use client";
 
-import { useState } from "react";
-import { Badge, Button, Card } from "@/shared/ui";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import { api } from "@/shared/lib/api";
+import { Badge, Button, Card, useToast } from "@/shared/ui";
+import type { GenerationJob } from "@/shared/types";
 
-const STYLES = [
-  { id: "EDT", label: "Editorial" },
-  { id: "MIN", label: "Minimal" },
-  { id: "BLD", label: "Bold" },
-];
+export function PreviewPanel({
+  projectId,
+  status,
+  job,
+}: {
+  projectId: string;
+  status: string;
+  job: GenerationJob | null;
+}) {
+  const router = useRouter();
+  const { toast } = useToast();
+  const [pending, startTransition] = useTransition();
+  const variants = job?.variants ?? [];
+  const [selectedId, setSelectedId] = useState(variants[0]?.id ?? "");
+  const [device, setDevice] = useState<"desktop" | "tablet" | "mobile">("desktop");
+  const selected = variants.find((item) => item.id === selectedId) ?? variants[0];
 
-const LAYOUTS = [
-  { id: "L-MENU", label: "Menu-forward" },
-  { id: "L-STORY", label: "Story-forward" },
-  { id: "L-CONV", label: "Conversion" },
-];
-
-export function PreviewPanel({ projectId }: { projectId: string }) {
-  const [style, setStyle] = useState("EDT");
-  const [layout, setLayout] = useState("L-MENU");
-  const [device, setDevice] = useState<"desktop" | "mobile">("desktop");
+  function pick() {
+    if (!selected) return;
+    startTransition(async () => {
+      try {
+        await api.generation.select(projectId, selected.id);
+        toast({ title: "Varian dipilih", description: "Lanjut atur section dan copy." });
+        router.push(`/app/projects/${projectId}/customize`);
+      } catch (error) {
+        toast({
+          title: "Gagal memilih varian",
+          description: error instanceof Error ? error.message : "Coba lagi.",
+          variant: "error",
+        });
+      }
+    });
+  }
 
   return (
     <div className="space-y-4">
-      <Card title="Dua sumbu preview" description="Ganti style dan layout tanpa mengubah isi.">
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div>
-            <p className="mb-2 text-sm font-medium text-ink">Style</p>
-            <div className="flex flex-wrap gap-2">
-              {STYLES.map((item) => (
-                <Button
-                  key={item.id}
-                  size="sm"
-                  variant={style === item.id ? "primary" : "secondary"}
-                  onClick={() => setStyle(item.id)}
-                >
-                  {item.label}
-                </Button>
-              ))}
-            </div>
+      <Card title="Varian desain" description="Pilih arah desain, lalu bandingkan desktop dan mobile.">
+        {variants.length ? (
+          <div className="flex flex-wrap gap-2">
+            {variants.map((variant) => (
+              <Button
+                key={variant.id}
+                size="sm"
+                variant={variant.id === selected?.id ? "primary" : "secondary"}
+                onClick={() => setSelectedId(variant.id)}
+              >
+                {variant.label}
+              </Button>
+            ))}
           </div>
-          <div>
-            <p className="mb-2 text-sm font-medium text-ink">Layout</p>
-            <div className="flex flex-wrap gap-2">
-              {LAYOUTS.map((item) => (
-                <Button
-                  key={item.id}
-                  size="sm"
-                  variant={layout === item.id ? "primary" : "secondary"}
-                  onClick={() => setLayout(item.id)}
-                >
-                  {item.label}
-                </Button>
-              ))}
-            </div>
-          </div>
-        </div>
+        ) : (
+          <p className="text-sm text-muted">
+            Varian belum tersedia.{" "}
+            <Link href={`/app/projects/${projectId}/generate`} className="text-accent hover:underline">
+              Jalankan generate
+            </Link>
+            .
+          </p>
+        )}
         <div className="mt-4 flex items-center justify-between">
           <div className="flex gap-2">
             <Button
@@ -66,6 +77,13 @@ export function PreviewPanel({ projectId }: { projectId: string }) {
             </Button>
             <Button
               size="sm"
+              variant={device === "tablet" ? "primary" : "secondary"}
+              onClick={() => setDevice("tablet")}
+            >
+              Tablet
+            </Button>
+            <Button
+              size="sm"
               variant={device === "mobile" ? "primary" : "secondary"}
               onClick={() => setDevice("mobile")}
             >
@@ -73,45 +91,64 @@ export function PreviewPanel({ projectId }: { projectId: string }) {
             </Button>
           </div>
           <p className="text-xs text-muted">
-            Preview · {projectId} · {style} · {layout}
+            Preview · {projectId} · status {status}
           </p>
         </div>
       </Card>
 
-      <div className="flex justify-center rounded-lg border border-line bg-paper p-4">
-        <div
-          className={`overflow-hidden rounded-md border border-line bg-surface shadow-md transition-[width] ${
-            device === "mobile" ? "w-[360px]" : "w-full"
-          }`}
-        >
-          <div className="border-b border-line bg-paper px-3 py-2 text-xs text-muted">
-            {device === "mobile" ? "360px" : "Desktop"} · {style} · {layout}
-          </div>
-          <div className="p-6">
-            <Badge variant="accent">{style}</Badge>
-            <h2 className="mt-3 font-display text-3xl text-ink">
-              Kopi pagi, energi baru
-            </h2>
-            <p className="mt-2 max-w-xl text-sm text-muted">
-              Biji lokal, racikan konsisten, dan ruang tenang untuk memulai hari.
-            </p>
-            <div className="mt-5 flex flex-wrap gap-2">
-              <span className="rounded-full bg-accent px-4 py-2 text-sm font-medium text-white">
-                Pesan via WhatsApp
+      {selected ? (
+        <div className="flex justify-center rounded-lg border border-line bg-paper p-4">
+          <div
+            className={`overflow-hidden rounded-md border border-line bg-surface shadow-md transition-[width] ${
+              device === "mobile"
+                ? "w-[360px] max-w-full"
+                : device === "tablet"
+                  ? "w-[834px] max-w-full"
+                  : "w-full"
+            }`}
+          >
+            <div className="flex items-center justify-between border-b border-line bg-paper px-3 py-2 text-xs text-muted">
+              <span>
+                {device === "mobile" ? "360px" : device === "tablet" ? "834px" : "Desktop"}
               </span>
-              <span className="rounded-full border border-line px-4 py-2 text-sm text-ink">
-                Lihat Menu
-              </span>
+              <Badge variant="accent">{selected.label}</Badge>
             </div>
-            <div className="mt-8 grid gap-3 sm:grid-cols-3">
-              {["Espresso", "Manual Brew", "Pastry"].map((item) => (
-                <div key={item} className="rounded-md border border-line p-3">
-                  <p className="text-sm font-medium text-ink">{item}</p>
-                  <p className="text-xs text-muted">Mulai Rp25.000</p>
-                </div>
-              ))}
-            </div>
+            <iframe
+              src={selected.previewUrl}
+              title={`Preview ${selected.label}`}
+              className="h-[600px] w-full bg-white"
+            />
           </div>
+        </div>
+      ) : null}
+
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-line bg-surface p-4">
+        <p className="text-sm text-muted">
+          {selected ? `Varian: ${selected.label}` : "Belum ada varian dipilih."}
+        </p>
+        <div className="flex flex-wrap items-center gap-2">
+          <Link
+            href={`/app/projects/${projectId}`}
+            className="rounded-full border border-line px-4 py-2 text-sm font-medium text-ink hover:border-ink/40"
+          >
+            Kembali ke Project
+          </Link>
+          {selected && status === "PREVIEWS" ? (
+            <Button onClick={pick} loading={pending}>
+              Pilih &amp; Lanjut Customize
+            </Button>
+          ) : status === "GENERATING" ? (
+            <Link
+              href={`/app/projects/${projectId}/generate`}
+              className="rounded-full bg-accent px-4 py-2 text-sm font-medium text-on-accent hover:bg-accent-strong"
+            >
+              Tunggu Generate
+            </Link>
+          ) : (
+            <Button onClick={() => router.push(`/app/projects/${projectId}/customize`)}>
+              Lanjut ke Customize
+            </Button>
+          )}
         </div>
       </div>
     </div>

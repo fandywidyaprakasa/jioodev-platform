@@ -2,23 +2,38 @@
    Package: platform (Next.js) + JS Panel. Template tokens terpisah. */
 :root {
   /* Color — brand */
-  --color-ink: #14130F;
-  --color-accent: #9A3412;
-  --color-accent-strong: #7C2D12;
-  --color-accent-soft: #F3E7DF;
-  --color-on-accent: #FFFFFF;
+  --color-ink: #172A33;
+  --color-accent: #A34A30;
+  --color-accent-strong: #8C3E28;
+  --color-accent-soft: #F4E4DA;
+  --color-on-accent: #FFFCF6;
+
+  /* RGB channels for Tailwind opacity modifiers */
+  --color-ink-rgb: 23 42 51;
+  --color-accent-rgb: 163 74 48;
+  --color-accent-strong-rgb: 140 62 40;
+  --color-accent-soft-rgb: 244 228 218;
+  --color-on-accent-rgb: 255 252 246;
+  --color-paper-rgb: 246 240 229;
+  --color-surface-rgb: 255 252 246;
+  --color-line-rgb: 227 216 200;
+  --color-muted-rgb: 102 98 90;
+  --color-success-rgb: 60 107 87;
+  --color-warning-rgb: 138 90 18;
+  --color-danger-rgb: 169 59 43;
+  --color-info-rgb: 46 92 138;
 
   /* Color — neutral */
-  --color-paper: #F7F6F2;
-  --color-surface: #FFFFFF;
-  --color-line: #E5E1D8;
-  --color-muted: #5C574F;
+  --color-paper: #F6F0E5;
+  --color-surface: #FFFCF6;
+  --color-line: #E3D8C8;
+  --color-muted: #66625A;
 
   /* Color — semantic */
-  --color-success: #2F6B4F;
-  --color-warning: #B7791F;
-  --color-danger: #B42318;
-  --color-info: #1D4ED8;
+  --color-success: #3C6B57;
+  --color-warning: #8A5A12;
+  --color-danger: #A93B2B;
+  --color-info: #2E5C8A;
 
   /* Typography */
   --font-display: Fraunces, Georgia, serif;
@@ -71,9 +86,9 @@
   --control-touch: 44px;
 
   /* Shadow */
-  --shadow-sm: 0 1px 2px rgba(20,19,15,.06);
-  --shadow-md: 0 6px 20px -12px rgba(20,19,15,.25);
-  --shadow-lg: 0 16px 40px -20px rgba(20,19,15,.35);
+  --shadow-sm: 0 1px 2px rgba(23,42,51,.06);
+  --shadow-md: 0 6px 20px -12px rgba(23,42,51,.25);
+  --shadow-lg: 0 16px 40px -20px rgba(23,42,51,.35);
 
   /* Border */
   --border-width: 1px;
@@ -92,28 +107,42 @@
   --z-toast: 80;
 
   /* Focus */
-  --focus-ring: 0 0 0 3px rgba(154,52,18,.25);
+  --focus-ring: 0 0 0 3px rgba(163,74,48,.25);
 }
 
 [data-theme="dark"] {
-  --color-ink: #F5F2EA;
-  --color-accent: #F0A46B;
-  --color-accent-strong: #F7BE92;
-  --color-accent-soft: #3A2418;
-  --color-on-accent: #14130F;
+  --color-ink: #F4EEE4;
+  --color-accent: #E29A78;
+  --color-accent-strong: #F0AE8E;
+  --color-accent-soft: #3A2A24;
+  --color-on-accent: #17232A;
 
-  --color-paper: #14130F;
-  --color-surface: #1D1B16;
-  --color-line: #35312A;
-  --color-muted: #B8B0A2;
+  --color-paper: #111B21;
+  --color-surface: #1A252C;
+  --color-line: #34424A;
+  --color-muted: #B9B2A7;
 
   --color-success: #7BC49B;
   --color-warning: #E2B15E;
   --color-danger: #F08A80;
   --color-info: #8AB4FF;
 
+  --color-ink-rgb: 244 238 228;
+  --color-accent-rgb: 226 154 120;
+  --color-accent-strong-rgb: 240 174 142;
+  --color-accent-soft-rgb: 58 42 36;
+  --color-on-accent-rgb: 23 35 42;
+  --color-paper-rgb: 17 27 33;
+  --color-surface-rgb: 26 37 44;
+  --color-line-rgb: 52 66 74;
+  --color-muted-rgb: 185 178 167;
+  --color-success-rgb: 123 196 155;
+  --color-warning-rgb: 226 177 94;
+  --color-danger-rgb: 240 138 128;
+  --color-info-rgb: 138 180 255;
+
   --shadow-sm: 0 1px 2px rgba(0,0,0,.4);
   --shadow-md: 0 6px 20px -12px rgba(0,0,0,.7);
   --shadow-lg: 0 16px 40px -20px rgba(0,0,0,.8);
-  --focus-ring: 0 0 0 3px rgba(240,164,107,.35);
+  --focus-ring: 0 0 0 3px rgba(226,154,120,.35);
 }

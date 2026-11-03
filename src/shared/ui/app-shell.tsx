@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
+import { CommandPalette } from "./command-palette";
 import { Sidebar, type NavItem } from "./sidebar";
+import { ThemeSwitcher } from "./theme-switcher";
 import { Topbar } from "./topbar";
 
 export interface AppShellProps {
@@ -50,7 +52,12 @@ export function AppShell({
               className="absolute inset-0 bg-ink/40"
             />
             <div className="relative flex h-full w-64">
-              <Sidebar items={items} title={brand} footer={footer} />
+              <Sidebar
+                items={items}
+                title={brand}
+                footer={footer}
+                onClose={() => setOpen(false)}
+              />
             </div>
           </div>
         ) : null}
@@ -59,10 +66,18 @@ export function AppShell({
           <Topbar
             title={title}
             subtitle={subtitle}
-            actions={actions}
+            actions={
+              <>
+                <ThemeSwitcher />
+                <CommandPalette items={items} />
+                {actions}
+              </>
+            }
             onMenu={() => setOpen(true)}
           />
-          <main id="konten" className="min-w-0 flex-1 px-4 py-6 sm:px-6">{children}</main>
+          <main id="konten" className="min-w-0 flex-1 px-4 py-6 sm:px-6">
+            <div className="mx-auto w-full max-w-7xl">{children}</div>
+          </main>
         </div>
       </div>
     </div>

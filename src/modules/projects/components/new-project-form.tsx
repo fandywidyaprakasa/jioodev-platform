@@ -1,5 +1,6 @@
 "use client";
 
+import { Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { api } from "@/shared/lib/api";
@@ -60,19 +61,37 @@ export function NewProjectForm() {
               type="button"
               onClick={() => setSelected(option.type)}
               aria-pressed={active}
-              className={`rounded-lg border p-4 text-left transition-colors ${
+              className={`relative min-h-28 rounded-lg border p-4 text-left transition-[border-color,background-color,box-shadow] duration-150 ${
                 active
-                  ? "border-accent bg-accent-soft"
+                  ? "border-accent bg-accent-soft shadow-sm"
                   : "border-line bg-surface hover:border-ink/30"
               }`}
             >
-              <p className="font-medium text-ink">{option.title}</p>
-              <p className="mt-1 text-sm text-muted">{option.description}</p>
+              <span className="flex items-center justify-between gap-2">
+                <span className="font-mono text-[10px] tracking-[0.12em] text-muted">
+                  {option.type}
+                </span>
+                {active ? (
+                  <span className="grid h-5 w-5 place-items-center rounded-full bg-accent text-on-accent">
+                    <Check className="h-3 w-3" aria-hidden="true" />
+                  </span>
+                ) : null}
+              </span>
+              <span className="mt-3 block text-[15px] font-semibold text-ink">
+                {option.title}
+              </span>
+              <span className="mt-1 block text-sm leading-relaxed text-muted">
+                {option.description}
+              </span>
             </button>
           );
         })}
       </div>
-      <div className="mt-5 flex justify-end">
+      <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-5">
+        <p className="max-w-[46ch] text-sm leading-relaxed text-muted">
+          Setelah dibuat, Anda akan mengisi konteks bisnis. Tipe produk menentukan
+          struktur fondasi yang dipakai.
+        </p>
         <Button onClick={submit} loading={pending}>
           Buat Project
         </Button>

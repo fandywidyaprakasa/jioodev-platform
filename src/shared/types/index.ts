@@ -58,6 +58,8 @@ export interface Template {
   industries: string[];
   purposes: string[];
   description: string;
+  previewUrl?: string;
+  thumbnailUrl?: string;
 }
 
 export interface JobVariant {
@@ -94,6 +96,7 @@ export interface Payment {
   qrString: string;
   expiresAt: string;
   createdAt: string;
+  invoiceNo?: string;
 }
 
 export interface Notification {
@@ -106,8 +109,9 @@ export interface Notification {
 
 export interface Invoice {
   id: string;
+  invoiceNo?: string;
   amount: number;
-  status: "PAID" | "PENDING" | "FAILED";
+  status: "PAID" | "PENDING" | "FAILED" | "REFUNDED";
   issuedAt: string;
 }
 
@@ -129,8 +133,17 @@ export interface ActivityItem {
 export interface Package {
   id: string;
   name: string;
+  tier: "FREE" | "PRO" | "AGENCY" | "ADDON";
+  billing_type: "FREE" | "SUBSCRIPTION" | "PAY_PER_DEPLOY";
   price: number;
-  quota: number;
+  max_sections: number;
+  js_allowed: boolean;
+  cms: boolean;
+  custom_domain: boolean;
+  deploy_included: number;
+  valid_from?: string;
+  valid_until?: string;
+  status: "ACTIVE" | "EXPIRED" | "DRAFT";
   active: boolean;
 }
 
@@ -140,6 +153,26 @@ export interface AuditItem {
   action: string;
   ip: string;
   createdAt: string;
+}
+
+export interface Deployment {
+  id: string;
+  projectId: string;
+  target: string;
+  environment: string;
+  status: string;
+  liveUrl: string;
+  health: string;
+}
+
+export interface DomainRecord {
+  id: string;
+  projectId: string;
+  domain: string;
+  type: string;
+  status: string;
+  sslStatus: string;
+  verifiedAt?: string;
 }
 
 export interface AdminStats {

@@ -1,0 +1,17 @@
+{
+  "record_type": "variant",
+  "code": "hero-split",
+  "slot_code": "S-HERO",
+  "html_partial": "sections/S-HERO/hero-split/index.html",
+  "css_scope": "sections/S-HERO/hero-split/style.css",
+  "js_scope": "",
+  "compatible_themes": [
+    "base",
+    "alt"
+  ],
+  "compatible_tiers": [
+    "BASIC",
+    "PRO"
+  ],
+  "status": "READY"
+}
