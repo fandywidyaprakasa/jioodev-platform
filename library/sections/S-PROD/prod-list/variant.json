@@ -1,0 +1,23 @@
+{
+  "record_type": "variant",
+  "code": "prod-list",
+  "name": "Prod List",
+  "display_name": "prod-list",
+  "slot_code": "S-PROD",
+  "html_partial": "sections/S-PROD/prod-list/index.html",
+  "css_scope": "sections/S-PROD/prod-list/style.css",
+  "js_scope": "",
+  "compatible_themes": [
+    "split-edt"
+  ],
+  "compatible_tiers": [
+    "BASIC",
+    "PRO",
+    "AGENCY"
+  ],
+  "dependencies": [],
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1,
+  "reviewer": "Product Owner"
+}

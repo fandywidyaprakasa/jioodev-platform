@@ -1,0 +1,18 @@
+<section class="s-ben" aria-labelledby="s-ben-title">
+  <header class="s-ben__head">
+    <p class="s-ben__eyebrow">{{eyebrow}}</p>
+    <h2 class="s-ben__title" id="s-ben-title">{{title}}</h2>
+    <p class="s-ben__lead">{{subtitle}}</p>
+  </header>
+  <ul class="s-ben__grid">
+    {{#items}}
+    <li class="s-ben__item">
+      <span class="s-ben__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12l5 5L20 6"/></svg>
+      </span>
+      <h3>{{title}}</h3>
+      <p>{{description}}</p>
+    </li>
+    {{/items}}
+  </ul>
+</section>

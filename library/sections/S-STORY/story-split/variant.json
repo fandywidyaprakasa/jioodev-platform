@@ -1,0 +1,23 @@
+{
+  "record_type": "variant",
+  "code": "story-split",
+  "name": "Story Split",
+  "display_name": "story-split",
+  "slot_code": "S-STORY",
+  "html_partial": "sections/S-STORY/story-split/index.html",
+  "css_scope": "sections/S-STORY/story-split/style.css",
+  "js_scope": "",
+  "compatible_themes": [
+    "split-edt"
+  ],
+  "compatible_tiers": [
+    "BASIC",
+    "PRO",
+    "AGENCY"
+  ],
+  "dependencies": [],
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1,
+  "reviewer": "Product Owner"
+}

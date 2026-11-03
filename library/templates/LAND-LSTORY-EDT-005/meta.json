@@ -1,0 +1,49 @@
+{
+  "asset_code": "LAND-LSTORY-EDT-005",
+  "source_name": "Agency Homepage 1",
+  "source_id": "tagibs0guvrrmtq",
+  "source_origin": "Legacy Import",
+  "license": "JiooDev Commercial",
+  "product_type": "LAND",
+  "layout_archetype": "L-STORY",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "PRO"
+  ],
+  "business_purposes": [
+    "BRD",
+    "LDG"
+  ],
+  "business_models": [
+    "BM-SVC"
+  ],
+  "functional_caps": [
+    "CAP-FORM"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-STORY",
+    "S-BEN",
+    "S-TEST",
+    "S-CTA",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "READY",
+  "attributes": {
+    "responsive": true,
+    "fonts": [
+      "Fraunces",
+      "DM Sans"
+    ]
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev",
+  "display_name": "Story",
+  "slug": "story"
+}

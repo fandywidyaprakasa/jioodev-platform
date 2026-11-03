@@ -1,0 +1,23 @@
+{
+  "record_type": "variant",
+  "code": "gal-masonry",
+  "name": "Gal Masonry",
+  "display_name": "gal-masonry",
+  "slot_code": "S-GAL",
+  "html_partial": "sections/S-GAL/gal-masonry/index.html",
+  "css_scope": "sections/S-GAL/gal-masonry/style.css",
+  "js_scope": "",
+  "compatible_themes": [
+    "split-edt"
+  ],
+  "compatible_tiers": [
+    "BASIC",
+    "PRO",
+    "AGENCY"
+  ],
+  "dependencies": [],
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1,
+  "reviewer": "Product Owner"
+}

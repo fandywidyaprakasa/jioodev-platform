@@ -1,0 +1,45 @@
+{
+  "asset_code": "PB-fnb-l1",
+  "source_name": "Sambal Juara (FNB L1 - Micro Landing)",
+  "source_id": "0d8g9l2jksdxqnp",
+  "source_origin": "PocketBase html_templates",
+  "license": "Jioodev Commercial",
+  "product_type": "LAND",
+  "layout_archetype": "L-MENU",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "FNB"
+  ],
+  "business_purposes": [
+    "VIS",
+    "SAL"
+  ],
+  "business_models": [
+    "BM-SVC"
+  ],
+  "functional_caps": [
+    "CAP-WA"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "/template-preview/PB-fnb-l1",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "READY",
+  "attributes": {
+    "name": "Sambal Juara (FNB L1 - Micro Landing)",
+    "description": "Micro landing 1 produk unggulan. Hero, fitur 4 item, 2 testimoni, sticky WA CTA. Optimasi konversi langsung via WhatsApp. Tanpa nav bar hamburger.",
+    "source_url": "https://know.jioo.site/preview/fnb-l1/",
+    "framework": "HTML5, CSS Tokens, Vanilla JS",
+    "responsive": true
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev",
+  "display_name": "Sambal Juara (FNB L1 - Micro Landing)",
+  "slug": "pb-fnb-l1"
+}

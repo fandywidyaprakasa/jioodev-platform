@@ -1,0 +1,49 @@
+{
+  "asset_code": "COMM-LCONV-EDT-018",
+  "source_name": "business-homepage-3",
+  "source_id": "jgmfkvfj76ef75r",
+  "source_origin": "Legacy Import",
+  "license": "TO FILL",
+  "product_type": "COMM",
+  "layout_archetype": "L-CONV",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "PRO",
+    "GEN"
+  ],
+  "business_purposes": [
+    "LDG",
+    "SAL"
+  ],
+  "business_models": [
+    "BM-SVC",
+    "BM-PROD"
+  ],
+  "functional_caps": [
+    "CAP-FORM"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-FEAT",
+    "S-PRICE",
+    "S-FAQ",
+    "S-CTA",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "CLASSIFIED",
+  "attributes": {
+    "responsive": true,
+    "fonts": [
+      "Fraunces",
+      "DM Sans"
+    ]
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev"
+}

@@ -1,0 +1,314 @@
+<!DOCTYPE HTML>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+	<title>Dapur Nusantara — Flagship Dining & Jamuan Kenegaraan</title>
+	<meta name="description" content="Jaringan restoran nusantara modern & katering korporat. 4 Cabang (Bandung, Jakarta Selatan, Menteng, Surabaya). Reservasi VIP & Corporate Catering.">
+	
+	
+	
+	
+	<link rel="stylesheet" href="../_shared/fontawesome/css/all.min.css" />
+	<script defer src="../_shared/alpine.min.js"></script>
+
+	<style>
+		:root {
+			--primary: #d4af37;
+			--primary-hover: #b89628;
+			--bg: #0a0908;
+			--surface-1: #141210;
+			--surface-2: #1e1b18;
+			--text: #f5f5f4;
+			--muted: #a8a29e;
+			--border: #2b2621;
+			--radius: 12px;
+		}
+		* { box-sizing: border-box; margin: 0; padding: 0; }
+		body {
+			font-family: 'Plus Jakarta Sans', sans-serif;
+			background: var(--bg);
+			color: var(--text);
+			line-height: 1.6;
+			overflow-x: hidden;
+		}
+		h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: #fff; }
+		a { color: var(--primary); text-decoration: none; }
+		.container { max-width: 1140px; margin: 0 auto; padding: 0 1.5rem; }
+
+		/* Announcement Top Bar */
+		.topbar {
+			background: #1a1612;
+			border-bottom: 1px solid var(--border);
+			padding: 0.4rem 0;
+			font-size: 0.78rem;
+			color: var(--muted);
+			text-align: center;
+		}
+		.topbar span { color: var(--primary); font-weight: 700; }
+
+		/* Header */
+		header {
+			position: sticky;
+			top: 0;
+			background: rgba(10, 9, 8, 0.96);
+			backdrop-filter: blur(12px);
+			border-bottom: 1px solid var(--border);
+			padding: 0.9rem 0;
+			z-index: 100;
+		}
+		.nav-wrap { display: flex; justify-content: space-between; align-items: center; }
+		.brand { font-family: 'Playfair Display', serif; font-size: 1.45rem; font-weight: 700; color: #fff; }
+		.brand span { color: var(--primary); font-style: italic; }
+		.nav-links { display: flex; gap: 1.8rem; list-style: none; align-items: center; }
+		.nav-links a { color: var(--muted); font-size: 0.88rem; font-weight: 500; transition: color 0.2s; }
+		.nav-links a:hover { color: var(--primary); }
+		.header-actions { display: flex; gap: 0.75rem; align-items: center; }
+		.branch-badge {
+			background: var(--surface-2);
+			border: 1px solid var(--border);
+			color: var(--primary);
+			font-size: 0.78rem;
+			padding: 0.4rem 0.8rem;
+			border-radius: 999px;
+			display: flex;
+			align-items: center;
+			gap: 0.4rem;
+		}
+		.btn-gold {
+			background: var(--primary);
+			color: #0c0a09 !important;
+			font-weight: 700;
+			font-size: 0.82rem;
+			padding: 0.55rem 1.25rem;
+			border-radius: 999px;
+			display: inline-flex;
+			align-items: center;
+			gap: 0.4rem;
+		}
+
+		/* Hero Section */
+		.hero {
+			padding: 4.5rem 0 3.5rem;
+			display: grid;
+			grid-template-columns: 1.2fr 0.8fr;
+			gap: 3.5rem;
+			align-items: center;
+		}
+		.hero-badge {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			background: rgba(212,175,55,0.12);
+			color: var(--primary);
+			border: 1px solid rgba(212,175,55,0.3);
+			padding: 0.35rem 0.9rem;
+			border-radius: 999px;
+			font-size: 0.78rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			margin-bottom: 1.25rem;
+		}
+		.hero h1 { font-size: 3.2rem; line-height: 1.15; margin-bottom: 1.25rem; }
+		.hero p { color: var(--muted); font-size: 1.05rem; margin-bottom: 2rem; max-width: 540px; }
+		.hero-img {
+			width: 100%;
+			height: 380px;
+			object-fit: cover;
+			border-radius: 16px;
+			border: 1px solid var(--border);
+			box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8);
+		}
+
+		/* Branch Selector Bar (Agency Feature) */
+		.branch-section {
+			background: var(--surface-1);
+			border: 1px solid var(--border);
+			border-radius: 16px;
+			padding: 1.75rem 2rem;
+			margin: 1rem 0 4.5rem;
+		}
+		.branch-title { font-size: 1.1rem; margin-bottom: 1rem; color: #fff; display: flex; align-items: center; gap: 0.5rem; }
+		.branch-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+			gap: 1rem;
+		}
+		.branch-card {
+			background: var(--surface-2);
+			border: 1px solid var(--border);
+			border-radius: 10px;
+			padding: 1rem;
+			cursor: pointer;
+			transition: all 0.2s;
+		}
+		.branch-card.active, .branch-card:hover {
+			border-color: var(--primary);
+			background: #25211c;
+		}
+		.branch-card h4 { font-size: 1rem; margin-bottom: 0.25rem; }
+		.branch-card p { font-size: 0.8rem; color: var(--muted); }
+
+		/* VIP Booking Wizard Section (Agency Feature) */
+		.booking-box {
+			background: var(--surface-1);
+			border: 2px solid var(--primary);
+			border-radius: 20px;
+			padding: 3.5rem 2.5rem;
+			margin: 5rem 0;
+			text-align: center;
+		}
+		.booking-form {
+			max-width: 680px;
+			margin: 2rem auto 0;
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 1rem;
+			text-align: left;
+		}
+		.form-group label { display: block; font-size: 0.82rem; color: var(--muted); margin-bottom: 0.35rem; font-weight: 600; }
+		.form-group input, .form-group select {
+			width: 100%;
+			background: var(--surface-2);
+			border: 1px solid var(--border);
+			color: #fff;
+			padding: 0.75rem 1rem;
+			border-radius: 8px;
+			font-family: inherit;
+			font-size: 0.9rem;
+		}
+		.btn-submit {
+			grid-column: span 2;
+			background: var(--primary);
+			color: #0c0a09;
+			border: none;
+			padding: 0.9rem;
+			border-radius: 8px;
+			font-weight: 800;
+			font-size: 1rem;
+			cursor: pointer;
+			margin-top: 0.5rem;
+		}
+
+		/* Mobile Queries */
+		@media (max-width: 900px) {
+			.nav-links, .branch-badge { display: none !important; }
+			.hero { grid-template-columns: 1fr !important; padding: 2rem 0 !important; gap: 2rem !important; }
+			.hero h1 { font-size: 2.2rem !important; }
+			.hero-img { height: 260px !important; }
+			.booking-form { grid-template-columns: 1fr !important; }
+			.btn-submit { grid-column: span 1 !important; }
+			.btn-gold { padding: 0.45rem 0.9rem !important; font-size: 0.78rem !important; }
+		}
+	</style>
+  <link rel="stylesheet" href="assets/fonts.css">
+</head>
+<body x-data="{ selectedBranch: 'Bandung Wetan' }">
+
+	<div class="topbar">
+		Jaringan Restoran Resmi di <span>Bandung · Jakarta Selatan · Menteng · Surabaya</span>
+	</div>
+
+	<header>
+		<div class="container nav-wrap">
+			<div class="brand">DAPUR <span>NUSANTARA</span></div>
+			<ul class="nav-links">
+				<li><a href="#cabang">Lokasi Cabang</a></li>
+				<li><a href="#booking">Reservasi VIP</a></li>
+				<li><a href="#katering">Katering Korporat</a></li>
+			</ul>
+			<div class="header-actions">
+				<div class="branch-badge">
+					<i class="fa-solid fa-location-dot"></i> <span x-text="selectedBranch"></span>
+				</div>
+				<a href="#booking" class="btn-gold">
+					Reservasi
+				</a>
+			</div>
+		</div>
+	</header>
+
+	<div class="container">
+		<section class="hero">
+			<div>
+				<div class="hero-badge"><i class="fa-solid fa-landmark"></i> Flagship Dining & Kenegaraan</div>
+				<h1>Cita Rasa Agung Jamuan Nusantara.</h1>
+				<p>Mempersembahkan kekayaan kuliner 34 provinsi dengan standar jamuan kenegaraan. Ruang privat eksklusif, protokol VIP, dan katering korporat skala besar.</p>
+				<div style="display:flex; gap:1rem; flex-wrap:wrap;">
+					<a href="#booking" class="btn-gold" style="padding:0.75rem 1.5rem; font-size:0.9rem;">Reservasi Meja VIP</a>
+					<a href="https://wa.me/6281234567890?text=Halo,%20kami%20ingin%20proposal%20katering%20korporat" style="border:1px solid var(--border); color:#fff; padding:0.75rem 1.5rem; border-radius:999px; font-size:0.9rem; font-weight:600;" target="_blank">Unduh Proposal B2B</a>
+				</div>
+			</div>
+			<div>
+				<img src="images/hero_dining.jpg" alt="Dining Hall Dapur Nusantara" class="hero-img">
+			</div>
+		</section>
+
+		<!-- Branch Selector (Agency Level) -->
+		<section id="cabang" class="branch-section">
+			<div class="branch-title"><i class="fa-solid fa-map-pin" style="color:var(--primary);"></i> Pilih Lokasi Cabang Terdekat:</div>
+			<div class="branch-grid">
+				<div class="branch-card" :class="{ 'active': selectedBranch === 'Bandung Wetan' }" @click="selectedBranch = 'Bandung Wetan'">
+					<h4>Flagship Bandung</h4>
+					<p>Jl. Taman Pramuka No. 181</p>
+					<span style="font-size:0.72rem; color:var(--primary);">4 Ruang VIP · 120 Kursi</span>
+				</div>
+				<div class="branch-card" :class="{ 'active': selectedBranch === 'Jakarta Selatan' }" @click="selectedBranch = 'Jakarta Selatan'">
+					<h4>Jakarta Mampang</h4>
+					<p>Jl. Mampang Prapatan VIII No. 18</p>
+					<span style="font-size:0.72rem; color:var(--primary);">6 Ruang VIP · Valet Parking</span>
+				</div>
+				<div class="branch-card" :class="{ 'active': selectedBranch === 'Menteng' }" @click="selectedBranch = 'Menteng'">
+					<h4>Heritage Menteng</h4>
+					<p>Jl. Teuku Umar No. 24</p>
+					<span style="font-size:0.72rem; color:var(--primary);">Private Dining Kenegaraan</span>
+				</div>
+				<div class="branch-card" :class="{ 'active': selectedBranch === 'Surabaya' }" @click="selectedBranch = 'Surabaya'">
+					<h4>Surabaya Barat</h4>
+					<p>Jl. Mayjen Sungkono No. 88</p>
+					<span style="font-size:0.72rem; color:var(--primary);">Grand Ballroom 300 Pax</span>
+				</div>
+			</div>
+		</section>
+
+		<!-- VIP Booking Wizard -->
+		<section id="booking" class="booking-box">
+			<span class="hero-badge">Reservasi Instan Terintegrasi</span>
+			<h2 style="font-size:2.4rem; margin-bottom:0.75rem;">Booking Ruang Privat & VIP Dining</h2>
+			<p style="color:var(--muted); max-width:580px; margin:0 auto;">Tim Concierge kami akan menghubungi Anda dalam 15 menit untuk konfirmasi menu pilihan dan penataan ruang.</p>
+			
+			<form class="booking-form" onsubmit="event.preventDefault(); window.open('https://wa.me/6281234567890?text=Halo%20Concierge,%20saya%20sudah%20isi%20form%20reservasi%20VIP%20cabang%20' + document.getElementById('cabangInput').value, '_blank');">
+				<div class="form-group">
+					<label>Cabang Tujuan</label>
+					<input type="text" id="cabangInput" :value="selectedBranch" readonly>
+				</div>
+				<div class="form-group">
+					<label>Tanggal & Jam</label>
+					<input type="datetime-local" required>
+				</div>
+				<div class="form-group">
+					<label>Jumlah Tamu</label>
+					<select>
+						<option>VIP Room Intim (4 - 8 Orang)</option>
+						<option>Private Room Sedang (10 - 20 Orang)</option>
+						<option>Grand Hall Jamuan (25 - 50 Orang)</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Nomor WhatsApp PIC</label>
+					<input type="tel" placeholder="0812xxxxxxx" required>
+				</div>
+				<button type="submit" class="btn-submit">
+					<i class="fa-brands fa-whatsapp"></i> Konfirmasi Booking via Concierge
+				</button>
+			</form>
+		</section>
+	</div>
+
+	<footer style="border-top:1px solid var(--border); padding:3rem 0; text-align:center; color:var(--muted); font-size:0.85rem;">
+		<div class="container">
+			<p>© 2026 Dapur Nusantara Group · Sistem Enterprise oleh <a href="https://jioo.site" style="color:var(--primary); font-weight:700;">Jioodev</a></p>
+		</div>
+	</footer>
+</body>
+</html>

@@ -1,0 +1,50 @@
+{
+  "asset_code": "WEB-LMENU-EDT-010",
+  "source_name": "Elizabeth",
+  "source_id": "1z8y4081lb731s5",
+  "source_origin": "Legacy Import",
+  "license": "TO FILL",
+  "product_type": "WEB",
+  "layout_archetype": "L-MENU",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "FSH",
+    "BEA",
+    "RET"
+  ],
+  "business_purposes": [
+    "SAL",
+    "VIS"
+  ],
+  "business_models": [
+    "BM-PROD"
+  ],
+  "functional_caps": [
+    "CAP-CAT",
+    "CAP-WA"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-SVC",
+    "S-GAL",
+    "S-TEST",
+    "S-CTA",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "CLASSIFIED",
+  "attributes": {
+    "responsive": true,
+    "fonts": [
+      "Fraunces",
+      "DM Sans"
+    ]
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev"
+}

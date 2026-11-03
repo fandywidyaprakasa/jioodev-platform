@@ -1,0 +1,45 @@
+{
+  "asset_code": "PB-fnb-01-l2-luxury",
+  "source_name": "Dapur Nusantara — Dark Luxury Dining (L2)",
+  "source_id": "7989vgsnxci4qbb",
+  "source_origin": "PocketBase html_templates",
+  "license": "Jioodev Commercial",
+  "product_type": "LAND",
+  "layout_archetype": "L-MENU",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "FNB"
+  ],
+  "business_purposes": [
+    "VIS",
+    "SAL"
+  ],
+  "business_models": [
+    "BM-SVC"
+  ],
+  "functional_caps": [
+    "CAP-WA"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "/template-preview/PB-fnb-01-l2-luxury",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "READY",
+  "attributes": {
+    "name": "Dapur Nusantara — Dark Luxury Dining (L2)",
+    "description": "Restoran fine dining & lounge eksklusif. Background Obsidian gelap pekat, aksen emas berkilau, tipografi anggun Playfair Display.",
+    "source_url": "https://know.jioo.site/preview/fnb-01-l2-luxury/",
+    "framework": "HTML5, Alpine.js, CSS Tokens",
+    "responsive": true
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev",
+  "display_name": "Dapur Nusantara — Dark Luxury Dining (L2)",
+  "slug": "pb-fnb-01-l2-luxury"
+}

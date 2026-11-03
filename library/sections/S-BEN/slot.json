@@ -1,0 +1,50 @@
+{
+  "record_type": "slot",
+  "code": "S-BEN",
+  "name": "Benefit",
+  "display_name": "Benefit",
+  "required": true,
+  "order_min": 2,
+  "order_max": 8,
+  "content_schema": {
+    "version": 1,
+    "fields": {
+      "eyebrow": {
+        "type": "text",
+        "required": false
+      },
+      "title": {
+        "type": "text",
+        "required": true
+      },
+      "subtitle": {
+        "type": "text",
+        "required": false
+      },
+      "items": {
+        "type": "array",
+        "required": true,
+        "min": 2,
+        "max": 6,
+        "item": {
+          "title": {
+            "type": "text",
+            "required": true
+          },
+          "description": {
+            "type": "text",
+            "required": false
+          },
+          "icon": {
+            "type": "text",
+            "required": false
+          }
+        }
+      }
+    }
+  },
+  "tier_min": "BASIC",
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1
+}

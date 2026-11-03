@@ -1,0 +1,56 @@
+{
+  "record_type": "slot",
+  "code": "S-TEST",
+  "name": "Social Proof",
+  "display_name": "Social Proof",
+  "required": true,
+  "order_min": 3,
+  "order_max": 9,
+  "content_schema": {
+    "version": 1,
+    "fields": {
+      "title": {
+        "type": "text",
+        "required": true
+      },
+      "subtitle": {
+        "type": "text",
+        "required": false
+      },
+      "items": {
+        "type": "array",
+        "required": true,
+        "min": 1,
+        "max": 9,
+        "item": {
+          "quote": {
+            "type": "text",
+            "required": true
+          },
+          "author": {
+            "type": "text",
+            "required": true
+          },
+          "role": {
+            "type": "text",
+            "required": false
+          },
+          "avatar": {
+            "type": "image",
+            "required": false
+          },
+          "rating": {
+            "type": "number",
+            "required": false,
+            "min": 1,
+            "max": 5
+          }
+        }
+      }
+    }
+  },
+  "tier_min": "BASIC",
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1
+}

@@ -1,0 +1,50 @@
+{
+  "record_type": "slot",
+  "code": "S-HERO",
+  "name": "Hero",
+  "display_name": "Hero",
+  "required": true,
+  "order_min": 1,
+  "order_max": 1,
+  "content_schema": {
+    "version": 1,
+    "fields": {
+      "eyebrow": {
+        "type": "text",
+        "required": false
+      },
+      "headline": {
+        "type": "text",
+        "required": true
+      },
+      "subheadline": {
+        "type": "text",
+        "required": false
+      },
+      "primary_cta": {
+        "type": "link",
+        "required": false
+      },
+      "secondary_cta": {
+        "type": "link",
+        "required": false
+      },
+      "media": {
+        "type": "object",
+        "required": false
+      },
+      "alignment": {
+        "type": "enum",
+        "values": [
+          "left",
+          "center"
+        ],
+        "required": false
+      }
+    }
+  },
+  "tier_min": "BASIC",
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nama Bisnis — Koleksi &amp; Layanan</title>
+  <meta name="description" content="Website brand: layanan, galeri, testimoni.">
+  
+  
+  
+  <link rel="stylesheet" href="../_shared/base.css">
+  <link rel="stylesheet" href="../_shared/components.css">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/fonts.css">
+</head>
+<body>
+  <a class="skip" href="#konten">Lewati ke konten</a>
+  <header class="site-header">
+    <a class="brand" href="#" data-bind="business_name">Nama Bisnis</a>
+    <nav class="nav" aria-label="Navigasi utama"><a href="#layanan">Layanan</a><a href="#harga">Harga</a><a href="#kontak">Kontak</a></nav>
+    <a class="btn btn-sm" href="#kontak" data-bind="header_cta">Pesan</a>
+  </header>
+  <main id="konten">
+    <section class="hero-split">
+      <div>
+        <p class="eyebrow" data-bind="hero_eyebrow">Koleksi</p>
+        <h1 data-bind="hero_title">Tampil percaya diri dengan pilihan yang tepat.</h1>
+        <p class="lead" data-bind="hero_subtitle">Koleksi dan layanan yang dirancang untuk Anda.</p>
+        <div class="actions"><a class="btn" href="#kontak" data-bind="hero_cta">Pesan</a><a class="btn btn-ghost" href="#karya">Lihat Galeri</a></div>
+      </div>
+      <div class="media"><img src="../_shared/hero.svg" alt="Ilustrasi profil elegan" width="560" height="420"></div>
+    </section>
+    <section id="layanan">
+      <header class="section-head">
+        <h2 data-bind="title_layanan">Layanan</h2>
+        <p class="section-lead">Pengalaman yang menyenangkan.</p>
+      </header>
+      <div class="services-grid"><article class="service"><h3>Konsultasi Gaya</h3><p>Temukan yang paling sesuai.</p></article><article class="service"><h3>Pemesanan</h3><p>Proses mudah dan cepat.</p></article><article class="service"><h3>Perawatan</h3><p>Panduan setelah pembelian.</p></article><article class="service"><h3>Layanan Khusus</h3><p>Permintaan personal.</p></article></div>
+    </section>
+    <section id="karya">
+      <header class="section-head">
+        <h2 data-bind="title_galeri">Galeri</h2>
+        <p class="section-lead">Sebagian koleksi dan hasil.</p>
+      </header>
+      <div class="portfolio-grid"><div class="tile">Koleksi 01</div><div class="tile">Koleksi 02</div><div class="tile">Koleksi 03</div><div class="tile">Koleksi 04</div><div class="tile">Koleksi 05</div><div class="tile">Koleksi 06</div></div>
+    </section>
+    <section>
+      <blockquote class="quote"><p>“Pelayanannya ramah dan hasilnya memuaskan.”</p><cite>— Pelanggan setia</cite></blockquote>
+    </section>
+    <section id="kontak" class="cta-band">
+      <h2 data-bind="cta_title">Siap tampil berbeda?</h2>
+      <p data-bind="cta_text">Hubungi kami untuk pemesanan.</p>
+      <div class="actions center"><a class="btn" href="#" data-bind="cta_button">Chat WhatsApp</a></div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div><p class="brand" data-bind="business_name">Nama Bisnis</p><p class="muted" data-bind="footer_text">Alamat dan informasi kontak Anda di sini.</p></div>
+    <div class="footer-links"><a href="#">WhatsApp</a><a href="#">Email</a><a href="#">Instagram</a></div>
+    <p class="copyright">© <span data-bind="year">2026</span> Nama Bisnis.</p>
+  </footer>
+  <script src="../_shared/script.js"></script>
+</body>
+</html>

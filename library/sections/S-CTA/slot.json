@@ -1,0 +1,42 @@
+{
+  "record_type": "slot",
+  "code": "S-CTA",
+  "name": "CTA",
+  "display_name": "CTA",
+  "required": true,
+  "order_min": 4,
+  "order_max": 9,
+  "content_schema": {
+    "version": 1,
+    "fields": {
+      "title": {
+        "type": "text",
+        "required": true
+      },
+      "body": {
+        "type": "text",
+        "required": false
+      },
+      "primary_cta": {
+        "type": "link",
+        "required": true
+      },
+      "secondary_cta": {
+        "type": "link",
+        "required": false
+      },
+      "note": {
+        "type": "text",
+        "required": false
+      },
+      "background_image": {
+        "type": "image",
+        "required": false
+      }
+    }
+  },
+  "tier_min": "BASIC",
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1
+}

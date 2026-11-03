@@ -1,0 +1,23 @@
+{
+  "record_type": "variant",
+  "code": "price-packages",
+  "name": "Price Packages",
+  "display_name": "price-packages",
+  "slot_code": "S-PRICE",
+  "html_partial": "sections/S-PRICE/price-packages/index.html",
+  "css_scope": "sections/S-PRICE/price-packages/style.css",
+  "js_scope": "",
+  "compatible_themes": [
+    "split-edt"
+  ],
+  "compatible_tiers": [
+    "BASIC",
+    "PRO",
+    "AGENCY"
+  ],
+  "dependencies": [],
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1,
+  "reviewer": "Product Owner"
+}

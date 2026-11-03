@@ -1,0 +1,43 @@
+{
+  "record_type": "slot",
+  "code": "S-FAQ",
+  "name": "FAQ",
+  "display_name": "FAQ",
+  "required": false,
+  "order_min": 2,
+  "order_max": 9,
+  "content_schema": {
+    "version": 1,
+    "fields": {
+      "title": {
+        "type": "text",
+        "required": true
+      },
+      "subtitle": {
+        "type": "text",
+        "required": false
+      },
+      "items": {
+        "type": "array",
+        "required": true,
+        "min": 1,
+        "max": 10,
+        "item": {
+          "question": {
+            "type": "text",
+            "required": true
+          },
+          "answer": {
+            "type": "text",
+            "required": true
+          }
+        }
+      }
+    }
+  },
+  "tier_min": "BASIC",
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1,
+  "reviewer": "Product Owner"
+}

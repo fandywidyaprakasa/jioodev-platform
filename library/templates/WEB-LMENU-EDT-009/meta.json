@@ -1,0 +1,49 @@
+{
+  "asset_code": "WEB-LMENU-EDT-009",
+  "source_name": "corporate-page-2",
+  "source_id": "v7a9s64etw0xae2",
+  "source_origin": "Legacy Import",
+  "license": "TO FILL",
+  "product_type": "WEB",
+  "layout_archetype": "L-MENU",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "PRO",
+    "FIN"
+  ],
+  "business_purposes": [
+    "SSV",
+    "LDG"
+  ],
+  "business_models": [
+    "BM-SVC"
+  ],
+  "functional_caps": [
+    "CAP-FORM",
+    "CAP-MAP"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-SVC",
+    "S-FEAT",
+    "S-TEAM",
+    "S-CTA",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "CLASSIFIED",
+  "attributes": {
+    "responsive": true,
+    "fonts": [
+      "Fraunces",
+      "DM Sans"
+    ]
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev"
+}

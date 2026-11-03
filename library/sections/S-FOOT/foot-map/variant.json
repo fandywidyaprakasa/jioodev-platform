@@ -1,0 +1,23 @@
+{
+  "record_type": "variant",
+  "code": "foot-map",
+  "name": "Foot Map",
+  "display_name": "foot-map",
+  "slot_code": "S-FOOT",
+  "html_partial": "sections/S-FOOT/foot-map/index.html",
+  "css_scope": "sections/S-FOOT/foot-map/style.css",
+  "js_scope": "",
+  "compatible_themes": [
+    "split-edt"
+  ],
+  "compatible_tiers": [
+    "BASIC",
+    "PRO",
+    "AGENCY"
+  ],
+  "dependencies": [],
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1,
+  "reviewer": "Product Owner"
+}

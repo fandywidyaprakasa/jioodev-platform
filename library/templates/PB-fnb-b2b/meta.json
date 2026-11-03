@@ -1,0 +1,45 @@
+{
+  "asset_code": "PB-fnb-b2b",
+  "source_name": "Nusantara Food Supply (FNB B2B - Corporate Supply)",
+  "source_id": "zd9zfzjg6mlqlo6",
+  "source_origin": "PocketBase html_templates",
+  "license": "Jioodev Commercial",
+  "product_type": "LAND",
+  "layout_archetype": "L-MENU",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "FNB"
+  ],
+  "business_purposes": [
+    "VIS",
+    "SAL"
+  ],
+  "business_models": [
+    "BM-SVC"
+  ],
+  "functional_caps": [
+    "CAP-WA"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "/template-preview/PB-fnb-b2b",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "READY",
+  "attributes": {
+    "name": "Nusantara Food Supply (FNB B2B - Corporate Supply)",
+    "description": "Corporate landing B2B pasokan bahan baku & katering pabrik. Metrics bar, 3 service pillars, SLA badge, Key Account WA CTA. Corporate blue theme.",
+    "source_url": "https://know.jioo.site/preview/fnb-b2b/",
+    "framework": "HTML5, CSS Tokens, Corporate UI",
+    "responsive": true
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev",
+  "display_name": "Nusantara Food Supply (FNB B2B - Corporate Supply)",
+  "slug": "pb-fnb-b2b"
+}

@@ -1,0 +1,47 @@
+{
+  "record_type": "slot",
+  "code": "S-GAL",
+  "name": "Gallery",
+  "display_name": "Gallery",
+  "required": false,
+  "order_min": 2,
+  "order_max": 9,
+  "content_schema": {
+    "version": 1,
+    "fields": {
+      "title": {
+        "type": "text",
+        "required": true
+      },
+      "subtitle": {
+        "type": "text",
+        "required": false
+      },
+      "items": {
+        "type": "array",
+        "required": true,
+        "min": 1,
+        "max": 12,
+        "item": {
+          "src": {
+            "type": "text",
+            "required": true
+          },
+          "alt": {
+            "type": "text",
+            "required": true
+          },
+          "caption": {
+            "type": "text",
+            "required": false
+          }
+        }
+      }
+    }
+  },
+  "tier_min": "BASIC",
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1,
+  "reviewer": "Product Owner"
+}

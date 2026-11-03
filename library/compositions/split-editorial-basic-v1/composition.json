@@ -1,0 +1,22 @@
+{
+  "composition_id": "split-editorial-basic-v1",
+  "display_name": "Split",
+  "slug": "split-basic",
+  "theme_id": "split-edt",
+  "type": "LANDING",
+  "model": "HTML",
+  "tier": "BASIC",
+  "family": "Editorial",
+  "blocks": [
+    { "slot": "S-HERO", "variant": "hero-split", "enabled": true, "order": 1 },
+    { "slot": "S-BEN", "variant": "ben-grid-3", "enabled": true, "order": 2 },
+    { "slot": "S-TEST", "variant": "test-cards", "enabled": true, "order": 3 },
+    { "slot": "S-CTA", "variant": "cta-band", "enabled": true, "order": 4 },
+    { "slot": "S-FOOT", "variant": "foot-full", "enabled": true, "order": 10 }
+  ],
+  "license": "JiooDev Commercial",
+  "owner": "JiooDev",
+  "reviewer": "Product Owner",
+  "status": "READY",
+  "version": 1
+}

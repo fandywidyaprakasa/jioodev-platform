@@ -1,0 +1,47 @@
+{
+  "composition_id": "story-pro",
+  "display_name": "Story",
+  "slug": "story-pro",
+  "theme_id": "split-edt",
+  "type": "LANDING",
+  "model": "HTML",
+  "tier": "PRO",
+  "family": "Landing",
+  "blocks": [
+    {
+      "slot": "S-HERO",
+      "variant": "hero-minimal",
+      "enabled": true,
+      "order": 1
+    },
+    {
+      "slot": "S-STORY",
+      "variant": "story-split",
+      "enabled": true,
+      "order": 2
+    },
+    {
+      "slot": "S-TEST",
+      "variant": "test-video",
+      "enabled": true,
+      "order": 3
+    },
+    {
+      "slot": "S-CTA",
+      "variant": "cta-inline",
+      "enabled": true,
+      "order": 4
+    },
+    {
+      "slot": "S-FOOT",
+      "variant": "foot-full",
+      "enabled": true,
+      "order": 10
+    }
+  ],
+  "license": "JiooDev Commercial",
+  "owner": "JiooDev",
+  "reviewer": "Product Owner",
+  "status": "READY",
+  "version": 1
+}

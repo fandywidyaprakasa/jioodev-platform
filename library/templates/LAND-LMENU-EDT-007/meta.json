@@ -1,0 +1,52 @@
+{
+  "asset_code": "LAND-LMENU-EDT-007",
+  "source_name": "app-landing-page-3",
+  "source_id": "z79z6j0nvjwy77i",
+  "source_origin": "Legacy Import",
+  "license": "JiooDev Commercial",
+  "product_type": "LAND",
+  "layout_archetype": "L-MENU",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "TCI",
+    "RET"
+  ],
+  "business_purposes": [
+    "SAL",
+    "LDG"
+  ],
+  "business_models": [
+    "BM-PROD",
+    "BM-SUB"
+  ],
+  "functional_caps": [
+    "CAP-CAT",
+    "CAP-FORM"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-BEN",
+    "S-PRICE",
+    "S-FAQ",
+    "S-CTA",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "READY",
+  "attributes": {
+    "responsive": true,
+    "fonts": [
+      "Fraunces",
+      "DM Sans"
+    ]
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev",
+  "display_name": "Launch",
+  "slug": "launch"
+}

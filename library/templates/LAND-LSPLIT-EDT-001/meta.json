@@ -1,0 +1,53 @@
+{
+  "asset_code": "LAND-LSPLIT-EDT-001",
+  "source_name": "Ditto",
+  "source_id": "lzkgiu3nqedtd66",
+  "source_origin": "Legacy Import",
+  "license": "JiooDev Commercial",
+  "product_type": "LAND",
+  "layout_archetype": "L-SPLIT",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "GEN"
+  ],
+  "business_purposes": [
+    "LDG",
+    "BRD"
+  ],
+  "business_models": [
+    "BM-SVC",
+    "BM-PROD"
+  ],
+  "functional_caps": [
+    "CAP-FORM"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-BEN",
+    "S-CTA",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "READY",
+  "attributes": {
+    "responsive": true,
+    "fonts": [
+      "Fraunces",
+      "DM Sans"
+    ],
+    "tokens": [
+      "--ink",
+      "--accent",
+      "--paper"
+    ]
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev",
+  "display_name": "Split",
+  "slug": "editorial-split"
+}

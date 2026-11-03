@@ -1,0 +1,50 @@
+{
+  "asset_code": "LAND-LSVC-EDT-002",
+  "source_name": "consulting",
+  "source_id": "2jmjad3l8a0pvp8",
+  "source_origin": "Legacy Import",
+  "license": "JiooDev Commercial",
+  "product_type": "LAND",
+  "layout_archetype": "L-SVC",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "PRO",
+    "FIN",
+    "GEN"
+  ],
+  "business_purposes": [
+    "SSV",
+    "LDG"
+  ],
+  "business_models": [
+    "BM-SVC"
+  ],
+  "functional_caps": [
+    "CAP-FORM"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-BEN",
+    "S-PROD",
+    "S-CTA",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "READY",
+  "attributes": {
+    "responsive": true,
+    "fonts": [
+      "Fraunces",
+      "DM Sans"
+    ]
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev",
+  "display_name": "Advisory",
+  "slug": "advisory"
+}

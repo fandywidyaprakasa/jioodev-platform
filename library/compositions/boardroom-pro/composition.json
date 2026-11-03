@@ -1,0 +1,53 @@
+{
+  "composition_id": "boardroom-pro",
+  "display_name": "Boardroom",
+  "slug": "boardroom-pro",
+  "theme_id": "split-edt",
+  "type": "LANDING",
+  "model": "HTML",
+  "tier": "PRO",
+  "family": "Landing",
+  "blocks": [
+    {
+      "slot": "S-HERO",
+      "variant": "hero-split",
+      "enabled": true,
+      "order": 1
+    },
+    {
+      "slot": "S-BEN",
+      "variant": "ben-grid-3",
+      "enabled": true,
+      "order": 2
+    },
+    {
+      "slot": "S-PRICE",
+      "variant": "price-cards-3",
+      "enabled": true,
+      "order": 3
+    },
+    {
+      "slot": "S-FAQ",
+      "variant": "faq-accordion",
+      "enabled": true,
+      "order": 4
+    },
+    {
+      "slot": "S-CTA",
+      "variant": "cta-form",
+      "enabled": true,
+      "order": 5
+    },
+    {
+      "slot": "S-FOOT",
+      "variant": "foot-full",
+      "enabled": true,
+      "order": 10
+    }
+  ],
+  "license": "JiooDev Commercial",
+  "owner": "JiooDev",
+  "reviewer": "Product Owner",
+  "status": "READY",
+  "version": 1
+}

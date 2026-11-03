@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nama Bisnis — Mitra Bisnis Profesional</title>
+  <meta name="description" content="Landing korporat: keunggulan, harga, statistik, CTA.">
+  
+  
+  
+  <link rel="stylesheet" href="../_shared/base.css">
+  <link rel="stylesheet" href="../_shared/components.css">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/fonts.css">
+</head>
+<body>
+  <a class="skip" href="#konten">Lewati ke konten</a>
+  <header class="site-header">
+    <a class="brand" href="#" data-bind="business_name">Nama Bisnis</a>
+    <nav class="nav" aria-label="Navigasi utama"><a href="#layanan">Layanan</a><a href="#harga">Harga</a><a href="#kontak">Kontak</a></nav>
+    <a class="btn btn-sm" href="#kontak" data-bind="header_cta">Konsultasi</a>
+  </header>
+  <main id="konten">
+    <section class="hero-split">
+      <div>
+        <p class="eyebrow" data-bind="hero_eyebrow">Mitra Profesional</p>
+        <h1 data-bind="hero_title">Solusi bisnis yang terukur dan dapat diandalkan.</h1>
+        <p class="lead" data-bind="hero_subtitle">Pendampingan profesional untuk keputusan yang lebih baik.</p>
+        <div class="actions"><a class="btn" href="#kontak" data-bind="hero_cta">Konsultasi</a><a class="btn btn-ghost" href="#keunggulan">Keunggulan</a></div>
+      </div>
+      <div class="media"><img src="assets/hero.jpg" alt="Ruang rapat perusahaan dengan meja besar" width="560" height="420"></div>
+    </section>
+    <section id="keunggulan">
+      <header class="section-head center">
+        <h2 data-bind="title_kompetensi_kami">Kompetensi kami</h2>
+        <p class="section-lead">Pengalaman lintas industri dan disiplin.</p>
+      </header>
+      <ul class="feature-grid"><li class="feature"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l7 4v5c0 4-3 7-7 9-4-2-7-5-7-9V7l7-4z"/></svg></span><h3>Terpercaya</h3><p>Rekam jejak dan proses yang transparan.</p></li><li class="feature"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg></span><h3>Berkualitas</h3><p>Standar kerja yang konsisten.</p></li><li class="feature"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span><h3>Efisien</h3><p>Waktu dan biaya yang terukur.</p></li></ul>
+    </section>
+    <section class="stats"><div class="stat"><strong>18+</strong><span>Tahun pengalaman</span></div><div class="stat"><strong>320</strong><span>Proyek</span></div><div class="stat"><strong>96%</strong><span>Klien puas</span></div><div class="stat"><strong>20</strong><span>Industri</span></div></section>
+    <section id="harga">
+      <header class="section-head center">
+        <h2 data-bind="title_paket_layanan">Paket layanan</h2>
+        <p class="section-lead">Sesuaikan dengan kebutuhan.</p>
+      </header>
+      <div class="pricing-grid"><article class="plan"><h3>Konsultasi</h3><p class="amount">Rp 1,5jt</p><p class="muted">Sesi strategi &amp; rekomendasi.</p><a class="btn btn-ghost" href="#kontak">Pilih</a></article><article class="plan featured"><h3>Pendampingan</h3><p class="amount">Rp 4jt</p><p class="muted">Pendampingan berkala.</p><a class="btn" href="#kontak">Pilih</a></article><article class="plan"><h3>Retainer</h3><p class="amount">Rp 9jt</p><p class="muted">Dukungan berkelanjutan.</p><a class="btn btn-ghost" href="#kontak">Pilih</a></article></div>
+    </section>
+    <section id="kontak" class="cta-band">
+      <h2 data-bind="cta_title">Butuh mitra yang bisa diandalkan?</h2>
+      <p data-bind="cta_text">Jadwalkan diskusi awal tanpa biaya.</p>
+      <form class="cta-form" action="#" method="post"><label class="sr-only" for="em">Email</label><input id="em" name="email" type="email" placeholder="email@bisnisanda.com" required><button class="btn" type="submit" data-bind="cta_button">Jadwalkan</button></form>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div><p class="brand" data-bind="business_name">Nama Bisnis</p><p class="muted" data-bind="footer_text">Alamat dan informasi kontak Anda di sini.</p></div>
+    <div class="footer-links"><a href="#">WhatsApp</a><a href="#">Email</a><a href="#">Instagram</a></div>
+    <p class="copyright">© <span data-bind="year">2026</span> Nama Bisnis.</p>
+  </footer>
+  <script src="../_shared/script.js"></script>
+</body>
+</html>

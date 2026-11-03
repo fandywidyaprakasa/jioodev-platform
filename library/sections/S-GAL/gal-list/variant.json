@@ -1,0 +1,23 @@
+{
+  "record_type": "variant",
+  "code": "gal-list",
+  "name": "Gal List",
+  "display_name": "gal-list",
+  "slot_code": "S-GAL",
+  "html_partial": "sections/S-GAL/gal-list/index.html",
+  "css_scope": "sections/S-GAL/gal-list/style.css",
+  "js_scope": "",
+  "compatible_themes": [
+    "split-edt"
+  ],
+  "compatible_tiers": [
+    "BASIC",
+    "PRO",
+    "AGENCY"
+  ],
+  "dependencies": [],
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1,
+  "reviewer": "Product Owner"
+}

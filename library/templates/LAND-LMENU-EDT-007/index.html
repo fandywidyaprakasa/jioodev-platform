@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nama Bisnis — Produk Digital Anda</title>
+  <meta name="description" content="Landing produk: fitur, harga, FAQ, CTA.">
+  
+  
+  
+  <link rel="stylesheet" href="../_shared/base.css">
+  <link rel="stylesheet" href="../_shared/components.css">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/fonts.css">
+</head>
+<body>
+  <a class="skip" href="#konten">Lewati ke konten</a>
+  <header class="site-header">
+    <a class="brand" href="#" data-bind="business_name">Nama Bisnis</a>
+    <nav class="nav" aria-label="Navigasi utama"><a href="#layanan">Layanan</a><a href="#harga">Harga</a><a href="#kontak">Kontak</a></nav>
+    <a class="btn btn-sm" href="#kontak" data-bind="header_cta">Coba Gratis</a>
+  </header>
+  <main id="konten">
+    <section class="hero-center">
+      <p class="eyebrow" data-bind="hero_eyebrow">Produk Digital</p>
+      <h1 data-bind="hero_title">Satu alat untuk pekerjaan yang lebih ringkas.</h1>
+      <p class="lead" data-bind="hero_subtitle">Dirancang untuk tim yang butuh kejelasan, bukan kerumitan.</p>
+      <div class="actions center"><a class="btn" href="#kontak" data-bind="hero_cta">Coba Gratis</a><a class="btn btn-ghost" href="#harga">Lihat Harga</a></div>
+    </section>
+    <section id="keunggulan">
+      <header class="section-head center">
+        <h2 data-bind="title_fitur_utama">Fitur utama</h2>
+        <p class="section-lead">Yang paling sering dipakai tim.</p>
+      </header>
+      <ul class="feature-grid"><li class="feature"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12l5 5L20 6"/></svg></span><h3>Ringkas</h3><p>Antarmuka bersih, tanpa distraksi.</p></li><li class="feature"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span><h3>Cepat</h3><p>Alur kerja yang menghemat waktu.</p></li><li class="feature"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l7 4v5c0 4-3 7-7 9-4-2-7-5-7-9V7l7-4z"/></svg></span><h3>Aman</h3><p>Data terjaga dan terkontrol.</p></li></ul>
+    </section>
+    <section id="harga">
+      <header class="section-head center">
+        <h2 data-bind="title_harga_sederhana">Harga sederhana</h2>
+        <p class="section-lead">Tanpa biaya tersembunyi.</p>
+      </header>
+      <div class="pricing-grid"><article class="plan"><h3>Free</h3><p class="amount">Rp 0</p><p class="muted">Untuk mencoba.</p><a class="btn btn-ghost" href="#kontak">Pilih</a></article><article class="plan featured"><h3>Pro</h3><p class="amount">Rp 99rb/bln</p><p class="muted">Untuk tim kecil.</p><a class="btn" href="#kontak">Pilih</a></article><article class="plan"><h3>Bisnis</h3><p class="amount">Rp 299rb/bln</p><p class="muted">Untuk kebutuhan lanjutan.</p><a class="btn btn-ghost" href="#kontak">Pilih</a></article></div>
+    </section>
+    <section id="faq">
+      <header class="section-head">
+        <h2 data-bind="title_pertanyaan_umum">Pertanyaan umum</h2>
+        <p class="section-lead">Hal yang sering ditanyakan.</p>
+      </header>
+      <div class="faq"><details><summary>Apakah ada masa uji coba?</summary><p>Ya, paket Free tersedia tanpa kartu kredit.</p></details><details><summary>Bisakah berhenti kapan saja?</summary><p>Bisa, tanpa penalti.</p></details><details><summary>Apakah data saya aman?</summary><p>Data disimpan dengan kontrol akses.</p></details></div>
+    </section>
+    <section id="kontak" class="cta-band">
+      <h2 data-bind="cta_title">Mulai hari ini</h2>
+      <p data-bind="cta_text">Coba tanpa risiko.</p>
+      <form class="cta-form" action="#" method="post"><label class="sr-only" for="em">Email</label><input id="em" name="email" type="email" placeholder="email@bisnisanda.com" required><button class="btn" type="submit" data-bind="cta_button">Coba Gratis</button></form>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div><p class="brand" data-bind="business_name">Nama Bisnis</p><p class="muted" data-bind="footer_text">Alamat dan informasi kontak Anda di sini.</p></div>
+    <div class="footer-links"><a href="#">WhatsApp</a><a href="#">Email</a><a href="#">Instagram</a></div>
+    <p class="copyright">© <span data-bind="year">2026</span> Nama Bisnis.</p>
+  </footer>
+  <script src="../_shared/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE HTML>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+	<title>Titik Temu Coffee & Roastery — Rumah Singgah Pecinta Kopi</title>
+	
+	
+	
+	<link rel="stylesheet" href="../_shared/fontawesome/css/all.min.css" />
+	<style>
+		:root {
+			--primary: #d97706;
+			--bg: #12100e;
+			--surface: #1c1815;
+			--surface-card: #26211c;
+			--text: #f5f2eb;
+			--muted: #a89f91;
+			--border: #383129;
+			--radius: 12px;
+		}
+		* { box-sizing: border-box; margin: 0; padding: 0; }
+		body {
+			font-family: 'Plus Jakarta Sans', sans-serif;
+			background: var(--bg);
+			color: var(--text);
+			line-height: 1.6;
+			overflow-x: hidden;
+		}
+		h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+		a { color: var(--primary); text-decoration: none; }
+		.container { max-width: 1080px; margin: 0 auto; padding: 0 1.25rem; }
+		
+		/* Nav */
+		header {
+			position: sticky;
+			top: 0;
+			background: rgba(18, 16, 14, 0.95);
+			backdrop-filter: blur(10px);
+			border-bottom: 1px solid var(--border);
+			padding: 1rem 0;
+			z-index: 100;
+		}
+		.nav-wrap { display: flex; justify-content: space-between; align-items: center; }
+		.brand { font-family: 'Playfair Display', serif; font-size: 1.35rem; color: #fff; font-weight: 700; }
+		.brand span { color: var(--primary); }
+		.nav-menu { display: flex; gap: 1.5rem; list-style: none; align-items: center; }
+		.nav-menu a { color: var(--muted); font-size: 0.95rem; font-weight: 600; }
+		.nav-menu a:hover, .nav-menu a.active { color: var(--primary); }
+		.btn-reserve {
+			background: var(--primary);
+			color: #12100e !important;
+			padding: 0.55rem 1.25rem;
+			border-radius: 999px;
+			font-weight: 700;
+			font-size: 0.85rem;
+		}
+
+		/* Hero */
+		.hero {
+			padding: 4rem 0 3rem;
+			display: grid;
+			grid-template-columns: 1.1fr 0.9fr;
+			gap: 2.5rem;
+			align-items: center;
+		}
+		.hero h1 { font-size: 2.75rem; line-height: 1.2; margin-bottom: 1rem; color: #fff; }
+		.hero p { color: var(--muted); font-size: 1.05rem; margin-bottom: 1.75rem; }
+		.hero-img { width: 100%; border-radius: 16px; aspect-ratio: 4/3; object-fit: cover; border: 1px solid var(--border); }
+
+		/* Specs Bar */
+		.specs-bar {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1.25rem;
+			background: var(--surface);
+			border: 1px solid var(--border);
+			padding: 1.75rem;
+			border-radius: var(--radius);
+			margin: 1.5rem 0 4rem;
+		}
+		.spec-item { text-align: center; }
+		.spec-item i { font-size: 1.6rem; color: var(--primary); margin-bottom: 0.5rem; }
+		.spec-item h4 { font-size: 1.05rem; margin-bottom: 0.25rem; color: #fff; }
+		.spec-item p { font-size: 0.82rem; color: var(--muted); }
+
+		/* Menu Highlights */
+		.menu-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+			gap: 1.5rem;
+			margin: 2rem 0;
+		}
+		.coffee-card {
+			background: var(--surface-card);
+			border: 1px solid var(--border);
+			border-radius: var(--radius);
+			padding: 1.5rem;
+			display: flex;
+			flex-direction: column;
+		}
+		.coffee-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.35rem; }
+		.coffee-header h3 { font-size: 1.15rem; color: #fff; }
+		.coffee-price { color: var(--primary); font-weight: 700; font-size: 1.1rem; }
+		.coffee-notes { font-size: 0.82rem; color: var(--primary); margin-bottom: 0.5rem; font-style: italic; }
+		.coffee-desc { color: var(--muted); font-size: 0.88rem; }
+
+		/* Ambience */
+		.ambience-box {
+			background: var(--surface);
+			border: 1px solid var(--border);
+			border-radius: 16px;
+			padding: 2.25rem;
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 2rem;
+			margin: 3.5rem 0;
+			align-items: center;
+		}
+		.info-row { display: flex; gap: 0.75rem; margin-bottom: 1rem; }
+		.info-row i { color: var(--primary); font-size: 1.1rem; margin-top: 0.2rem; }
+
+		footer {
+			border-top: 1px solid var(--border);
+			padding: 2.5rem 0;
+			text-align: center;
+			color: var(--muted);
+			font-size: 0.85rem;
+		}
+
+		/* Mobile Viewport Fix */
+		@media (max-width: 800px) {
+			.nav-menu { display: none !important; }
+			.hero, .ambience-box, .specs-bar { grid-template-columns: 1fr !important; gap: 1.5rem !important; }
+			.hero h1 { font-size: 2.1rem !important; }
+			.hero { padding: 2rem 0 !important; }
+			.ambience-box { padding: 1.5rem !important; }
+		}
+	</style>
+  <link rel="stylesheet" href="assets/fonts.css">
+</head>
+<body>
+	<header>
+		<div class="container nav-wrap">
+			<div class="brand">TITIK <span>TEMU</span></div>
+			<a href="https://wa.me/6281234567890?text=Halo%20Titik%20Temu,%20saya%20mau%20reservasi" class="btn-reserve" target="_blank">
+				<i class="fa-solid fa-calendar-check"></i> Reservasi
+			</a>
+			<ul class="nav-menu">
+				<li><a href="index.html" class="active">Beranda</a></li>
+				<li><a href="menu.html">Katalog Kopi</a></li>
+				<li><a href="#lokasi">Lokasi & Jam</a></li>
+			</ul>
+		</div>
+	</header>
+
+	<div class="container">
+		<section class="hero">
+			<div>
+				<p style="color:var(--primary); font-weight:700; letter-spacing:0.08em; text-transform:uppercase; font-size:0.8rem; margin-bottom:0.5rem;">Specialty Coffee & Slow Living</p>
+				<h1>Seduhan Jujur, Biji Kopi Hasil Kurasi Petani Lokal.</h1>
+				<p>Ruang hening untuk bekerja, membaca, dan menikmati secangkir espresso berkualitas tanpa bising.</p>
+				<a href="menu.html" style="background:var(--primary); color:#12100e; padding:0.8rem 1.6rem; border-radius:999px; font-weight:800; display:inline-block;">Lihat Menu Kopi & Kudapan</a>
+			</div>
+			<div>
+				<img src="images/spotlight02.jpg" alt="Filter Coffee" class="hero-img">
+			</div>
+		</section>
+
+		<div class="specs-bar">
+			<div class="spec-item">
+				<i class="fa-solid fa-seedling"></i>
+				<h4>Single Origin</h4>
+				<p>Gayo, Flores, & Halu dipanggang fresh tiap minggu.</p>
+			</div>
+			<div class="spec-item">
+				<i class="fa-solid fa-wifi"></i>
+				<h4>Wi-Fi & Stopkontak</h4>
+				<p>Koneksi cepat & meja ergonomis buat WFC.</p>
+			</div>
+			<div class="spec-item">
+				<i class="fa-solid fa-clock"></i>
+				<h4>Buka Tiap Hari</h4>
+				<p>07.30 – 22.00 WIB tanpa hari libur.</p>
+			</div>
+		</div>
+
+		<div style="text-align:center; margin-bottom:1rem;">
+			<h2 style="font-size:2rem; color:#fff;">Pilihan Seduh Terfavorit</h2>
+			<p style="color:var(--muted)">Dari espresso creamy hingga filter coffee floral.</p>
+		</div>
+
+		<div class="menu-grid">
+			<div class="coffee-card">
+				<div class="coffee-header">
+					<h3>Aren Macchiato</h3>
+					<span class="coffee-price">Rp 28.000</span>
+				</div>
+				<div class="coffee-notes">Dark Chocolate · Palm Sugar · Creamy</div>
+				<p class="coffee-desc">Double espresso house blend dengan susu segar dan pemanis gula aren organik murni.</p>
+			</div>
+
+			<div class="coffee-card">
+				<div class="coffee-header">
+					<h3>Manual Brew Gayo Winey</h3>
+					<span class="coffee-price">Rp 35.000</span>
+				</div>
+				<div class="coffee-notes">Jackfruit · Fermented Plum · Sweet Honey</div>
+				<p class="coffee-desc">Seduhan lambat V60, aroma buah matang eksotis dan keasaman buah yang lembut.</p>
+			</div>
+
+			<div class="coffee-card">
+				<div class="coffee-header">
+					<h3>Cinnamon Roll Oven</h3>
+					<span class="coffee-price">Rp 24.000</span>
+				</div>
+				<div class="coffee-notes">Pastry oven harian</div>
+				<p class="coffee-desc">Roti gulung kayu manis lembut bertabur cream cheese hangat pendamping kopi hitam.</p>
+			</div>
+		</div>
+
+		<div id="lokasi" class="ambience-box">
+			<div>
+				<h3 style="font-size:1.6rem; margin-bottom:0.75rem; color:#fff;">Kunjungi Ruang Kami</h3>
+				<p style="color:var(--muted); margin-bottom:1.25rem; font-size:0.95rem;">Jl. Taman Cibeunying Selatan No. 14, Bandung. Parkir motor & mobil tersedia, area indoor AC & smoking garden.</p>
+				<div class="info-row">
+					<i class="fa-solid fa-clock"></i>
+					<div>
+						<strong>Jam Operasional</strong>
+						<p style="color:var(--muted); font-size:0.85rem;">07:30 – 22:00 WIB (Setiap Hari)</p>
+					</div>
+				</div>
+				<div class="info-row">
+					<i class="fa-solid fa-phone"></i>
+					<div>
+						<strong>Reservasi Meja</strong>
+						<p style="color:var(--muted); font-size:0.85rem;">WhatsApp: +62 812-3456-7890</p>
+					</div>
+				</div>
+			</div>
+			<div>
+				<img src="images/banner.jpg" alt="Suasana Kafe" style="width:100%; border-radius:12px; object-fit:cover; aspect-ratio:4/3; border:1px solid var(--border);">
+			</div>
+		</div>
+	</div>
+
+	<footer>
+		<div class="container">
+			<p>© 2026 Titik Temu Roastery · Ditenagai oleh <a href="https://jioo.site" style="color:var(--primary); font-weight:700;">Jioodev</a></p>
+		</div>
+	</footer>
+</body>
+</html>

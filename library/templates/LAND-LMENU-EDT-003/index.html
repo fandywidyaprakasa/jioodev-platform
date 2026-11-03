@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nama Bisnis — Layanan & Harga</title>
+  <meta name="description" content="Landing menu/katalog (L-MENU) JiooDev: hero, daftar layanan & harga, CTA, dan footer.">
+  
+  
+  
+  <link rel="stylesheet" href="../_shared/base.css">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/fonts.css">
+</head>
+<body>
+  <a class="skip" href="#konten">Lewati ke konten</a>
+
+  <header class="site-header">
+    <a class="brand" href="#" data-bind="business_name">Nama Bisnis</a>
+    <nav class="nav" aria-label="Navigasi utama">
+      <a href="#layanan">Layanan</a>
+      <a href="#harga">Harga</a>
+      <a href="#kontak">Kontak</a>
+    </nav>
+    <a class="btn btn-sm" href="#kontak" data-bind="header_cta">Pesan Sekarang</a>
+  </header>
+
+  <main id="konten">
+    <section class="menu-hero">
+      <div>
+        <p class="eyebrow" data-bind="hero_eyebrow">Layanan & Harga</p>
+        <h1 data-bind="hero_title">Pilih layanan yang tepat, tanpa bingung.</h1>
+        <p class="lead" data-bind="hero_subtitle">Daftar layanan dan harga yang jelas — transparan sejak awal.</p>
+        <div class="actions">
+          <a class="btn" href="#harga" data-bind="hero_cta">Lihat Harga</a>
+          <a class="btn btn-ghost" href="#kontak">Pesan</a>
+        </div>
+      </div>
+      <div class="menu-hero-media">
+        <img src="assets/hero.jpg" alt="Meja layanan dengan menu dan peralatan kerja" width="560" height="420">
+      </div>
+    </section>
+
+    <section id="layanan">
+      <header class="section-head">
+        <h2 data-bind="services_title">Layanan populer</h2>
+        <p class="section-lead" data-bind="services_lead">Pilih sesuai kebutuhan Anda.</p>
+      </header>
+      <ul class="price-list">
+        <li><span>Layanan Dasar</span><span class="dots"></span><span class="price">Rp 150.000</span></li>
+        <li><span>Layanan Standar</span><span class="dots"></span><span class="price">Rp 250.000</span></li>
+        <li><span>Layanan Premium</span><span class="dots"></span><span class="price">Rp 400.000</span></li>
+        <li><span>Paket Lengkap</span><span class="dots"></span><span class="price">Rp 650.000</span></li>
+      </ul>
+    </section>
+
+    <section id="harga" class="package-grid">
+      <article class="card">
+        <h3>Dasar</h3>
+        <p class="price-big">Rp 150rb</p>
+        <p class="muted">Untuk kebutuhan sederhana.</p>
+        <a class="btn btn-ghost" href="#kontak">Pilih</a>
+      </article>
+      <article class="card featured">
+        <h3>Standar</h3>
+        <p class="price-big">Rp 250rb</p>
+        <p class="muted">Paling sering dipilih.</p>
+        <a class="btn" href="#kontak">Pilih</a>
+      </article>
+      <article class="card">
+        <h3>Premium</h3>
+        <p class="price-big">Rp 400rb</p>
+        <p class="muted">Untuk hasil maksimal.</p>
+        <a class="btn btn-ghost" href="#kontak">Pilih</a>
+      </article>
+    </section>
+
+    <section id="kontak" class="cta-band">
+      <h2 data-bind="cta_title">Pesan layanan Anda</h2>
+      <p data-bind="cta_text">Hubungi kami via WhatsApp untuk ketersediaan jadwal.</p>
+      <div class="actions center">
+        <a class="btn" href="#" data-bind="cta_button">Chat WhatsApp</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>
+      <p class="brand" data-bind="business_name">Nama Bisnis</p>
+      <p class="muted" data-bind="footer_text">Alamat dan informasi kontak Anda di sini.</p>
+    </div>
+    <div class="footer-links"><a href="#">WhatsApp</a><a href="#">Instagram</a><a href="#">Maps</a></div>
+    <p class="copyright">© <span data-bind="year">2026</span> Nama Bisnis.</p>
+  </footer>
+
+  <script src="../_shared/script.js"></script>
+</body>
+</html>

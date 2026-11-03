@@ -1,0 +1,23 @@
+{
+  "record_type": "variant",
+  "code": "prod-feature",
+  "name": "Prod Feature",
+  "display_name": "prod-feature",
+  "slot_code": "S-PROD",
+  "html_partial": "sections/S-PROD/prod-feature/index.html",
+  "css_scope": "sections/S-PROD/prod-feature/style.css",
+  "js_scope": "",
+  "compatible_themes": [
+    "split-edt"
+  ],
+  "compatible_tiers": [
+    "BASIC",
+    "PRO",
+    "AGENCY"
+  ],
+  "dependencies": [],
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1,
+  "reviewer": "Product Owner"
+}

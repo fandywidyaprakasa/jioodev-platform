@@ -1,0 +1,23 @@
+{
+  "record_type": "variant",
+  "code": "cta-band",
+  "name": "CTA Band",
+  "display_name": "CTA Band",
+  "slot_code": "S-CTA",
+  "html_partial": "sections/S-CTA/cta-band/index.html",
+  "css_scope": "sections/S-CTA/cta-band/style.css",
+  "js_scope": "",
+  "compatible_themes": [
+    "split-edt"
+  ],
+  "compatible_tiers": [
+    "BASIC",
+    "PRO",
+    "AGENCY"
+  ],
+  "dependencies": [],
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1,
+  "reviewer": "Product Owner"
+}

@@ -1,0 +1,20 @@
+<section class="s-prod">
+  <header class="s-prod__head">
+    <p class="s-prod__eyebrow">{{eyebrow}}</p>
+    <h2 class="s-prod__title">{{title}}</h2>
+    <p class="s-prod__lead">{{subtitle}}</p>
+  </header>
+  <ul class="s-prod__grid">
+    {{#items}}
+    <li class="s-prod__item">
+      <div class="s-prod__media"><img src="{{image.src}}" alt="{{image.alt}}" loading="lazy" /></div>
+      <div class="s-prod__body">
+        <h3>{{name}}</h3>
+        <p>{{description}}</p>
+        <p class="s-prod__price">{{price}}</p>
+        <a class="s-prod__cta" href="{{cta.href}}">{{cta.label}}</a>
+      </div>
+    </li>
+    {{/items}}
+  </ul>
+</section>

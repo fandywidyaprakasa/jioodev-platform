@@ -4,6 +4,8 @@ import type { ProductType, Template } from "@/shared/types";
 interface MasterFoundation {
   id: string;
   asset_code?: string;
+  display_name?: string;
+  slug?: string;
   source_name?: string;
   product_type?: ProductType;
   layout_archetype?: string;
@@ -37,6 +39,7 @@ function toTemplate(item: MasterFoundation): Template {
   return {
     code,
     name:
+      item.display_name ??
       item.attributes?.name ??
       item.source_name ??
       code,

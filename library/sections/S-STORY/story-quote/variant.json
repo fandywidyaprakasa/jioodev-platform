@@ -1,0 +1,23 @@
+{
+  "record_type": "variant",
+  "code": "story-quote",
+  "name": "Story Quote",
+  "display_name": "story-quote",
+  "slot_code": "S-STORY",
+  "html_partial": "sections/S-STORY/story-quote/index.html",
+  "css_scope": "sections/S-STORY/story-quote/style.css",
+  "js_scope": "",
+  "compatible_themes": [
+    "split-edt"
+  ],
+  "compatible_tiers": [
+    "BASIC",
+    "PRO",
+    "AGENCY"
+  ],
+  "dependencies": [],
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1,
+  "reviewer": "Product Owner"
+}

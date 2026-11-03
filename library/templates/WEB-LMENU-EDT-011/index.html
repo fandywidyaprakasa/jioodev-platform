@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nama Bisnis — Menu &amp; Suasana</title>
+  <meta name="description" content="Website F&amp;B: menu, cerita, galeri, lokasi.">
+  
+  
+  
+  <link rel="stylesheet" href="../_shared/base.css">
+  <link rel="stylesheet" href="../_shared/components.css">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/fonts.css">
+</head>
+<body>
+  <a class="skip" href="#konten">Lewati ke konten</a>
+  <header class="site-header">
+    <a class="brand" href="#" data-bind="business_name">Nama Bisnis</a>
+    <nav class="nav" aria-label="Navigasi utama"><a href="#layanan">Layanan</a><a href="#harga">Harga</a><a href="#kontak">Kontak</a></nav>
+    <a class="btn btn-sm" href="#kontak" data-bind="header_cta">Pesan</a>
+  </header>
+  <main id="konten">
+    <section class="hero-split">
+      <div>
+        <p class="eyebrow" data-bind="hero_eyebrow">Dapur Kami</p>
+        <h1 data-bind="hero_title">Rasa yang dibuat segar setiap hari.</h1>
+        <p class="lead" data-bind="hero_subtitle">Menu pilihan, suasana hangat, dan pelayanan yang tulus.</p>
+        <div class="actions"><a class="btn" href="#kontak" data-bind="hero_cta">Pesan Sekarang</a><a class="btn btn-ghost" href="#harga">Lihat Menu</a></div>
+      </div>
+      <div class="media"><img src="../_shared/hero.svg" alt="Ilustrasi profil klasik" width="560" height="420"></div>
+    </section>
+    <section id="harga">
+      <header class="section-head">
+        <h2 data-bind="title_menu_pilihan">Menu pilihan</h2>
+        <p class="section-lead">Favorit pelanggan.</p>
+      </header>
+      <ul class="menu-list"><li class="menu-item"><span>Hidangan 1</span><span class="dots"></span><span class="price">Rp 35.000</span></li><li class="menu-item"><span>Hidangan 2</span><span class="dots"></span><span class="price">Rp 45.000</span></li><li class="menu-item"><span>Hidangan 3</span><span class="dots"></span><span class="price">Rp 55.000</span></li><li class="menu-item"><span>Minuman 1</span><span class="dots"></span><span class="price">Rp 20.000</span></li></ul>
+    </section>
+    <section id="keunggulan">
+      <header class="section-head center">
+        <h2 data-bind="title_suasana_fasilitas">Suasana &amp; fasilitas</h2>
+        <p class="section-lead">Nyaman untuk waktu berkualitas.</p>
+      </header>
+      <ul class="feature-grid"><li class="feature"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><h3>Lokasi mudah</h3><p>Akses dekat pusat kota.</p></li><li class="feature"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span><h3>Jam ramah</h3><p>Buka sampai malam.</p></li><li class="feature"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg></span><h3>Favorit lokal</h3><p>Pilihan banyak pelanggan.</p></li></ul>
+    </section>
+    <section id="karya">
+      <header class="section-head">
+        <h2 data-bind="title_galeri">Galeri</h2>
+        <p class="section-lead">Sekilas suasana kami.</p>
+      </header>
+      <div class="portfolio-grid"><div class="tile">Interior</div><div class="tile">Hidangan</div><div class="tile">Minuman</div><div class="tile">Sudut baca</div><div class="tile">Teras</div><div class="tile">Detail</div></div>
+    </section>
+    <section id="kontak" class="cta-band">
+      <h2 data-bind="cta_title">Datang atau pesan online</h2>
+      <p data-bind="cta_text">Kami siap menyambut Anda.</p>
+      <div class="actions center"><a class="btn" href="#" data-bind="cta_button">Chat WhatsApp</a></div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div><p class="brand" data-bind="business_name">Nama Bisnis</p><p class="muted" data-bind="footer_text">Alamat dan informasi kontak Anda di sini.</p></div>
+    <div class="footer-links"><a href="#">WhatsApp</a><a href="#">Email</a><a href="#">Instagram</a></div>
+    <p class="copyright">© <span data-bind="year">2026</span> Nama Bisnis.</p>
+  </footer>
+  <script src="../_shared/script.js"></script>
+</body>
+</html>

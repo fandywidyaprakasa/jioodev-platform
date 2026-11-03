@@ -1,0 +1,23 @@
+{
+  "record_type": "variant",
+  "code": "hero-product",
+  "name": "Hero Product",
+  "display_name": "hero-product",
+  "slot_code": "S-HERO",
+  "html_partial": "sections/S-HERO/hero-product/index.html",
+  "css_scope": "sections/S-HERO/hero-product/style.css",
+  "js_scope": "",
+  "compatible_themes": [
+    "split-edt"
+  ],
+  "compatible_tiers": [
+    "BASIC",
+    "PRO",
+    "AGENCY"
+  ],
+  "dependencies": [],
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1,
+  "reviewer": "Product Owner"
+}

@@ -1,0 +1,49 @@
+{
+  "asset_code": "COMM-LMENU-EDT-016",
+  "source_name": "event-management-2",
+  "source_id": "t2f6mlpd5u118wm",
+  "source_origin": "Legacy Import",
+  "license": "TO FILL",
+  "product_type": "COMM",
+  "layout_archetype": "L-MENU",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "EVE",
+    "PRO"
+  ],
+  "business_purposes": [
+    "SSV",
+    "BOK"
+  ],
+  "business_models": [
+    "BM-SVC"
+  ],
+  "functional_caps": [
+    "CAP-BOOK",
+    "CAP-WA"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-MENU",
+    "S-PORT",
+    "S-TEST",
+    "S-CTA",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "CLASSIFIED",
+  "attributes": {
+    "responsive": true,
+    "fonts": [
+      "Fraunces",
+      "DM Sans"
+    ]
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev"
+}

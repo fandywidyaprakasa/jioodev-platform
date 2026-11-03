@@ -1,0 +1,23 @@
+{
+  "record_type": "variant",
+  "code": "prod-carousel",
+  "name": "Prod Carousel",
+  "display_name": "prod-carousel",
+  "slot_code": "S-PROD",
+  "html_partial": "sections/S-PROD/prod-carousel/index.html",
+  "css_scope": "sections/S-PROD/prod-carousel/style.css",
+  "js_scope": "",
+  "compatible_themes": [
+    "split-edt"
+  ],
+  "compatible_tiers": [
+    "BASIC",
+    "PRO",
+    "AGENCY"
+  ],
+  "dependencies": [],
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1,
+  "reviewer": "Product Owner"
+}

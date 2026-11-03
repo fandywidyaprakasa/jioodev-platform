@@ -1,0 +1,70 @@
+{
+  "record_type": "slot",
+  "code": "S-PROD",
+  "name": "Product",
+  "display_name": "Product",
+  "required": false,
+  "order_min": 2,
+  "order_max": 8,
+  "content_schema": {
+    "version": 1,
+    "fields": {
+      "eyebrow": {
+        "type": "text",
+        "required": false
+      },
+      "title": {
+        "type": "text",
+        "required": true
+      },
+      "subtitle": {
+        "type": "text",
+        "required": false
+      },
+      "currency": {
+        "type": "text",
+        "required": false
+      },
+      "items": {
+        "type": "array",
+        "required": true,
+        "min": 1,
+        "max": 12,
+        "item": {
+          "name": {
+            "type": "text",
+            "required": true
+          },
+          "description": {
+            "type": "text",
+            "required": false
+          },
+          "price": {
+            "type": "text",
+            "required": false
+          },
+          "image": {
+            "type": "image",
+            "required": false
+          },
+          "cta": {
+            "type": "link",
+            "required": false
+          }
+        }
+      },
+      "categories": {
+        "type": "array",
+        "required": false,
+        "item": {
+          "type": "text"
+        }
+      }
+    }
+  },
+  "tier_min": "BASIC",
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1,
+  "reviewer": "Product Owner"
+}

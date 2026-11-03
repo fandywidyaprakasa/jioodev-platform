@@ -1,0 +1,53 @@
+{
+  "composition_id": "bloom-pro",
+  "display_name": "Bloom",
+  "slug": "bloom-pro",
+  "theme_id": "split-edt",
+  "type": "LANDING",
+  "model": "HTML",
+  "tier": "PRO",
+  "family": "Landing",
+  "blocks": [
+    {
+      "slot": "S-HERO",
+      "variant": "hero-product",
+      "enabled": true,
+      "order": 1
+    },
+    {
+      "slot": "S-BEN",
+      "variant": "ben-icons-4",
+      "enabled": true,
+      "order": 2
+    },
+    {
+      "slot": "S-GAL",
+      "variant": "gal-grid-3",
+      "enabled": true,
+      "order": 3
+    },
+    {
+      "slot": "S-TEST",
+      "variant": "test-cards",
+      "enabled": true,
+      "order": 4
+    },
+    {
+      "slot": "S-CTA",
+      "variant": "cta-boxed",
+      "enabled": true,
+      "order": 5
+    },
+    {
+      "slot": "S-FOOT",
+      "variant": "foot-minimal",
+      "enabled": true,
+      "order": 10
+    }
+  ],
+  "license": "JiooDev Commercial",
+  "owner": "JiooDev",
+  "reviewer": "Product Owner",
+  "status": "READY",
+  "version": 1
+}

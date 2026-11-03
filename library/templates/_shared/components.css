@@ -1,0 +1,71 @@
+/* Shared section components for JiooDev templates */
+.hero-split{display:grid;grid-template-columns:1.05fr .95fr;gap:3rem;align-items:center;padding:3rem 0 4rem}
+.hero-split .media img{border-radius:var(--radius);border:1px solid var(--line)}
+.hero-center{max-width:70ch;margin:0 auto;text-align:center;padding:3rem 0 4rem}
+.hero-center .lead{margin-left:auto;margin-right:auto}
+
+.section-head{max-width:60ch;margin-bottom:2rem}
+.section-head.center{text-align:center;margin-left:auto;margin-right:auto}
+
+.feature-grid{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+.feature{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.4rem}
+.feature h3{margin-bottom:.35rem}
+.feature p{margin:0;color:var(--muted);font-size:.95rem}
+.feature .icon{display:inline-flex;color:var(--accent);margin-bottom:.75rem}
+
+.services-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem}
+.service{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.5rem}
+.service h3{margin-bottom:.35rem}
+.service p{margin:0;color:var(--muted)}
+
+.menu-list{list-style:none;margin:0;padding:0;max-width:760px}
+.menu-item{display:flex;align-items:baseline;gap:.75rem;padding:.8rem 0;border-bottom:1px dashed var(--line)}
+.menu-item .dots{flex:1;border-bottom:1px dotted var(--line);transform:translateY(-.25em)}
+.menu-item .price{font-weight:700;color:var(--accent)}
+
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.5rem;display:flex;flex-direction:column;gap:.5rem}
+.plan .amount{font-family:var(--font-display);font-size:1.8rem;margin:0}
+.plan .btn{margin-top:auto}
+.plan.featured{border-color:var(--accent);box-shadow:0 10px 30px -18px rgba(163,74,48,.5)}
+
+.portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.tile{aspect-ratio:4/3;border-radius:var(--radius);border:1px solid var(--line);display:flex;align-items:flex-end;padding:1rem;font-weight:600;color:var(--accent-strong);background:var(--accent-soft)}
+.tile:nth-child(3n+2){background:#eae4dc}
+.tile:nth-child(3n+3){background:#e7ece6}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;padding:2.5rem 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center}
+.stat strong{display:block;font-family:var(--font-display);font-size:2rem;color:var(--accent)}
+.stat span{color:var(--muted);font-size:.9rem}
+
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+.member .avatar{aspect-ratio:1;border-radius:var(--radius);background:var(--accent-soft);margin-bottom:.75rem}
+.member h3{margin:0 0 .15rem}
+.member p{margin:0;color:var(--muted);font-size:.9rem}
+
+.quote{border-left:4px solid var(--accent);padding:1rem 1.5rem;background:var(--surface);border-radius:0 var(--radius) var(--radius) 0}
+.quote p{font-family:var(--font-display);font-size:1.25rem;margin:0 0 .5rem}
+.quote cite{color:var(--muted);font-style:normal;font-size:.9rem}
+
+.faq{max-width:760px;display:grid;gap:.5rem}
+.faq details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:.9rem 1.1rem}
+.faq summary{cursor:pointer;font-weight:600}
+.faq p{margin:.6rem 0 0;color:var(--muted)}
+
+.cta-band{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:2.5rem;text-align:center;margin:3rem 0 4rem}
+.cta-form{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-top:1rem}
+.cta-form input{padding:.8rem 1rem;border:1px solid var(--line);border-radius:10px;font:inherit;min-width:240px;background:var(--paper)}
+.cta-form input:focus-visible{outline:3px solid var(--accent-soft);outline-offset:1px}
+
+.booking{max-width:560px;margin:0 auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.75rem}
+.booking .field{display:grid;gap:.35rem;margin-bottom:1rem}
+.booking label{font-size:.9rem;font-weight:500}
+.booking input,.booking select,.booking textarea{padding:.75rem .9rem;border:1px solid var(--line);border-radius:10px;font:inherit;background:var(--paper);width:100%}
+.booking input:focus-visible,.booking select:focus-visible,.booking textarea:focus-visible{outline:3px solid var(--accent-soft);outline-offset:1px}
+
+@media (max-width:860px){
+  .hero-split{grid-template-columns:1fr;gap:2rem}
+  .hero-split .media{order:-1}
+  .feature-grid,.services-grid,.pricing-grid,.team-grid,.portfolio-grid{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+}

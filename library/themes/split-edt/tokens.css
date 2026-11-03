@@ -1,0 +1,82 @@
+:root {
+  --color-bg: #f6f0e5;
+  --color-surface: #fffcf6;
+  --color-text: #172a33;
+  --color-muted: #66625a;
+  --color-accent: #a34a30;
+  --color-accent-strong: #8c3e28;
+  --color-accent-soft: #f4e4da;
+  --color-accent-text: #fffcf6;
+  --color-border: #e3d8c8;
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "DM Sans", system-ui, -apple-system, Segoe UI, sans-serif;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  --layout-maxw: 1120px;
+  --section-padding-y: 56px;
+
+  --type-h1-size: clamp(2.2rem, 5vw, 3.6rem);
+  --type-h1-line: 1.15;
+  --type-h1-weight: 600;
+  --type-h1-tracking: -0.01em;
+  --type-h2-size: clamp(1.6rem, 3vw, 2.3rem);
+  --type-h2-line: 1.15;
+  --type-h2-weight: 600;
+  --type-h3-size: 1.15rem;
+  --type-h3-line: 1.2;
+  --type-h3-weight: 600;
+  --type-body-size: 1rem;
+  --type-body-line: 1.6;
+  --type-body-weight: 400;
+  --type-small-size: 0.85rem;
+  --type-small-line: 1.5;
+  --type-eyebrow-size: 0.75rem;
+  --type-eyebrow-line: 1.4;
+  --type-eyebrow-weight: 700;
+  --type-eyebrow-tracking: 0.14em;
+
+  --focus-ring: 3px solid #f4e4da;
+  --motion-duration: 150ms;
+  --motion-easing: ease;
+
+  --paper: var(--color-bg);
+  --surface: var(--color-surface);
+  --ink: var(--color-text);
+  --muted: var(--color-muted);
+  --accent: var(--color-accent);
+  --accent-strong: var(--color-accent-strong);
+  --accent-soft: var(--color-accent-soft);
+  --line: var(--color-border);
+  --radius: var(--radius-md);
+  --maxw: var(--layout-maxw);
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("fonts/dm-sans.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("fonts/fraunces.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}

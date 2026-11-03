@@ -1,0 +1,45 @@
+{
+  "asset_code": "PB-fnb-tier-basic",
+  "source_name": "Dapur Nusantara (Tier 1 — Basic / Starter)",
+  "source_id": "1608hl3djw6z6g6",
+  "source_origin": "PocketBase html_templates",
+  "license": "Jioodev Commercial",
+  "product_type": "LAND",
+  "layout_archetype": "L-MENU",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "FNB"
+  ],
+  "business_purposes": [
+    "VIS",
+    "SAL"
+  ],
+  "business_models": [
+    "BM-SVC"
+  ],
+  "functional_caps": [
+    "CAP-WA"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "/template-preview/PB-fnb-tier-basic",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "READY",
+  "attributes": {
+    "name": "Dapur Nusantara (Tier 1 — Basic / Starter)",
+    "description": "Tier Basic untuk 1 produk best seller (Nasi Liwet Kastrol). Hero fokus, harga diskon, 4 benefit checklist, 1 testimoni, dan sticky WhatsApp CTA order.",
+    "source_url": "https://know.jioo.site/preview/fnb-tier-basic/",
+    "framework": "HTML5, Zero-JS, Clean CSS Tokens",
+    "responsive": true
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev",
+  "display_name": "Dapur Nusantara (Tier 1 — Basic / Starter)",
+  "slug": "pb-fnb-tier-basic"
+}

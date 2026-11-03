@@ -1,0 +1,47 @@
+{
+  "composition_id": "petal-pro",
+  "display_name": "Petal",
+  "slug": "petal-pro",
+  "theme_id": "split-edt",
+  "type": "LANDING",
+  "model": "HTML",
+  "tier": "PRO",
+  "family": "Landing",
+  "blocks": [
+    {
+      "slot": "S-HERO",
+      "variant": "hero-product",
+      "enabled": true,
+      "order": 1
+    },
+    {
+      "slot": "S-GAL",
+      "variant": "gal-masonry",
+      "enabled": true,
+      "order": 2
+    },
+    {
+      "slot": "S-TEST",
+      "variant": "test-logos",
+      "enabled": true,
+      "order": 3
+    },
+    {
+      "slot": "S-CTA",
+      "variant": "cta-boxed",
+      "enabled": true,
+      "order": 4
+    },
+    {
+      "slot": "S-FOOT",
+      "variant": "foot-map",
+      "enabled": true,
+      "order": 10
+    }
+  ],
+  "license": "JiooDev Commercial",
+  "owner": "JiooDev",
+  "reviewer": "Product Owner",
+  "status": "READY",
+  "version": 1
+}

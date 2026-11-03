@@ -1,0 +1,23 @@
+{
+  "record_type": "variant",
+  "code": "test-video",
+  "name": "Test Video",
+  "display_name": "test-video",
+  "slot_code": "S-TEST",
+  "html_partial": "sections/S-TEST/test-video/index.html",
+  "css_scope": "sections/S-TEST/test-video/style.css",
+  "js_scope": "",
+  "compatible_themes": [
+    "split-edt"
+  ],
+  "compatible_tiers": [
+    "BASIC",
+    "PRO",
+    "AGENCY"
+  ],
+  "dependencies": [],
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1,
+  "reviewer": "Product Owner"
+}

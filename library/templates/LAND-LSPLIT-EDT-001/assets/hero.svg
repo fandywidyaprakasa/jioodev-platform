@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Ilustrasi abstrak">
+  <rect width="640" height="480" fill="#f4e4da"/>
+  <path d="M120 420V210a110 110 0 0 1 220 0v210z" fill="#a34a30"/>
+  <circle cx="470" cy="180" r="96" fill="#172a33"/>
+  <rect x="360" y="300" width="190" height="120" rx="60" fill="#fffcf6"/>
+  <path d="M60 60h180" stroke="#a34a30" stroke-width="10" stroke-linecap="round"/>
+  <path d="M60 90h120" stroke="#172a33" stroke-width="6" stroke-linecap="round" opacity=".35"/>
+  <circle cx="120" cy="420" r="8" fill="#172a33"/>
+</svg>

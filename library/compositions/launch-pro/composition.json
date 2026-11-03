@@ -1,0 +1,53 @@
+{
+  "composition_id": "launch-pro",
+  "display_name": "Launch",
+  "slug": "launch-pro",
+  "theme_id": "split-edt",
+  "type": "LANDING",
+  "model": "HTML",
+  "tier": "PRO",
+  "family": "Landing",
+  "blocks": [
+    {
+      "slot": "S-HERO",
+      "variant": "hero-video",
+      "enabled": true,
+      "order": 1
+    },
+    {
+      "slot": "S-BEN",
+      "variant": "ben-icons-4",
+      "enabled": true,
+      "order": 2
+    },
+    {
+      "slot": "S-PROD",
+      "variant": "prod-grid-3",
+      "enabled": true,
+      "order": 3
+    },
+    {
+      "slot": "S-PRICE",
+      "variant": "price-packages",
+      "enabled": true,
+      "order": 4
+    },
+    {
+      "slot": "S-CTA",
+      "variant": "cta-band",
+      "enabled": true,
+      "order": 5
+    },
+    {
+      "slot": "S-FOOT",
+      "variant": "foot-minimal",
+      "enabled": true,
+      "order": 10
+    }
+  ],
+  "license": "JiooDev Commercial",
+  "owner": "JiooDev",
+  "reviewer": "Product Owner",
+  "status": "READY",
+  "version": 1
+}

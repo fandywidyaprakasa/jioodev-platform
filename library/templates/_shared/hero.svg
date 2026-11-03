@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 420" role="img" aria-label="Ilustrasi abstrak">
+  <rect width="560" height="420" fill="#f4e4da"/>
+  <circle cx="150" cy="150" r="90" fill="#a34a30"/>
+  <path d="M260 340V160a70 70 0 0 1 140 0v180z" fill="#172a33"/>
+  <rect x="330" y="60" width="140" height="90" rx="45" fill="#fffcf6"/>
+  <path d="M60 360h200" stroke="#a34a30" stroke-width="8" stroke-linecap="round"/>
+  <rect x="380" y="300" width="120" height="60" rx="30" fill="#fffcf6"/>
+</svg>

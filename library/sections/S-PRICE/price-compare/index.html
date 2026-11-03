@@ -1,0 +1,20 @@
+<section class="s-price">
+  <header class="s-price__head">
+    <p class="s-price__eyebrow">{{eyebrow}}</p>
+    <h2 class="s-price__title">{{title}}</h2>
+    <p class="s-price__lead">{{subtitle}}</p>
+  </header>
+  <ul class="s-price__grid">
+    {{#plans}}
+    <li class="s-price__plan{{#highlighted}} s-price__plan--featured{{/highlighted}}">
+      <h3>{{name}}</h3>
+      <p class="s-price__amount">{{price}} <span>{{period}}</span></p>
+      <p class="s-price__desc">{{description}}</p>
+      <ul class="s-price__features">
+        {{#features}}<li>{{.}}</li>{{/features}}
+      </ul>
+      <a class="s-price__cta" href="{{cta.href}}">{{cta.label}}</a>
+    </li>
+    {{/plans}}
+  </ul>
+</section>

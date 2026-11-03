@@ -1,0 +1,23 @@
+{
+  "record_type": "variant",
+  "code": "prod-grid-2",
+  "name": "Prod Grid 2",
+  "display_name": "prod-grid-2",
+  "slot_code": "S-PROD",
+  "html_partial": "sections/S-PROD/prod-grid-2/index.html",
+  "css_scope": "sections/S-PROD/prod-grid-2/style.css",
+  "js_scope": "",
+  "compatible_themes": [
+    "split-edt"
+  ],
+  "compatible_tiers": [
+    "BASIC",
+    "PRO",
+    "AGENCY"
+  ],
+  "dependencies": [],
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1,
+  "reviewer": "Product Owner"
+}

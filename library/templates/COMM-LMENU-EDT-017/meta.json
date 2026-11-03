@@ -1,0 +1,49 @@
+{
+  "asset_code": "COMM-LMENU-EDT-017",
+  "source_name": "real-estate-farm",
+  "source_id": "9k40ggldobbsxit",
+  "source_origin": "Legacy Import",
+  "license": "TO FILL",
+  "product_type": "COMM",
+  "layout_archetype": "L-MENU",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "AGR",
+    "REA"
+  ],
+  "business_purposes": [
+    "SAL",
+    "VIS"
+  ],
+  "business_models": [
+    "BM-PROD"
+  ],
+  "functional_caps": [
+    "CAP-CAT",
+    "CAP-MAP"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-MENU",
+    "S-FEAT",
+    "S-GAL",
+    "S-CTA",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "CLASSIFIED",
+  "attributes": {
+    "responsive": true,
+    "fonts": [
+      "Fraunces",
+      "DM Sans"
+    ]
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev"
+}

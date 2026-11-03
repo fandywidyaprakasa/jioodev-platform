@@ -1,0 +1,49 @@
+{
+  "asset_code": "LAND-LCONV-EDT-006",
+  "source_name": "corporate-page-3",
+  "source_id": "0aethtx400jh2z0",
+  "source_origin": "Legacy Import",
+  "license": "JiooDev Commercial",
+  "product_type": "LAND",
+  "layout_archetype": "L-CONV",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "PRO",
+    "FIN"
+  ],
+  "business_purposes": [
+    "LDG",
+    "BRD"
+  ],
+  "business_models": [
+    "BM-SVC"
+  ],
+  "functional_caps": [
+    "CAP-FORM"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-BEN",
+    "S-PRICE",
+    "S-CTA",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "READY",
+  "attributes": {
+    "responsive": true,
+    "fonts": [
+      "Fraunces",
+      "DM Sans"
+    ]
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev",
+  "display_name": "Boardroom",
+  "slug": "boardroom"
+}

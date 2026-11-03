@@ -1,0 +1,16 @@
+<section class="s-gal">
+  <header class="s-gal__head">
+    <h2 class="s-gal__title">{{title}}</h2>
+    <p class="s-gal__lead">{{subtitle}}</p>
+  </header>
+  <ul class="s-gal__grid">
+    {{#items}}
+    <li class="s-gal__item">
+      <figure>
+        <img src="{{src}}" alt="{{alt}}" loading="lazy" />
+        <figcaption>{{caption}}</figcaption>
+      </figure>
+    </li>
+    {{/items}}
+  </ul>
+</section>

@@ -1,0 +1,45 @@
+{
+  "asset_code": "PB-html5up-multiverse",
+  "source_name": "Multiverse",
+  "source_id": "wciwrbrxatq2x56",
+  "source_origin": "PocketBase html_templates",
+  "license": "CCA 3.0 (html5up.net/license)",
+  "product_type": "WEB",
+  "layout_archetype": "L-PORT",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "GEN"
+  ],
+  "business_purposes": [
+    "VIS",
+    "SAL"
+  ],
+  "business_models": [
+    "BM-SVC"
+  ],
+  "functional_caps": [
+    "CAP-WA"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "/template-preview/PB-html5up-multiverse",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "READY",
+  "attributes": {
+    "name": "Multiverse",
+    "description": "Slick, one-page gallery design with a fully functional lightbox (Poptrox plugin) and a custom, reusable panel system. Responsive with 12 demo images and thumbs.",
+    "source_url": "https://know.jioo.site/preview/html5up/multiverse/",
+    "framework": "HTML5 + CSS3/SASS + JS + jQuery + Poptrox",
+    "responsive": true
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev",
+  "display_name": "Multiverse",
+  "slug": "pb-html5up-multiverse"
+}

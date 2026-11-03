@@ -1,0 +1,86 @@
+{
+  "S-HERO": {
+    "eyebrow": "Advisory",
+    "headline": "Strategi yang jelas untuk pertumbuhan yang nyata.",
+    "subheadline": "Kami membantu bisnis merancang langkah yang tepat dari perencanaan hingga eksekusi.",
+    "primary_cta": {
+      "label": "Mulai Sekarang",
+      "href": "#kontak"
+    },
+    "secondary_cta": {
+      "label": "Lihat Layanan",
+      "href": "#layanan"
+    },
+    "media": {
+      "src": "/template-preview/LAND-LSPLIT-EDT-001/assets/hero.jpg",
+      "alt": "Ilustrasi Advisory"
+    },
+    "alignment": "left"
+  },
+  "S-BEN": {
+    "eyebrow": "Mengapa memilih kami",
+    "title": "Tiga hal yang membuat pekerjaan lebih ringan",
+    "subtitle": "Fondasi yang jelas, proses yang rapi, dan hasil yang bisa dipakai.",
+    "items": [
+      {
+        "title": "Jelas dan terarah",
+        "description": "Struktur konten yang memandu pengunjung dari minat hingga aksi."
+      },
+      {
+        "title": "Cepat disiapkan",
+        "description": "Fondasi desain siap pakai, disesuaikan dengan konteks bisnis Anda."
+      },
+      {
+        "title": "Rapi dan konsisten",
+        "description": "Tipografi, warna, dan jarak yang terjaga di semua ukuran layar."
+      }
+    ]
+  },
+  "S-TEST": {
+    "title": "Kata mereka",
+    "subtitle": "Cerita singkat dari klien yang sudah bekerja bersama kami.",
+    "items": [
+      {
+        "quote": "Timnya cepat paham kebutuhan kami dan hasilnya rapi.",
+        "author": "Rina",
+        "role": "Pemilik usaha retail"
+      },
+      {
+        "quote": "Prosesnya jelas, komunikatif, dan tidak bertele-tele.",
+        "author": "Dimas",
+        "role": "Founder studio kreatif"
+      },
+      {
+        "quote": "Kami akhirnya punya halaman yang menjelaskan layanan dengan baik.",
+        "author": "Sari",
+        "role": "Konsultan independen"
+      }
+    ]
+  },
+  "S-CTA": {
+    "title": "Siap memulai?",
+    "body": "Ceritakan kebutuhan Anda. Kami akan membantu menyusun langkah berikutnya.",
+    "primary_cta": {
+      "label": "Hubungi Kami",
+      "href": "#kontak"
+    }
+  },
+  "S-FOOT": {
+    "business_name": "JiooDev Advisory",
+    "tagline": "Fondasi digital yang jelas dan rapi.",
+    "address": "Bandung, Jawa Barat",
+    "phone": "+62 812 3456 7890",
+    "email": "halo@jioo.site",
+    "links": [
+      {
+        "label": "Layanan",
+        "href": "#layanan"
+      },
+      {
+        "label": "Kontak",
+        "href": "#kontak"
+      }
+    ],
+    "copyright": "© 2026 JiooDev Advisory. Hak cipta dilindungi."
+  }
+}

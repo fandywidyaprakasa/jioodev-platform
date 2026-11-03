@@ -1,0 +1,101 @@
+{
+  "theme_id": "split-edt",
+  "name": "Split Editorial",
+  "code": "EDT",
+  "css_path": "library/themes/split-edt/tokens.css",
+  "font_license": "SIL Open Font License 1.1",
+  "font_source": "Google Fonts",
+  "owner": "JiooDev",
+  "reviewer": "Product Owner",
+  "replaced_by": "",
+  "status": "READY",
+  "version": "v1",
+  "tokens": {
+    "color": {
+      "bg": "#F6F0E5",
+      "surface": "#FFFCF6",
+      "text": "#172A33",
+      "muted": "#66625A",
+      "accent": "#A34A30",
+      "accent_strong": "#8C3E28",
+      "accent_soft": "#F4E4DA",
+      "accent_text": "#FFFCF6",
+      "border": "#E3D8C8"
+    },
+    "font": {
+      "display": "Fraunces",
+      "body": "DM Sans",
+      "display_file": "fonts/fraunces.woff2",
+      "body_file": "fonts/dm-sans.woff2",
+      "display_weight": 600,
+      "body_weight": 400
+    },
+    "radius": {
+      "sm": "8px",
+      "md": "14px",
+      "lg": "24px",
+      "pill": "999px"
+    },
+    "space": {
+      "1": "4px",
+      "2": "8px",
+      "3": "12px",
+      "4": "16px",
+      "5": "24px",
+      "6": "32px",
+      "7": "48px",
+      "8": "64px"
+    },
+    "layout": {
+      "maxw": "1120px"
+    },
+    "section": {
+      "padding_y": "56px"
+    },
+    "type": {
+      "h1": {
+        "size": "clamp(2.2rem,5vw,3.6rem)",
+        "line": 1.15,
+        "weight": 600,
+        "tracking": "-0.01em"
+      },
+      "h2": {
+        "size": "clamp(1.6rem,3vw,2.3rem)",
+        "line": 1.15,
+        "weight": 600,
+        "tracking": "0"
+      },
+      "h3": {
+        "size": "1.15rem",
+        "line": 1.2,
+        "weight": 600,
+        "tracking": "0"
+      },
+      "body": {
+        "size": "1rem",
+        "line": 1.6,
+        "weight": 400,
+        "tracking": "0"
+      },
+      "small": {
+        "size": "0.85rem",
+        "line": 1.5,
+        "weight": 400,
+        "tracking": "0"
+      },
+      "eyebrow": {
+        "size": "0.75rem",
+        "line": 1.4,
+        "weight": 700,
+        "tracking": "0.14em"
+      }
+    },
+    "focus": {
+      "ring": "3px solid #F4E4DA"
+    },
+    "motion": {
+      "duration": "150ms",
+      "easing": "ease"
+    }
+  }
+}

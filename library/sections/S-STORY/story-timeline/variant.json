@@ -1,0 +1,23 @@
+{
+  "record_type": "variant",
+  "code": "story-timeline",
+  "name": "Story Timeline",
+  "display_name": "story-timeline",
+  "slot_code": "S-STORY",
+  "html_partial": "sections/S-STORY/story-timeline/index.html",
+  "css_scope": "sections/S-STORY/story-timeline/style.css",
+  "js_scope": "",
+  "compatible_themes": [
+    "split-edt"
+  ],
+  "compatible_tiers": [
+    "BASIC",
+    "PRO",
+    "AGENCY"
+  ],
+  "dependencies": [],
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1,
+  "reviewer": "Product Owner"
+}

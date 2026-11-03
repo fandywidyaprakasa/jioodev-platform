@@ -1,0 +1,51 @@
+{
+  "asset_code": "WEB-LPORT-EDT-013",
+  "source_name": "Coworks",
+  "source_id": "53g4pfqvozgzdbq",
+  "source_origin": "Legacy Import",
+  "license": "TO FILL",
+  "product_type": "WEB",
+  "layout_archetype": "L-PORT",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "PRO",
+    "REA"
+  ],
+  "business_purposes": [
+    "VIS",
+    "BOK"
+  ],
+  "business_models": [
+    "BM-SVC",
+    "BM-SUB"
+  ],
+  "functional_caps": [
+    "CAP-GAL",
+    "CAP-BOOK",
+    "CAP-MAP"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-FEAT",
+    "S-GAL",
+    "S-PRICE",
+    "S-CTA",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "CLASSIFIED",
+  "attributes": {
+    "responsive": true,
+    "fonts": [
+      "Fraunces",
+      "DM Sans"
+    ]
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev"
+}

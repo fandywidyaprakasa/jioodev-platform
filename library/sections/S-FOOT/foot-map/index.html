@@ -1,0 +1,17 @@
+<footer class="s-foot" id="kontak">
+  <div class="s-foot__brand">
+    <p class="s-foot__name">{{business_name}}</p>
+    <p class="s-foot__tagline">{{tagline}}</p>
+    <p class="s-foot__address">{{address}}</p>
+  </div>
+  <div class="s-foot__contact">
+    <a href="tel:{{phone}}">{{phone}}</a>
+    <a href="mailto:{{email}}">{{email}}</a>
+  </div>
+  <ul class="s-foot__links">
+    {{#links}}
+    <li><a href="{{href}}">{{label}}</a></li>
+    {{/links}}
+  </ul>
+  <p class="s-foot__copyright">{{copyright}}</p>
+</footer>

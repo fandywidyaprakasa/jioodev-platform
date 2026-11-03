@@ -1,0 +1,88 @@
+{
+  "record_type": "slot",
+  "code": "S-FOOT",
+  "name": "Footer",
+  "display_name": "Footer",
+  "required": true,
+  "order_min": 10,
+  "order_max": 10,
+  "content_schema": {
+    "version": 1,
+    "fields": {
+      "business_name": {
+        "type": "text",
+        "required": true
+      },
+      "tagline": {
+        "type": "text",
+        "required": false
+      },
+      "address": {
+        "type": "text",
+        "required": false
+      },
+      "phone": {
+        "type": "text",
+        "required": false
+      },
+      "email": {
+        "type": "text",
+        "required": false
+      },
+      "social": {
+        "type": "array",
+        "required": false,
+        "item": {
+          "platform": {
+            "type": "text",
+            "required": true
+          },
+          "url": {
+            "type": "text",
+            "required": true
+          }
+        }
+      },
+      "links": {
+        "type": "array",
+        "required": false,
+        "item": {
+          "label": {
+            "type": "text",
+            "required": true
+          },
+          "href": {
+            "type": "text",
+            "required": true
+          }
+        }
+      },
+      "hours": {
+        "type": "array",
+        "required": false,
+        "item": {
+          "day": {
+            "type": "text",
+            "required": true
+          },
+          "time": {
+            "type": "text",
+            "required": true
+          }
+        }
+      },
+      "maps_url": {
+        "type": "text",
+        "required": false
+      },
+      "copyright": {
+        "type": "text",
+        "required": false
+      }
+    }
+  },
+  "tier_min": "BASIC",
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1
+}

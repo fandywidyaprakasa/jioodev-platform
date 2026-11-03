@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nama Bisnis — Reservasi &amp; Layanan</title>
+  <meta name="description" content="Website booking: layanan, galeri, form reservasi.">
+  
+  
+  
+  <link rel="stylesheet" href="../_shared/base.css">
+  <link rel="stylesheet" href="../_shared/components.css">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/fonts.css">
+</head>
+<body>
+  <a class="skip" href="#konten">Lewati ke konten</a>
+  <header class="site-header">
+    <a class="brand" href="#" data-bind="business_name">Nama Bisnis</a>
+    <nav class="nav" aria-label="Navigasi utama"><a href="#layanan">Layanan</a><a href="#harga">Harga</a><a href="#kontak">Kontak</a></nav>
+    <a class="btn btn-sm" href="#kontak" data-bind="header_cta">Reservasi</a>
+  </header>
+  <main id="konten">
+    <section class="hero-split">
+      <div>
+        <p class="eyebrow" data-bind="hero_eyebrow">Reservasi</p>
+        <h1 data-bind="hero_title">Pesan waktu Anda, sisanya kami siapkan.</h1>
+        <p class="lead" data-bind="hero_subtitle">Layanan yang tenang, terencana, dan menyenangkan.</p>
+        <div class="actions"><a class="btn" href="#kontak" data-bind="hero_cta">Reservasi</a><a class="btn btn-ghost" href="#layanan">Layanan</a></div>
+      </div>
+      <div class="media"><img src="../_shared/hero.svg" alt="Ilustrasi reservasi" width="560" height="420"></div>
+    </section>
+    <section id="layanan">
+      <header class="section-head">
+        <h2 data-bind="title_layanan">Layanan</h2>
+        <p class="section-lead">Pilih pengalaman Anda.</p>
+      </header>
+      <div class="services-grid"><article class="service"><h3>Kunjungan Singkat</h3><p>Untuk kebutuhan cepat.</p></article><article class="service"><h3>Sesi Lengkap</h3><p>Pengalaman menyeluruh.</p></article><article class="service"><h3>Grup</h3><p>Untuk rombongan kecil.</p></article><article class="service"><h3>Khusus</h3><p>Permintaan personal.</p></article></div>
+    </section>
+    <section id="karya">
+      <header class="section-head">
+        <h2 data-bind="title_galeri">Galeri</h2>
+        <p class="section-lead">Sekilas pengalaman.</p>
+      </header>
+      <div class="portfolio-grid"><div class="tile">Suasana</div><div class="tile">Detail</div><div class="tile">Area</div><div class="tile">Pemandangan</div><div class="tile">Layanan</div><div class="tile">Momen</div></div>
+    </section>
+    <section id="kontak">
+      <header class="section-head center">
+        <h2 data-bind="title_form_reservasi">Form reservasi</h2>
+        <p class="section-lead">Isi data untuk memesan.</p>
+      </header>
+      <form class="booking" action="#" method="post"><div class="field"><label for="nama">Nama</label><input id="nama" name="nama" type="text" required></div><div class="field"><label for="telepon">Nomor WhatsApp</label><input id="telepon" name="telepon" type="tel" required></div><div class="field"><label for="tanggal">Tanggal</label><input id="tanggal" name="tanggal" type="date" required></div><div class="field"><label for="layanan">Layanan</label><select id="layanan" name="layanan"><option>Kunjungan Singkat</option><option>Sesi Lengkap</option><option>Grup</option><option>Khusus</option></select></div><button class="btn" type="submit">Kirim Reservasi</button></form>
+    </section>
+    <section id="faq">
+      <header class="section-head">
+        <h2 data-bind="title_pertanyaan_umum">Pertanyaan umum</h2>
+        <p class="section-lead">Sebelum memesan.</p>
+      </header>
+      <div class="faq"><details><summary>Berapa lama sebelumnya harus memesan?</summary><p>Disarankan 1–2 hari sebelumnya.</p></details><details><summary>Bisa reschedule?</summary><p>Bisa, hubungi kami sebelumnya.</p></details></div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div><p class="brand" data-bind="business_name">Nama Bisnis</p><p class="muted" data-bind="footer_text">Alamat dan informasi kontak Anda di sini.</p></div>
+    <div class="footer-links"><a href="#">WhatsApp</a><a href="#">Email</a><a href="#">Instagram</a></div>
+    <p class="copyright">© <span data-bind="year">2026</span> Nama Bisnis.</p>
+  </footer>
+  <script src="../_shared/script.js"></script>
+</body>
+</html>

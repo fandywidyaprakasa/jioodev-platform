@@ -1,0 +1,159 @@
+{
+  "S-HERO": {
+    "eyebrow": "Boardroom",
+    "headline": "Solusi bisnis yang terukur dan dapat diandalkan.",
+    "subheadline": "Keputusan dibuat dengan alasan yang jelas dan proses yang transparan.",
+    "primary_cta": {
+      "label": "Mulai Sekarang",
+      "href": "#kontak"
+    },
+    "secondary_cta": {
+      "label": "Lihat Layanan",
+      "href": "#layanan"
+    },
+    "media": {
+      "src": "/template-preview/LAND-LSPLIT-EDT-001/assets/hero.jpg",
+      "alt": "Ilustrasi Boardroom"
+    },
+    "alignment": "left"
+  },
+  "S-BEN": {
+    "eyebrow": "Mengapa memilih kami",
+    "title": "Tiga hal yang membuat pekerjaan lebih ringan",
+    "subtitle": "Fondasi yang jelas, proses yang rapi, dan hasil yang bisa dipakai.",
+    "items": [
+      {
+        "title": "Jelas dan terarah",
+        "description": "Struktur konten yang memandu pengunjung dari minat hingga aksi."
+      },
+      {
+        "title": "Cepat disiapkan",
+        "description": "Fondasi desain siap pakai, disesuaikan dengan konteks bisnis Anda."
+      },
+      {
+        "title": "Rapi dan konsisten",
+        "description": "Tipografi, warna, dan jarak yang terjaga di semua ukuran layar."
+      }
+    ]
+  },
+  "S-TEST": {
+    "title": "Kata mereka",
+    "subtitle": "Cerita singkat dari klien yang sudah bekerja bersama kami.",
+    "items": [
+      {
+        "quote": "Timnya cepat paham kebutuhan kami dan hasilnya rapi.",
+        "author": "Rina",
+        "role": "Pemilik usaha retail"
+      },
+      {
+        "quote": "Prosesnya jelas, komunikatif, dan tidak bertele-tele.",
+        "author": "Dimas",
+        "role": "Founder studio kreatif"
+      },
+      {
+        "quote": "Kami akhirnya punya halaman yang menjelaskan layanan dengan baik.",
+        "author": "Sari",
+        "role": "Konsultan independen"
+      }
+    ]
+  },
+  "S-CTA": {
+    "title": "Siap memulai?",
+    "body": "Ceritakan kebutuhan Anda. Kami akan membantu menyusun langkah berikutnya.",
+    "primary_cta": {
+      "label": "Hubungi Kami",
+      "href": "#kontak"
+    }
+  },
+  "S-FOOT": {
+    "business_name": "JiooDev Boardroom",
+    "tagline": "Fondasi digital yang jelas dan rapi.",
+    "address": "Bandung, Jawa Barat",
+    "phone": "+62 812 3456 7890",
+    "email": "halo@jioo.site",
+    "links": [
+      {
+        "label": "Layanan",
+        "href": "#layanan"
+      },
+      {
+        "label": "Kontak",
+        "href": "#kontak"
+      }
+    ],
+    "copyright": "© 2026 JiooDev Boardroom. Hak cipta dilindungi."
+  },
+  "S-PRICE": {
+    "eyebrow": "Paket",
+    "title": "Pilih yang paling sesuai",
+    "subtitle": "Harga transparan, tanpa biaya tersembunyi.",
+    "plans": [
+      {
+        "name": "Basic",
+        "price": "Rp 50rb",
+        "period": "/landing",
+        "description": "Untuk validasi awal.",
+        "features": [
+          "1 halaman",
+          "5 slot",
+          "Tema dasar"
+        ],
+        "cta": {
+          "label": "Pilih Basic",
+          "href": "#kontak"
+        },
+        "highlighted": false
+      },
+      {
+        "name": "Pro",
+        "price": "Rp 100rb",
+        "period": "/landing",
+        "description": "Untuk bisnis yang siap tumbuh.",
+        "features": [
+          "1 halaman",
+          "8 slot",
+          "Varian layout"
+        ],
+        "cta": {
+          "label": "Pilih Pro",
+          "href": "#kontak"
+        },
+        "highlighted": true
+      },
+      {
+        "name": "Agency",
+        "price": "Rp 750rb",
+        "period": "/paket",
+        "description": "Untuk kebutuhan multi-halaman.",
+        "features": [
+          "Multi-halaman",
+          "CMS",
+          "Prioritas"
+        ],
+        "cta": {
+          "label": "Diskusi",
+          "href": "#kontak"
+        },
+        "highlighted": false
+      }
+    ]
+  },
+  "S-FAQ": {
+    "title": "Pertanyaan umum",
+    "subtitle": "Hal yang sering ditanyakan sebelum memulai.",
+    "items": [
+      {
+        "question": "Berapa lama prosesnya?",
+        "answer": "Untuk Landing Basic, proses dimulai dari konteks bisnis lalu preview dalam hitungan hari."
+      },
+      {
+        "question": "Apakah bisa ganti tema?",
+        "answer": "Bisa. Tema mengganti warna dan tipografi tanpa mengubah struktur."
+      },
+      {
+        "question": "Apakah konten bisa diubah?",
+        "answer": "Bisa. Semua konten mengikuti schema slot sehingga aman diubah."
+      }
+    ]
+  }
+}

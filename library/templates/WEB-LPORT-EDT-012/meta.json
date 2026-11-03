@@ -1,0 +1,50 @@
+{
+  "asset_code": "WEB-LPORT-EDT-012",
+  "source_name": "Estate",
+  "source_id": "x43civo6ngbj2cs",
+  "source_origin": "Legacy Import",
+  "license": "TO FILL",
+  "product_type": "WEB",
+  "layout_archetype": "L-PORT",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "REA",
+    "CON"
+  ],
+  "business_purposes": [
+    "POR",
+    "VIS"
+  ],
+  "business_models": [
+    "BM-PROD",
+    "BM-SVC"
+  ],
+  "functional_caps": [
+    "CAP-GAL",
+    "CAP-MAP"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-GAL",
+    "S-SVC",
+    "S-STAT",
+    "S-CTA",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "CLASSIFIED",
+  "attributes": {
+    "responsive": true,
+    "fonts": [
+      "Fraunces",
+      "DM Sans"
+    ]
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev"
+}

@@ -1,0 +1,11 @@
+.s-story{max-width:var(--layout-maxw);margin:0 auto;padding:3rem 1.25rem 4rem;display:grid;grid-template-columns:1.05fr .95fr;gap:3rem;align-items:center;border-top:1px solid var(--color-border)}
+.s-story__eyebrow{text-transform:uppercase;letter-spacing:var(--type-eyebrow-tracking);font-size:var(--type-eyebrow-size);font-weight:var(--type-eyebrow-weight);color:var(--color-accent);margin:0 0 .75rem}
+.s-story__title{font-family:var(--font-display);font-size:var(--type-h2-size);line-height:var(--type-h2-line);color:var(--color-text);margin:0 0 .5em}
+.s-story__body{color:var(--color-muted);margin:0 0 1.25rem}
+.s-story__quote{margin:0;padding:1rem 1.25rem;border-left:3px solid var(--color-accent);background:var(--color-surface);border-radius:0 var(--radius-md) var(--radius-md) 0}
+.s-story__quote p{margin:0 0 .35rem;color:var(--color-text);font-family:var(--font-display)}
+.s-story__quote cite{font-style:normal;font-size:var(--type-small-size);color:var(--color-muted)}
+.s-story__media img{border-radius:var(--radius-md);border:1px solid var(--color-border);width:100%;height:auto}
+@media(max-width:860px){.s-story{grid-template-columns:1fr;gap:2rem}}
+
+

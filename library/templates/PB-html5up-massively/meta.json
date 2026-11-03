@@ -1,0 +1,45 @@
+{
+  "asset_code": "PB-html5up-massively",
+  "source_name": "Massively",
+  "source_id": "nlnlwi595u6nh3r",
+  "source_origin": "PocketBase html_templates",
+  "license": "CCA 3.0 (html5up.net/license)",
+  "product_type": "WEB",
+  "layout_archetype": "L-STORY",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "GEN"
+  ],
+  "business_purposes": [
+    "VIS",
+    "SAL"
+  ],
+  "business_models": [
+    "BM-SVC"
+  ],
+  "functional_caps": [
+    "CAP-WA"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "/template-preview/PB-html5up-massively",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "READY",
+  "attributes": {
+    "name": "Massively",
+    "description": "Text-heavy, article-oriented design built around huge background image, parallax header, and scroll effects (Scrollex). Features multi-page layout (index, generic, elements), post grids, pagination, and social links.",
+    "source_url": "https://know.jioo.site/preview/html5up/massively/",
+    "framework": "HTML5 + CSS3/SASS + JS + jQuery + Scrollex",
+    "responsive": true
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev",
+  "display_name": "Massively",
+  "slug": "pb-html5up-massively"
+}

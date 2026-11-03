@@ -1,0 +1,50 @@
+{
+  "asset_code": "WEB-LBOOK-EDT-014",
+  "source_name": "Mediterraneo",
+  "source_id": "tglpifl28lmrjip",
+  "source_origin": "Legacy Import",
+  "license": "TO FILL",
+  "product_type": "WEB",
+  "layout_archetype": "L-BOOK",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "TRV",
+    "HTH"
+  ],
+  "business_purposes": [
+    "BOK",
+    "VIS"
+  ],
+  "business_models": [
+    "BM-BOK",
+    "BM-SVC"
+  ],
+  "functional_caps": [
+    "CAP-BOOK",
+    "CAP-MAP"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-SVC",
+    "S-GAL",
+    "S-BOOK",
+    "S-FAQ",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "CLASSIFIED",
+  "attributes": {
+    "responsive": true,
+    "fonts": [
+      "Fraunces",
+      "DM Sans"
+    ]
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev"
+}

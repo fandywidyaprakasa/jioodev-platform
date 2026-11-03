@@ -1,0 +1,50 @@
+{
+  "asset_code": "COMM-LGRID-EDT-015",
+  "source_name": "Brighton",
+  "source_id": "4930ap7god8ehds",
+  "source_origin": "Legacy Import",
+  "license": "TO FILL",
+  "product_type": "COMM",
+  "layout_archetype": "L-GRID",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "RET",
+    "FSH",
+    "BEA"
+  ],
+  "business_purposes": [
+    "SAL",
+    "ORD"
+  ],
+  "business_models": [
+    "BM-PROD"
+  ],
+  "functional_caps": [
+    "CAP-CAT",
+    "CAP-WA"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-PROD",
+    "S-BEN",
+    "S-TEST",
+    "S-CTA",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "CLASSIFIED",
+  "attributes": {
+    "responsive": true,
+    "fonts": [
+      "Fraunces",
+      "DM Sans"
+    ]
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev"
+}

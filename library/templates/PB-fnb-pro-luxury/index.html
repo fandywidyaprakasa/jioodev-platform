@@ -1,0 +1,1083 @@
+<!DOCTYPE HTML>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+	<title>Dapur Nusantara — Resep Warisan 3 Generasi & Jamuan Nusantara Otentik</title>
+	<meta name="description" content="Restoran keluarga & katering jamuan nusantara dengan bumbu rempah tumbuk segar harian. Nikmati Iga Bakar Karamel, Bebek Betutu, dan Nasi Liwet Kastrol. Garansi hangat sampai meja.">
+	
+	<!-- Open Graph / Meta -->
+	<meta property="og:type" content="restaurant.restaurant" />
+	<meta property="og:title" content="Dapur Nusantara — Jamuan Rempah Otentik Warisan Nusantara" />
+	<meta property="og:description" content="Bumbu rempah asli ditumbuk segar setiap subuh. Bebas pengawet kimia, 100% Halal MUI. Pesan antar atau reservasi ruang privat." />
+	<meta property="og:image" content="images/hero_dining.jpg" />
+
+	<!-- Structured Data Schema.org (LocalBusiness & Restaurant) -->
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "Restaurant",
+		"name": "Dapur Nusantara",
+		"image": "images/hero_dining.jpg",
+		"priceRange": "$$",
+		"servesCuisine": "Indonesian",
+		"address": {
+			"@type": "PostalAddress",
+			"streetAddress": "Jl. Taman Pramuka No. 181",
+			"addressLocality": "Bandung",
+			"addressRegion": "Jawa Barat",
+			"postalCode": "40114",
+			"addressCountry": "ID"
+		},
+		"geo": {
+			"@type": "GeoCoordinates",
+			"latitude": -6.9113,
+			"longitude": 107.6258
+		},
+		"openingHoursSpecification": [
+			{
+				"@type": "OpeningHoursSpecification",
+				"dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+				"opens": "10:00",
+				"closes": "22:00"
+			}
+		],
+		"telephone": "+6281234567890"
+	}
+	</script>
+
+	<!-- Google Fonts -->
+	
+	
+	
+	<link rel="stylesheet" href="../_shared/fontawesome/css/all.min.css" />
+	<script defer src="../_shared/alpine.min.js"></script>
+
+	<style>
+		:root {
+			--primary: #d4af37; /* Royal Warm Gold */
+			--primary-hover: #b89628;
+			--primary-bg: rgba(212, 175, 55, 0.12);
+			--bg-main: #0c0a09; /* Deep Obsidian Stone */
+			--surface-1: #171513;
+			--surface-2: #211e1b;
+			--text-main: #f5f5f4;
+			--text-muted: #a8a29e;
+			--border: #2e2a25;
+			--radius: 12px;
+			--font-serif: 'Playfair Display', Georgia, serif;
+			--font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+		}
+
+		* { box-sizing: border-box; margin: 0; padding: 0; }
+		body {
+			font-family: var(--font-sans);
+			background-color: var(--bg-main);
+			color: var(--text-main);
+			line-height: 1.6;
+			overflow-x: hidden;
+		}
+		h1, h2, h3, h4 { font-family: var(--font-serif); letter-spacing: -0.01em; color: #fff; }
+		a { color: var(--primary); text-decoration: none; }
+		.container { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
+
+		/* Header */
+		header {
+			position: sticky;
+			top: 0;
+			background: rgba(12, 10, 9, 0.95);
+			backdrop-filter: blur(12px);
+			border-bottom: 1px solid var(--border);
+			padding: 1rem 0;
+			z-index: 100;
+		}
+		.nav-wrap { display: flex; justify-content: space-between; align-items: center; }
+		.brand { font-family: var(--font-serif); font-size: 1.4rem; color: #fff; font-weight: 700; }
+		.brand span { color: var(--primary); font-style: italic; }
+		.nav-links { display: flex; gap: 2rem; list-style: none; }
+		.nav-links a { color: var(--text-muted); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+		.nav-links a:hover { color: var(--primary); }
+		.btn-gold {
+			background: var(--primary);
+			color: #0c0a09 !important;
+			font-weight: 700;
+			font-size: 0.85rem;
+			padding: 0.6rem 1.4rem;
+			border-radius: 999px;
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			transition: all 0.2s;
+		}
+		.btn-gold:hover { background: var(--primary-hover); transform: translateY(-1px); }
+
+		/* Hero Section */
+		.hero {
+			padding: 5rem 0 4rem;
+			display: grid;
+			grid-template-columns: 1.15fr 0.85fr;
+			gap: 3.5rem;
+			align-items: center;
+		}
+		.hero-badge {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			background: var(--primary-bg);
+			color: var(--primary);
+			border: 1px solid rgba(212, 175, 55, 0.3);
+			padding: 0.35rem 0.9rem;
+			border-radius: 999px;
+			font-size: 0.78rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+			margin-bottom: 1.25rem;
+		}
+		.hero h1 { font-size: 3.2rem; line-height: 1.18; margin-bottom: 1.25rem; }
+		.hero p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem; max-width: 540px; }
+		.hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+		.btn-outline {
+			border: 1px solid var(--border);
+			color: #fff;
+			padding: 0.6rem 1.4rem;
+			border-radius: 999px;
+			font-weight: 600;
+			font-size: 0.85rem;
+		}
+		.hero-img-wrap {
+			position: relative;
+			border-radius: 16px;
+			overflow: hidden;
+			border: 1px solid var(--border);
+			box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8);
+		}
+		.hero-img { width: 100%; height: 420px; object-fit: cover; display: block; }
+		.hero-badge-float {
+			position: absolute;
+			bottom: 1.25rem;
+			left: 1.25rem;
+			background: rgba(23, 21, 19, 0.9);
+			backdrop-filter: blur(8px);
+			border: 1px solid var(--border);
+			padding: 0.85rem 1.25rem;
+			border-radius: 10px;
+			display: flex;
+			align-items: center;
+			gap: 0.85rem;
+		}
+
+		/* Value Bar */
+		.value-bar {
+			background: var(--surface-1);
+			border: 1px solid var(--border);
+			border-radius: 16px;
+			padding: 2rem 2.5rem;
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 2rem;
+			margin: 1rem 0 5rem;
+		}
+		.value-item { display: flex; gap: 1rem; align-items: flex-start; }
+		.value-icon {
+			background: var(--primary-bg);
+			color: var(--primary);
+			width: 44px;
+			height: 44px;
+			border-radius: 10px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1.2rem;
+			flex-shrink: 0;
+		}
+		.value-item h3 { font-size: 1.1rem; margin-bottom: 0.25rem; }
+		.value-item p { font-size: 0.85rem; color: var(--text-muted); }
+
+		/* Story & Heritage Section */
+		.story-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 3.5rem;
+			align-items: center;
+			margin-bottom: 6rem;
+		}
+		.story-imgs {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 1rem;
+		}
+		.story-imgs img {
+			width: 100%;
+			height: 220px;
+			object-fit: cover;
+			border-radius: 12px;
+			border: 1px solid var(--border);
+		}
+
+		/* Signature Menu */
+		.section-header { text-align: center; max-width: 650px; margin: 0 auto 3rem; }
+		.section-header h2 { font-size: 2.5rem; margin-bottom: 0.75rem; }
+		.section-header p { color: var(--text-muted); font-size: 1rem; }
+
+		.menu-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+			gap: 2rem;
+			margin-bottom: 5rem;
+		}
+		.dish-card {
+			background: var(--surface-1);
+			border: 1px solid var(--border);
+			border-radius: 14px;
+			overflow: hidden;
+			transition: transform 0.2s, border-color 0.2s;
+		}
+		.dish-card:hover { transform: translateY(-4px); border-color: var(--primary); }
+		.dish-card img { width: 100%; height: 210px; object-fit: cover; display: block; }
+		.dish-body { padding: 1.5rem; }
+		.dish-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem; }
+		.dish-top h3 { font-size: 1.25rem; }
+		.dish-price { color: var(--primary); font-weight: 700; font-size: 1.15rem; font-family: var(--font-sans); }
+		.dish-desc { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1rem; }
+		.dish-tag {
+			font-size: 0.75rem;
+			background: var(--surface-2);
+			color: var(--text-muted);
+			padding: 0.25rem 0.6rem;
+			border-radius: 4px;
+			display: inline-block;
+		}
+
+		/* Catering & Packages */
+		.pkg-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+			gap: 2rem;
+			margin-bottom: 6rem;
+		}
+		.pkg-card {
+			background: var(--surface-1);
+			border: 1px solid var(--border);
+			border-radius: 16px;
+			padding: 2.5rem 2rem;
+			display: flex;
+			flex-direction: column;
+			position: relative;
+		}
+		.pkg-card.featured {
+			border: 2px solid var(--primary);
+			background: linear-gradient(180deg, rgba(212,175,55,0.06), var(--surface-1));
+		}
+		.pkg-badge {
+			position: absolute;
+			top: -12px;
+			left: 50%;
+			transform: translateX(-50%);
+			background: var(--primary);
+			color: #0c0a09;
+			font-weight: 800;
+			font-size: 0.72rem;
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+			padding: 0.3rem 0.9rem;
+			border-radius: 999px;
+		}
+		.pkg-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+		.pkg-card .price { font-size: 2.2rem; font-weight: 800; color: #fff; margin: 1rem 0 1.5rem; }
+		.pkg-card .price span { font-size: 0.9rem; color: var(--text-muted); font-weight: 400; }
+		.pkg-features { list-style: none; margin-bottom: 2rem; flex-grow: 1; }
+		.pkg-features li { padding: 0.5rem 0; font-size: 0.9rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.6rem; }
+		.pkg-features li i { color: var(--primary); }
+
+		/* Ambience & Private Room */
+		.ambience-section {
+			background: var(--surface-1);
+			border: 1px solid var(--border);
+			border-radius: 20px;
+			padding: 4rem 3rem;
+			margin-bottom: 6rem;
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 3.5rem;
+			align-items: center;
+		}
+
+		/* FAQ Accordion */
+		.faq-box { max-width: 800px; margin: 0 auto 6rem; }
+		.faq-item {
+			background: var(--surface-1);
+			border: 1px solid var(--border);
+			border-radius: 10px;
+			margin-bottom: 0.75rem;
+			overflow: hidden;
+		}
+		.faq-q {
+			padding: 1.25rem 1.5rem;
+			cursor: pointer;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			font-weight: 600;
+			font-size: 1rem;
+		}
+		.faq-a { padding: 0 1.5rem 1.25rem; color: var(--text-muted); font-size: 0.92rem; border-top: 1px solid var(--border); padding-top: 1rem; }
+
+		/* Footer */
+		footer {
+			border-top: 1px solid var(--border);
+			padding: 4rem 0 3rem;
+			text-align: center;
+			color: var(--text-muted);
+			font-size: 0.88rem;
+		}
+
+		/* Mobile First Viewport Corrections */
+
+		@media (max-width: 900px) {
+			.nav-links { display: none !important; }
+			.btn-gold { padding: 0.45rem 0.9rem !important; font-size: 0.78rem !important; }
+			.hero-img { height: 240px !important; }
+			.hero-badge-float { display: none !important; }
+
+			.hero { grid-template-columns: 1fr !important; padding: 2rem 0 !important; gap: 1.5rem !important; }
+			.hero h1 { font-size: 2rem !important; line-height: 1.2 !important; }
+			.hero-actions { display: flex !important; flex-direction: column !important; gap: 0.75rem !important; width: 100% !important; }
+			.hero-actions a { width: 100% !important; text-align: center !important; justify-content: center !important; }
+
+			.value-bar { grid-template-columns: 1fr !important; padding: 1.25rem 1rem !important; gap: 1rem !important; margin: 1rem 0 3.5rem !important; }
+			.story-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+			.story-imgs { gap: 0.6rem !important; }
+			.story-imgs img { height: 160px !important; }
+			.ambience-section { grid-template-columns: 1fr !important; padding: 2rem 1.25rem !important; gap: 2rem !important; }
+			.section-header h2 { font-size: 1.85rem !important; }
+			.pkg-grid { gap: 1.25rem !important; margin-bottom: 3.5rem !important; }
+			.pkg-card { padding: 1.75rem 1.25rem !important; }
+		}
+	
+		/* --- PRO EXCLUSIVE: Tab Pills & View Switcher --- */
+		.view-switch-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; background: var(--surface-1); padding: 0.6rem 1rem; border-radius: 10px; border: 1px solid var(--border); }
+		.tab-pill { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+		.tab-btn {
+		    background: var(--surface-2); color: var(--muted); border: 1px solid var(--border);
+		    padding: 0.4rem 0.75rem; border-radius: 8px; font-size: 0.82rem; font-family: inherit;
+		    cursor: pointer; transition: all 0.2s; font-weight: 500;
+		}
+		.tab-btn.active { background: var(--primary); color: #0c0a09; border-color: var(--primary); font-weight: 700; }
+
+		.view-btns { display: flex; gap: 0.4rem; }
+		.btn-mode {
+		    background: var(--surface-2); color: var(--muted); border: 1px solid var(--border);
+		    padding: 0.35rem 0.65rem; border-radius: 6px; font-size: 0.78rem; font-family: inherit;
+		    cursor: pointer; display: flex; align-items: center; gap: 0.35rem; transition: all 0.2s;
+		}
+		.btn-mode.active, .btn-mode:hover { background: var(--primary); color: #0c0a09; border-color: var(--primary); }
+
+		/* Grid Mode (Default 3 col desktop, 2 col mobile) */
+		.menu-grid-mode {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+			gap: 1.75rem;
+		}
+
+		/* List Mode (Horizontal layout) */
+		.menu-list-mode {
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+		}
+		.menu-list-mode .card {
+			display: grid;
+			grid-template-columns: 140px 1fr;
+			align-items: center;
+		}
+		.menu-list-mode .card-img {
+			height: 100% !important;
+			min-height: 120px;
+		}
+		.menu-list-mode .card-body {
+			padding: 1rem 1.25rem !important;
+		}
+
+		/* Lightbox Overlay (Pro Feature) */
+		.lightbox-overlay {
+			position: fixed;
+			top: 0; left: 0; right: 0; bottom: 0;
+			background: rgba(0, 0, 0, 0.92);
+			backdrop-filter: blur(10px);
+			z-index: 9999;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding: 1.5rem;
+		}
+		.lightbox-content {
+			max-width: 900px;
+			max-height: 85vh;
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		.lightbox-img {
+			max-width: 100%;
+			max-height: 75vh;
+			border-radius: 12px;
+			border: 1px solid var(--border);
+			box-shadow: 0 25px 50px -12px rgba(0,0,0,0.9);
+			object-fit: contain;
+		}
+		.lightbox-caption {
+			margin-top: 1rem;
+			color: #fff;
+			font-family: var(--font-serif);
+			font-size: 1.25rem;
+			text-align: center;
+		}
+		.lightbox-close {
+			position: absolute;
+			top: -45px;
+			right: 0;
+			background: var(--surface-2);
+			border: 1px solid var(--border);
+			color: #fff;
+			width: 36px;
+			height: 36px;
+			border-radius: 999px;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1rem;
+		}
+		.lightbox-trigger {
+			position: absolute;
+			top: 8px;
+			right: 8px;
+			background: rgba(12, 10, 9, 0.75);
+			backdrop-filter: blur(4px);
+			color: #fff;
+			border: 1px solid rgba(255,255,255,0.2);
+			width: 36px;
+			height: 36px;
+			border-radius: 8px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 0.85rem;
+			cursor: pointer;
+			transition: all 0.2s;
+			z-index: 2;
+		}
+		.lightbox-trigger:hover {
+			background: var(--primary);
+			color: #0c0a09;
+		}
+
+		/* Mobile 2-Kolom Rule untuk Grid */
+		@media (max-width: 640px) {
+			.view-switch-bar {
+				flex-direction: column !important;
+				align-items: stretch !important;
+				gap: 0.75rem !important;
+				padding: 0.75rem !important;
+				position: relative !important;
+			}
+			.tab-pill-wrap {
+				position: relative !important;
+				width: 100% !important;
+			}
+			.tab-pill-wrap::after {
+				content: "";
+				position: absolute;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				width: 28px;
+				background: linear-gradient(to right, transparent, var(--surface-1));
+				pointer-events: none;
+			}
+			.tab-pill {
+				display: flex !important;
+				overflow-x: auto !important;
+				flex-wrap: nowrap !important;
+				-webkit-overflow-scrolling: touch !important;
+				padding-bottom: 4px !important;
+				padding-right: 1.5rem !important;
+				gap: 0.5rem !important;
+			}
+			.tab-pill::-webkit-scrollbar { display: none; }
+			.tab-btn {
+				white-space: nowrap !important;
+				flex-shrink: 0 !important;
+				font-size: 0.78rem !important;
+				padding: 0.35rem 0.65rem !important;
+			}
+			.view-btns {
+				justify-content: flex-end !important;
+				border-top: 1px solid var(--border);
+				padding-top: 0.5rem;
+			}
+
+			.menu-grid-mode {
+				grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+				gap: 0.65rem !important;
+			}
+			.menu-grid-mode .card {
+				min-width: 0 !important;
+				display: flex !important;
+				flex-direction: column !important;
+				border-radius: 10px !important;
+			}
+			.menu-grid-mode .card-img {
+				width: 100% !important;
+				height: 125px !important;
+				object-fit: cover !important;
+				aspect-ratio: 4/3 !important;
+				background-color: var(--surface-2) !important;
+				display: block !important;
+			}
+			.menu-grid-mode .card-body {
+				padding: 0.65rem !important;
+				display: flex !important;
+				flex-direction: column !important;
+				flex-grow: 1 !important;
+			}
+			.menu-grid-mode h3 {
+				font-size: 0.85rem !important;
+				line-height: 1.25 !important;
+				margin-bottom: 0.25rem !important;
+				min-height: 2.5em; /* Tetap seimbang 2 baris */
+			}
+			.menu-grid-mode .card-body p {
+				display: none !important; /* Ringkas teks di mode 2-kolom */
+			}
+			.menu-grid-mode .card-badge {
+				font-size: 0.62rem !important;
+				padding: 0.15rem 0.4rem !important;
+				margin-bottom: 0.25rem !important;
+			}
+			.menu-grid-mode .price-row {
+				margin-top: auto !important;
+				padding-top: 0.4rem !important;
+				display: flex !important;
+				align-items: center !important;
+				justify-content: space-between !important;
+			}
+			.menu-grid-mode .price {
+				font-size: 0.88rem !important;
+				font-weight: 800 !important;
+			}
+			.menu-grid-mode .btn-order {
+				padding: 0.35rem 0.6rem !important;
+				font-size: 0.72rem !important;
+				min-height: 36px !important;
+				display: inline-flex !important;
+				align-items: center !important;
+				background: var(--primary) !important;
+				color: #0c0a09 !important;
+				border: none !important;
+				border-radius: 6px !important;
+				font-weight: 600 !important;
+				transition: opacity 0.2s !important;
+			}
+			.menu-grid-mode .btn-order:active { opacity: 0.8 !important; }
+			.menu-list-mode .card {
+				grid-template-columns: 100px 1fr !important;
+			}
+			.menu-list-mode .card-img {
+				height: 100px !important;
+			}
+			.menu-list-mode h3 {
+				font-size: 0.95rem !important;
+			}
+			.menu-list-mode p {
+				font-size: 0.75rem !important;
+				line-height: 1.3 !important;
+			}
+		}
+
+	</style>
+  <link rel="stylesheet" href="assets/fonts.css">
+</head>
+<body x-data="{ activeTab: 'semua', viewMode: 'grid', activeModalImg: null, activeModalTitle: '' }">
+
+	<header>
+		<div class="container nav-wrap">
+			<div class="brand">DAPUR <span>NUSANTARA</span></div>
+			<ul class="nav-links">
+				<li><a href="#cerita">Filosofi</a></li>
+				<li><a href="#menu">Menu Andalan</a></li>
+				<li><a href="#katering">Paket Jamuan</a></li>
+				<li><a href="#ambience">Ruang Privat</a></li>
+				<li><a href="#faq">Tanya Jawab</a></li>
+			</ul>
+			<a href="https://wa.me/6281234567890?text=Halo%20Dapur%20Nusantara,%20saya%20mau%20reservasi%20meja%20atau%20pesan%20katering" class="btn-gold" target="_blank">
+				<i class="fa-brands fa-whatsapp"></i> Reservasi
+			</a>
+		</div>
+	</header>
+
+	<div class="container">
+		<!-- Hero Section -->
+		<section class="hero">
+			<div>
+				<div class="hero-badge"><i class="fa-solid fa-crown"></i> Cita Rasa Otentik 3 Generasi</div>
+				<h1>Jamuan Nusantara dari Rempah Asli Pilihan.</h1>
+				<p>Bumbu ulek segar setiap subuh, dimasak perlahan dengan kuali tanah liat. Hadirkan kehangatan rasa rumahan untuk santap keluarga dan perjamuan kehormatan Anda.</p>
+				<div class="hero-actions">
+					<a href="https://wa.me/6281234567890?text=Halo%20Dapur%20Nusantara,%20saya%20mau%20booking%20jamuan" class="btn-gold" target="_blank">
+						<i class="fa-solid fa-calendar-check"></i> Reservasi Meja VIP
+					</a>
+					<a href="#menu" class="btn-outline">Eksplorasi Menu</a>
+				</div>
+			</div>
+			<div>
+				<div class="hero-img-wrap">
+					<img src="images/hero_dining.jpg" alt="Jamuan Dapur Nusantara" class="hero-img">
+					<div class="hero-badge-float">
+						<i class="fa-solid fa-award fa-2x" style="color:var(--primary);"></i>
+						<div>
+							<div style="font-weight:700; color:#fff;">100% Halal MUI & Segar</div>
+							<div style="font-size:0.8rem; color:var(--text-muted);">Tanpa Pengawet & Penguat Rasa Kimia</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Value Proposition -->
+		<div class="value-bar">
+			<div class="value-item">
+				<div class="value-icon"><i class="fa-solid fa-mortar-pestle"></i></div>
+				<div>
+					<h3>Rempah Segar Harian</h3>
+					<p>Bawang merah Brebes, cabai rawit gunung, dan rempah ulek asli tanpa bumbu pasta instan pabrik.</p>
+				</div>
+			</div>
+			<div class="value-item">
+				<div class="value-icon"><i class="fa-solid fa-temperature-arrow-up"></i></div>
+				<div>
+					<h3>Garansi Hangat Sampai Meja</h3>
+					<p>Pengiriman katering dengan packaging thermal insulasi khusus. Makanan tetap hangat dan sedap saat disantap.</p>
+				</div>
+			</div>
+			<div class="value-item">
+				<div class="value-icon"><i class="fa-solid fa-star"></i></div>
+				<div>
+					<h3>1.200+ Jamuan Terlaksana</h3>
+					<p>Pilihan utama santap keluarga, perjamuan kementerian, dan pertemuan direksi di Bandung & Jabodetabek.</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- Story & Heritage Section -->
+		<section id="cerita" class="story-grid">
+			<div class="story-imgs">
+				<img src="images/chef_cooking.jpg" alt="Chef Meracik Rempah">
+				<img src="images/signature_nasiliwet.jpg" alt="Nasi Liwet Kastrol">
+				<img src="images/packaging_box.jpg" alt="Kemasan Katering Premium">
+				<img src="images/ambience_dining.jpg" alt="Suasana Meja Restoran">
+			</div>
+			<div>
+				<div class="hero-badge">Filosofi Dapur Kami</div>
+				<h2 style="font-size:2.4rem; margin-bottom:1.25rem;">"Makanan Baik Tidak Pernah Mengambil Jalan Pintas."</h2>
+				<p style="color:var(--text-muted); margin-bottom:1.25rem;">Berawal dari dapur nenek kami di tahun 1984, Dapur Nusantara setia menjaga cara masak tradisional: mengungkep daging hingga empuk meresap ke serat terdalam, dan menanak nasi liwet dengan daun salam serta serai pilihan.</p>
+				<p style="color:var(--text-muted); margin-bottom:1.5rem;">Kami percaya jamuan makan bukan sekadar mengisi perut, melainkan momen menyatukan keluarga dan mempererat jalinan relasi dalam kehangatan rasa yang jujur.</p>
+				<a href="https://wa.me/6281234567890?text=Halo,%20saya%20tertarik%20tanya%20menu%20katering%20Dapur%20Nusantara" style="font-weight:700; color:var(--primary);"><i class="fa-solid fa-arrow-right"></i> Cerita Selengkapnya & Konsultasi Menu</a>
+			</div>
+		</section>
+
+		<!-- Signature Menu Section -->
+		<section id="menu" style="margin-bottom: 6rem;">
+			<div class="section-header">
+				<div class="hero-badge">Koleksi Rasa</div>
+				<h2>Mahakarya Dapur Kami</h2>
+				<p>Setiap menu diracik dengan bumbu ulek segar dan daging pilihan berpemanasan presisi.</p>
+			</div>
+
+			<!-- Tab Kategori + View Mode Switcher (Pro Feature) -->
+			<div class="view-switch-bar">
+				<div class="tab-pill-wrap">
+					<div class="tab-pill">
+						<button class="tab-btn" :class="{ 'active': activeTab === 'semua' }" @click="activeTab = 'semua'">Semua (6)</button>
+						<button class="tab-btn" :class="{ 'active': activeTab === 'signature' }" @click="activeTab = 'signature'">Signature</button>
+						<button class="tab-btn" :class="{ 'active': activeTab === 'daging' }" @click="activeTab = 'daging'">Iga & Daging</button>
+						<button class="tab-btn" :class="{ 'active': activeTab === 'ayam' }" @click="activeTab = 'ayam'">Ayam & Ikan</button>
+					</div>
+				</div>
+
+				<div class="view-btns">
+					<button class="btn-mode" :class="{ 'active': viewMode === 'grid' }" @click="viewMode = 'grid'" title="Mode Thumbnail 2 Kolom">
+						<i class="fa-solid fa-grip"></i> <span style="font-size:0.75rem;">Grid</span>
+					</button>
+					<button class="btn-mode" :class="{ 'active': viewMode === 'list' }" @click="viewMode = 'list'" title="Mode List Daftar">
+						<i class="fa-solid fa-list"></i> <span style="font-size:0.75rem;">List</span>
+					</button>
+				</div>
+			</div>
+
+			<!-- Container Menu Dinamis -->
+			<div :class="viewMode === 'grid' ? 'menu-grid-mode' : 'menu-list-mode'">
+				<!-- Card 1 -->
+				<div class="card" x-show="activeTab === 'semua' || activeTab === 'signature'" style="position:relative;">
+					<div style="position:relative; overflow:hidden;">
+						<img src="images/signature_nasiliwet.jpg" alt="Nasi Kastrol Liwet" class="card-img">
+						<button class="lightbox-trigger" @click="activeModalImg = 'images/signature_nasiliwet.jpg'; activeModalTitle = 'Nasi Kastrol Liwet Teri Medan'" title="Perbesar Foto">
+							<i class="fa-solid fa-expand"></i>
+						</button>
+					</div>
+					<div class="card-body">
+						<span class="card-badge">Best Seller</span>
+						<h3>Nasi Kastrol Liwet Teri Medan</h3>
+						<p>Dimasak dalam kuali liwet tanah liat, taburan teri medan gurih, petai bakar, dan sambal seruit dadak.</p>
+						<div class="price-row">
+							<div class="price">Rp 48.000</div>
+							<a href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20pesan%20Nasi%20Kastrol%20Liwet" class="btn-order">Pesan</a>
+						</div>
+					</div>
+				</div>
+
+				<!-- Card 2 -->
+				<div class="card" x-show="activeTab === 'semua' || activeTab === 'daging'" style="position:relative;">
+					<div style="position:relative; overflow:hidden;">
+						<img src="images/signature_igabakar.jpg" alt="Iga Bakar Madu Rempah" class="card-img">
+						<button class="lightbox-trigger" @click="activeModalImg = 'images/signature_igabakar.jpg'; activeModalTitle = 'Iga Sapi Bakar Madu Rempah'" title="Perbesar Foto">
+							<i class="fa-solid fa-expand"></i>
+						</button>
+					</div>
+					<div class="card-body">
+						<span class="card-badge">Pilihan Chef</span>
+						<h3>Iga Sapi Bakar Madu Rempah</h3>
+						<p>Daging iga lokal pilihan diungkep 6 jam dengan 18 rempah, dibakar madu hutan sumbawa.</p>
+						<div class="price-row">
+							<div class="price">Rp 88.000</div>
+							<a href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20pesan%20Iga%20Bakar%20Madu" class="btn-order">Pesan</a>
+						</div>
+					</div>
+				</div>
+
+				<!-- Card 3 -->
+				<div class="card" x-show="activeTab === 'semua' || activeTab === 'ayam'" style="position:relative;">
+					<div style="position:relative; overflow:hidden;">
+						<img src="images/signature_ayambakar.jpg" alt="Ayam Kampung Bakar Rujak" class="card-img">
+						<button class="lightbox-trigger" @click="activeModalImg = 'images/signature_ayambakar.jpg'; activeModalTitle = 'Ayam Kampung Bakar Bumbu Rujak'" title="Perbesar Foto">
+							<i class="fa-solid fa-expand"></i>
+						</button>
+					</div>
+					<div class="card-body">
+						<span class="card-badge">Tradisional</span>
+						<h3>Ayam Kampung Bakar Rujak</h3>
+						<p>Satu ekor ayam kampung muda dimasak bumbu rujak pedas manis legit dengan aroma daun kemangi segar.</p>
+						<div class="price-row">
+							<div class="price">Rp 75.000</div>
+							<a href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20pesan%20Ayam%20Bakar%20Rujak" class="btn-order">Pesan</a>
+						</div>
+					</div>
+				</div>
+
+				<!-- Card 4 -->
+				<div class="card" x-show="activeTab === 'semua' || activeTab === 'ayam'" style="position:relative;">
+					<div style="position:relative; overflow:hidden;">
+						<img src="images/food_ikanbakar.jpg" alt="Gurame Bakar Sambal Kecap" class="card-img">
+						<button class="lightbox-trigger" @click="activeModalImg = 'images/food_ikanbakar.jpg'; activeModalTitle = 'Gurame Bakar Sambal Kecap Limau'" title="Perbesar Foto">
+							<i class="fa-solid fa-expand"></i>
+						</button>
+					</div>
+					<div class="card-body">
+						<span class="card-badge">Segar Kolam</span>
+						<h3>Gurame Bakar Sambal Kecap</h3>
+						<p>Gurame hidup segar dibakar kecap manis karamelisasi, disajikan bersama perasan jeruk limau & irisan cabai rawit.</p>
+						<div class="price-row">
+							<div class="price">Rp 65.000</div>
+							<a href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20pesan%20Gurame%20Bakar" class="btn-order">Pesan</a>
+						</div>
+					</div>
+				</div>
+
+				<!-- Card 5 -->
+				<div class="card" x-show="activeTab === 'semua' || activeTab === 'daging'" style="position:relative;">
+					<div style="position:relative; overflow:hidden;">
+						<img src="images/food_rendang.jpg" alt="Rendang Daging Padang Asli" class="card-img">
+						<button class="lightbox-trigger" @click="activeModalImg = 'images/food_rendang.jpg'; activeModalTitle = 'Rendang Sapi Hitam Minang Asli'" title="Perbesar Foto">
+							<i class="fa-solid fa-expand"></i>
+						</button>
+					</div>
+					<div class="card-body">
+						<span class="card-badge">Warisan Rasa</span>
+						<h3>Rendang Sapi Hitam Minang</h3>
+						<p>Daging sapi segar dimasak 8 jam dengan kelapa kukur parut dan rempah Minang pekat autentik.</p>
+						<div class="price-row">
+							<div class="price">Rp 55.000</div>
+							<a href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20pesan%20Rendang%20Hitam" class="btn-order">Pesan</a>
+						</div>
+					</div>
+				</div>
+
+				<!-- Card 6 -->
+				<div class="card" x-show="activeTab === 'semua' || activeTab === 'signature'" style="position:relative;">
+					<div style="position:relative; overflow:hidden;">
+						<img src="images/food_sate.jpg" alt="Sate Maranggi Sapi Cianjur" class="card-img">
+						<button class="lightbox-trigger" @click="activeModalImg = 'images/food_sate.jpg'; activeModalTitle = 'Sate Maranggi Sapi Cianjur'" title="Perbesar Foto">
+							<i class="fa-solid fa-expand"></i>
+						</button>
+					</div>
+					<div class="card-body">
+						<span class="card-badge">Favorit Rapat</span>
+						<h3>Sate Maranggi Sapi Cianjur</h3>
+						<p>10 tusuk potongan daging sapi empuk tanpa lemak dengan bumbu ketumbar gula aren & sambal tomat oncom.</p>
+						<div class="price-row">
+							<div class="price">Rp 52.000</div>
+							<a href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20pesan%20Sate%20Maranggi" class="btn-order">Pesan</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Catering Packages -->
+		<section id="katering">
+			<div class="section-header">
+				<div class="hero-badge">Layanan Katering & Acara</div>
+				<h2>Pilihan Paket Jamuan Bersama</h2>
+				<p>Solusi praktis dan berkelas untuk makan siang kantor, syukuran keluarga, dan resepsi pesta pernikahan.</p>
+			</div>
+
+			<div class="pkg-grid">
+				<div class="pkg-card">
+					<h3>Paket Jamuan Kerabat</h3>
+					<p style="color:var(--text-muted); font-size:0.9rem;">Cocok untuk arisan, syukuran rumah, dan ulang tahun intim.</p>
+					<div class="price">Rp 75.000 <span>/ porsi (Min. 20 pax)</span></div>
+					<ul class="pkg-features">
+						<li><i class="fa-solid fa-check"></i> Nasi Liwet Daun Jeruk</li>
+						<li><i class="fa-solid fa-check"></i> Ayam Bakar Bumbu Rujak</li>
+						<li><i class="fa-solid fa-check"></i> Bakwan Jagung Renyah & Sambal Bajak</li>
+						<li><i class="fa-solid fa-check"></i> Sayur Asem Betawi Segar</li>
+						<li><i class="fa-solid fa-check"></i> Kemasan Hardbox Eksklusif + Sendok Kayu</li>
+					</ul>
+					<a href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20pesan%20Paket%20Jamuan%20Kerabat" class="btn-outline" style="text-align:center;">Pesan Paket Ini</a>
+				</div>
+
+				<div class="pkg-card featured">
+					<span class="pkg-badge">Paling Banyak Dipilih</span>
+					<h3>Paket Jamuan Kehormatan</h3>
+					<p style="color:var(--text-muted); font-size:0.9rem;">Pilihan utama rapat direksi, jamuan kementerian, dan temu bisnis VIP.</p>
+					<div class="price">Rp 125.000 <span>/ porsi (Min. 30 pax)</span></div>
+					<ul class="pkg-features">
+						<li><i class="fa-solid fa-check"></i> Nasi Kastrol Liwet Teri Medan</li>
+						<li><i class="fa-solid fa-check"></i> Iga Sapi Bakar Madu / Bebek Betutu</li>
+						<li><i class="fa-solid fa-check"></i> Udang Bakar Jimbaran Madu</li>
+						<li><i class="fa-solid fa-check"></i> Tumis Buncis Daging Cincang</li>
+						<li><i class="fa-solid fa-check"></i> Dessert Es Cendol Nangka / Puding</li>
+						<li><i class="fa-solid fa-check"></i> Termasuk Pemanas Makanan & Waiter On-Site</li>
+					</ul>
+					<a href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20pesan%20Paket%20Jamuan%20Kehormatan" class="btn-gold" style="text-align:center;">Pesan Paket Kehormatan</a>
+				</div>
+
+				<div class="pkg-card">
+					<h3>Prasmanan Resepsi</h3>
+					<p style="color:var(--text-muted); font-size:0.9rem;">Solusi jamuan pesta pernikahan & resepsi korporat skala besar.</p>
+					<div class="price">Rp 185.000 <span>/ porsi (Min. 100 pax)</span></div>
+					<ul class="pkg-features">
+						<li><i class="fa-solid fa-check"></i> 8 Pilihan Menu Utama Nusantara</li>
+						<li><i class="fa-solid fa-check"></i> 3 Food Stall Pondokan Spesial</li>
+						<li><i class="fa-solid fa-check"></i> Meja Dekorasi Kayu Etnik Lengkap</li>
+						<li><i class="fa-solid fa-check"></i> Tim Pelayan Seragam Tradisional</li>
+						<li><i class="fa-solid fa-check"></i> Food Tasting untuk 6 Orang Sebelum Hari H</li>
+					</ul>
+					<a href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20konsultasi%20Prasmanan%20Resepsi" class="btn-outline" style="text-align:center;">Konsultasi Wedding</a>
+				</div>
+			</div>
+		</section>
+
+		
+		<!-- BLOK 6: OUR PROCESS (How It Works) -->
+		<section id="proses" style="margin-bottom: 6rem;">
+			<div class="section-header">
+				<div class="hero-badge">Alur Pemesanan Mudah</div>
+				<h2>Cara Menikmati Jamuan Dapur Nusantara</h2>
+				<p>Hanya 3 langkah sederhana dari pemesanan hingga hidangan hangat tersaji di meja Anda.</p>
+			</div>
+			<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+				<div style="background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 2rem; position: relative;">
+					<div style="font-family: var(--font-serif); font-size: 3rem; color: var(--primary); opacity: 0.3; line-height: 1; margin-bottom: 0.5rem;">01</div>
+					<h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: #fff;">Pilih Menu & Paket</h3>
+					<p style="color: var(--text-muted); font-size: 0.9rem;">Tentukan hidangan signature atau pilih paket jamuan (Kerabat, Kehormatan, atau Prasmanan) sesuai kebutuhan acara Anda.</p>
+				</div>
+				<div style="background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 2rem; position: relative;">
+					<div style="font-family: var(--font-serif); font-size: 3rem; color: var(--primary); opacity: 0.3; line-height: 1; margin-bottom: 0.5rem;">02</div>
+					<h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: #fff;">Konfirmasi Jamuan via WhatsApp</h3>
+					<p style="color: var(--text-muted); font-size: 0.9rem;">Konsultasikan tanggal, jam santap, dan lokasi pengiriman bersama admin katering kami tanpa biaya komitmen.</p>
+				</div>
+				<div style="background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 2rem; position: relative;">
+					<div style="font-family: var(--font-serif); font-size: 3rem; color: var(--primary); opacity: 0.3; line-height: 1; margin-bottom: 0.5rem;">03</div>
+					<h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: #fff;">Diantar Hangat Tepat Waktu</h3>
+					<p style="color: var(--text-muted); font-size: 0.9rem;">Dapur kami memasak dadakan. Makanan dikirim dengan kotak termal insulasi bergaransi hangat sampai meja jamuan.</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Ambience & Private Dining -->
+		<section id="ambience" class="ambience-section">
+			<div>
+				<div class="hero-badge">Ruang Privat & VIP Dining</div>
+				<h2 style="font-size:2.3rem; margin-bottom:1.25rem;">Suasana Hangat, Tenang, dan Bebas Gangguan.</h2>
+				<p style="color:var(--text-muted); margin-bottom:1.25rem;">Tersedia 4 ruang privat ber-AC dengan meja bundar kayu jati asli berkapasitas 10 hingga 40 orang. Dilengkapi proyektor, audio jernih, dan layanan pelayan pribadi untuk kelancaran rapat tertutup maupun perayaan keluarga.</p>
+				<div style="margin-bottom:1.75rem;">
+					<div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.5rem;">
+						<i class="fa-solid fa-square-check" style="color:var(--primary);"></i> Bebas Biaya Sewa Ruangan (Hanya Minimum Spending Makanan)
+					</div>
+					<div style="display:flex; align-items:center; gap:0.75rem;">
+						<i class="fa-solid fa-square-check" style="color:var(--primary);"></i> Parkir Luas Valet Gratis untuk Tamu VIP
+					</div>
+				</div>
+				<a href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20cek%20ketersediaan%20Private%20Room%20Dapur%20Nusantara" class="btn-gold" target="_blank">
+					<i class="fa-solid fa-door-open"></i> Cek Jadwal Ruang Privat
+				</a>
+			</div>
+			<div>
+				<img src="images/ambience_private.jpg" alt="Ruang Privat Dapur Nusantara" style="width:100%; border-radius:14px; border:1px solid var(--border); aspect-ratio:4/3; object-fit:cover;">
+			</div>
+		</section>
+
+		
+		<!-- BLOK 7: TESTIMONIALS & CLIENT REVIEWS -->
+		<section id="testimoni" style="margin-bottom: 6rem;">
+			<div class="section-header">
+				<div class="hero-badge">Ulasan Sahabat Rasa</div>
+				<h2>Apa Kata Mereka yang Sudah Menikmati</h2>
+				<p>Pengalaman nyata dari keluarga dan instansi yang mempercayakan jamuannya kepada kami.</p>
+			</div>
+			<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.75rem;">
+				<div style="background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 1.75rem;">
+					<div style="color: var(--primary); margin-bottom: 0.75rem;">
+						<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+					</div>
+					<p style="color: var(--text-muted); font-size: 0.92rem; font-style: italic; margin-bottom: 1.25rem;">"Pesan 80 box Paket Kehormatan untuk rapat kerja dewan direksi. Semua puji rasa Iga Bakar Madunya, dagingnya empuk luar biasa dan yang terpenting makanannya masih panas waktu sampai!"</p>
+					<div style="display: flex; align-items: center; gap: 0.75rem;">
+						<div style="width: 40px; height: 40px; border-radius: 999px; background: #292524; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--primary);">BP</div>
+						<div>
+							<div style="font-weight: 700; color: #fff; font-size: 0.95rem;">Bambang Pratama</div>
+							<div style="font-size: 0.78rem; color: var(--text-muted);">Sekretariat BUMN, Jakarta</div>
+						</div>
+					</div>
+				</div>
+				<div style="background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 1.75rem;">
+					<div style="color: var(--primary); margin-bottom: 0.75rem;">
+						<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+					</div>
+					<p style="color: var(--text-muted); font-size: 0.92rem; font-style: italic; margin-bottom: 1.25rem;">"Acara syukuran 7 bulanan di rumah jadi tenang. Prasmanan Nusantara dari Dapur Nusantara bumbu rempahnya nendang banget, tamuku sampai nanya pesen di mana."</p>
+					<div style="display: flex; align-items: center; gap: 0.75rem;">
+						<div style="width: 40px; height: 40px; border-radius: 999px; background: #292524; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--primary);">DA</div>
+						<div>
+							<div style="font-weight: 700; color: #fff; font-size: 0.95rem;">Dewi Anggraeni</div>
+							<div style="font-size: 0.78rem; color: var(--text-muted);">Ibu Rumah Tangga, Bandung</div>
+						</div>
+					</div>
+				</div>
+				<div style="background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 1.75rem;">
+					<div style="color: var(--primary); margin-bottom: 0.75rem;">
+						<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+					</div>
+					<p style="color: var(--text-muted); font-size: 0.92rem; font-style: italic; margin-bottom: 1.25rem;">"Ruang privatnya sangat nyaman dan tenang buat meeting formal sambil makan siang. Service staff-nya cepat dan sangat sopan. Sangat direkomendasikan."</p>
+					<div style="display: flex; align-items: center; gap: 0.75rem;">
+						<div style="width: 40px; height: 40px; border-radius: 999px; background: #292524; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--primary);">HS</div>
+						<div>
+							<div style="font-weight: 700; color: #fff; font-size: 0.95rem;">Hendro Suwito</div>
+							<div style="font-size: 0.78rem; color: var(--text-muted);">Managing Director, Bandung</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- FAQ Accordion -->
+		<section id="faq" class="faq-box">
+			<div class="section-header">
+				<div class="hero-badge">Pertanyaan Umum</div>
+				<h2>Hal yang Sering Ditanyakan</h2>
+			</div>
+
+			<div class="faq-item">
+				<div class="faq-q" @click="openFaq = (openFaq === 1 ? null : 1)">
+					<span>Apakah semua hidangan dijamin Halal?</span>
+					<i class="fa-solid" :class="openFaq === 1 ? 'fa-minus' : 'fa-plus'"></i>
+				</div>
+				<div class="faq-a" x-show="openFaq === 1" x-collapse>
+					Ya, 100% Halal bersertifikat MUI. Kami hanya menggunakan daging sapi dan ayam dari Rumah Potong Hewan (RPH) bersertifikat resmi tanpa alkohol atau mirin dalam proses masakan kami.
+				</div>
+			</div>
+
+			<div class="faq-item">
+				<div class="faq-q" @click="openFaq = (openFaq === 2 ? null : 2)">
+					<span>Berapa hari sebelumnya pemesanan katering harus dilakukan?</span>
+					<i class="fa-solid" :class="openFaq === 2 ? 'fa-minus' : 'fa-plus'"></i>
+				</div>
+				<div class="faq-a" x-show="openFaq === 2" x-collapse>
+					Untuk paket nasi kotak minimal H-1 sebelum jam 17.00 WIB. Untuk prasmanan dan acara skala besar di atas 100 pax, kami menyarankan H-7 agar jadwal dapur dan tim servis dapat dipersiapkan secara maksimal.
+				</div>
+			</div>
+
+			<div class="faq-item">
+				<div class="faq-q" @click="openFaq = (openFaq === 3 ? null : 3)">
+					<span>Bagaimana jika pesanan katering sampai dalam keadaan dingin?</span>
+					<i class="fa-solid" :class="openFaq === 3 ? 'fa-minus' : 'fa-plus'"></i>
+				</div>
+				<div class="faq-a" x-show="openFaq === 3" x-collapse>
+					Kami memberikan Garansi Hangat Sampai Meja. Semua hidangan dikirim menggunakan thermal box berpenghangat. Jika terjadi kendala pengiriman dan makanan sampai tidak hangat, tim kami siap mengganti atau memberikan kompensasi penuh.
+				</div>
+			</div>
+		</section>
+
+		<!-- BLOK 9: FINAL CALL TO ACTION -->
+		<section style="background: linear-gradient(180deg, var(--surface-1), #0c0a09); border: 2px solid var(--primary); border-radius: 20px; padding: 4rem 2rem; text-align: center; margin-bottom: 6rem;">
+			<div class="hero-badge"><i class="fa-solid fa-calendar-check"></i> Slot Terbatas Setiap Hari</div>
+			<h2 style="font-size: 2.6rem; margin-bottom: 1rem; color: #fff;">Amankan Jadwal Jamuan & Meja VIP Anda Hari Ini</h2>
+			<p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem; font-size: 1.05rem;">
+				Untuk menjaga kualitas dan kesegaran rempah, dapur kami membatasi maksimal 5 pemesanan katering besar per hari. Jangan biarkan momen berharga Anda kehabisan slot.
+			</p>
+			<div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+				<a href="https://wa.me/6281234567890?text=Halo%20Dapur%20Nusantara,%20saya%20mau%20amankan%20slot%20jamuan" class="btn-gold" style="padding: 0.85rem 1.8rem; font-size: 0.95rem;">
+					<i class="fa-brands fa-whatsapp fa-lg"></i> Hubungi Konsultan Jamuan Sekarang
+				</a>
+				<a href="tel:+6281234567890" class="btn-outline" style="padding: 0.85rem 1.8rem; font-size: 0.95rem;">
+					<i class="fa-solid fa-phone"></i> Telepon Langsung
+				</a>
+			</div>
+		</section>
+	</div>
+
+	<footer>
+		<div class="container">
+			<h3 style="font-family:var(--font-serif); font-size:1.6rem; color:#fff; margin-bottom:0.5rem;">DAPUR NUSANTARA</h3>
+			<p style="margin-bottom:1.5rem;">Jl. Taman Pramuka No. 181, Bandung Wetan · Buka Setiap Hari: 10.00 – 22.00 WIB</p>
+			<p style="font-size:0.8rem; color:#78716c;">
+				© 2026 Dapur Nusantara · Desain & Sistem oleh <a href="https://jioo.site" style="color:var(--primary); font-weight:700;">Jioodev</a>
+			</p>
+		</div>
+	</footer>
+
+
+	<!-- LIGHTBOX MODAL (PRO EXCLUSIVE) -->
+	<div x-show="activeModalImg" 
+	     x-cloak 
+	     class="lightbox-overlay" 
+	     @click.self="activeModalImg = null" 
+	     @keydown.escape.window="activeModalImg = null">
+		<div class="lightbox-content">
+			<button class="lightbox-close" @click="activeModalImg = null" title="Tutup">
+				<i class="fa-solid fa-xmark"></i>
+			</button>
+			<img :src="activeModalImg" :alt="activeModalTitle" class="lightbox-img">
+			<div class="lightbox-caption" x-text="activeModalTitle"></div>
+			<div style="margin-top:0.75rem;">
+				<a :href="'https://wa.me/6281234567890?text=Halo%20Dapur%20Nusantara,%20saya%20mau%20pesan%20menu%20' + encodeURIComponent(activeModalTitle)" class="btn-gold" style="font-size:0.85rem; padding:0.5rem 1.25rem;">
+					<i class="fa-brands fa-whatsapp"></i> Pesan Menu Ini
+				</a>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

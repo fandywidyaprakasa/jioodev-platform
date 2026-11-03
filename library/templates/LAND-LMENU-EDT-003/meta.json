@@ -1,0 +1,52 @@
+{
+  "asset_code": "LAND-LMENU-EDT-003",
+  "source_name": "beauty-salon-page",
+  "source_id": "y4lhlc229j2v2h9",
+  "source_origin": "Legacy Import",
+  "license": "JiooDev Commercial",
+  "product_type": "LAND",
+  "layout_archetype": "L-MENU",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "BEA",
+    "HTH",
+    "FNB",
+    "GEN"
+  ],
+  "business_purposes": [
+    "SSV",
+    "ORD",
+    "VIS"
+  ],
+  "business_models": [
+    "BM-SVC"
+  ],
+  "functional_caps": [
+    "CAP-WA"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-PROD",
+    "S-PRICE",
+    "S-CTA",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "READY",
+  "attributes": {
+    "responsive": true,
+    "fonts": [
+      "Fraunces",
+      "DM Sans"
+    ]
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev",
+  "display_name": "Bloom",
+  "slug": "bloom"
+}

@@ -1,0 +1,23 @@
+{
+  "record_type": "variant",
+  "code": "hero-fullbleed",
+  "name": "Hero Fullbleed",
+  "display_name": "hero-fullbleed",
+  "slot_code": "S-HERO",
+  "html_partial": "sections/S-HERO/hero-fullbleed/index.html",
+  "css_scope": "sections/S-HERO/hero-fullbleed/style.css",
+  "js_scope": "",
+  "compatible_themes": [
+    "split-edt"
+  ],
+  "compatible_tiers": [
+    "BASIC",
+    "PRO",
+    "AGENCY"
+  ],
+  "dependencies": [],
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1,
+  "reviewer": "Product Owner"
+}

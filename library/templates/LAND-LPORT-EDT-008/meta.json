@@ -1,0 +1,51 @@
+{
+  "asset_code": "LAND-LPORT-EDT-008",
+  "source_name": "Florist",
+  "source_id": "6dyo4qrkh7c72ge",
+  "source_origin": "Legacy Import",
+  "license": "JiooDev Commercial",
+  "product_type": "LAND",
+  "layout_archetype": "L-PORT",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "RET",
+    "EVE"
+  ],
+  "business_purposes": [
+    "POR",
+    "ORD"
+  ],
+  "business_models": [
+    "BM-PROD"
+  ],
+  "functional_caps": [
+    "CAP-GAL",
+    "CAP-WA"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-GAL",
+    "S-PROD",
+    "S-TEST",
+    "S-CTA",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "READY",
+  "attributes": {
+    "responsive": true,
+    "fonts": [
+      "Fraunces",
+      "DM Sans"
+    ]
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev",
+  "display_name": "Petal",
+  "slug": "petal"
+}

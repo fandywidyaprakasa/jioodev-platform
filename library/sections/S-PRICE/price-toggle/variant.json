@@ -1,0 +1,23 @@
+{
+  "record_type": "variant",
+  "code": "price-toggle",
+  "name": "Price Toggle",
+  "display_name": "price-toggle",
+  "slot_code": "S-PRICE",
+  "html_partial": "sections/S-PRICE/price-toggle/index.html",
+  "css_scope": "sections/S-PRICE/price-toggle/style.css",
+  "js_scope": "",
+  "compatible_themes": [
+    "split-edt"
+  ],
+  "compatible_tiers": [
+    "BASIC",
+    "PRO",
+    "AGENCY"
+  ],
+  "dependencies": [],
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1,
+  "reviewer": "Product Owner"
+}

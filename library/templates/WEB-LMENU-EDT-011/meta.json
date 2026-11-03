@@ -1,0 +1,51 @@
+{
+  "asset_code": "WEB-LMENU-EDT-011",
+  "source_name": "Pisanello",
+  "source_id": "n6om52wfo548v6b",
+  "source_origin": "Legacy Import",
+  "license": "TO FILL",
+  "product_type": "WEB",
+  "layout_archetype": "L-MENU",
+  "style_primary": "EDT",
+  "style_secondary": "WRM",
+  "industries": [
+    "FNB",
+    "TRV"
+  ],
+  "business_purposes": [
+    "VIS",
+    "ORD"
+  ],
+  "business_models": [
+    "BM-PROD",
+    "BM-SVC"
+  ],
+  "functional_caps": [
+    "CAP-MENU",
+    "CAP-MAP",
+    "CAP-WA"
+  ],
+  "sections": [
+    "S-HERO",
+    "S-MENU",
+    "S-STORY",
+    "S-GAL",
+    "S-LOC",
+    "S-FOOT"
+  ],
+  "technical_format": "F-HTM",
+  "pages": null,
+  "preview_url": "",
+  "thumbnail_url": "",
+  "version": "v1",
+  "status": "CLASSIFIED",
+  "attributes": {
+    "responsive": true,
+    "fonts": [
+      "Fraunces",
+      "DM Sans"
+    ]
+  },
+  "taxonomy_version": "1",
+  "brand": "JiooDev"
+}

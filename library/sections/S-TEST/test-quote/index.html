@@ -1,0 +1,14 @@
+<section class="s-test" aria-labelledby="s-test-title">
+  <header class="s-test__head">
+    <h2 class="s-test__title" id="s-test-title">{{title}}</h2>
+    <p class="s-test__lead">{{subtitle}}</p>
+  </header>
+  <ul class="s-test__grid">
+    {{#items}}
+    <li class="s-test__card">
+      <blockquote>{{quote}}</blockquote>
+      <p class="s-test__author">{{author}}<span>{{role}}</span></p>
+    </li>
+    {{/items}}
+  </ul>
+</section>

@@ -1,0 +1,47 @@
+{
+  "composition_id": "studio-pro",
+  "display_name": "Studio",
+  "slug": "studio-pro",
+  "theme_id": "split-edt",
+  "type": "LANDING",
+  "model": "HTML",
+  "tier": "PRO",
+  "family": "Landing",
+  "blocks": [
+    {
+      "slot": "S-HERO",
+      "variant": "hero-fullbleed",
+      "enabled": true,
+      "order": 1
+    },
+    {
+      "slot": "S-BEN",
+      "variant": "ben-stats",
+      "enabled": true,
+      "order": 2
+    },
+    {
+      "slot": "S-TEST",
+      "variant": "test-slider",
+      "enabled": true,
+      "order": 3
+    },
+    {
+      "slot": "S-CTA",
+      "variant": "cta-sticky",
+      "enabled": true,
+      "order": 4
+    },
+    {
+      "slot": "S-FOOT",
+      "variant": "foot-map",
+      "enabled": true,
+      "order": 10
+    }
+  ],
+  "license": "JiooDev Commercial",
+  "owner": "JiooDev",
+  "reviewer": "Product Owner",
+  "status": "READY",
+  "version": 1
+}

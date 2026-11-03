@@ -1,0 +1,47 @@
+{
+  "composition_id": "advisory-basic",
+  "display_name": "Advisory",
+  "slug": "advisory-basic",
+  "theme_id": "split-edt",
+  "type": "LANDING",
+  "model": "HTML",
+  "tier": "BASIC",
+  "family": "Landing",
+  "blocks": [
+    {
+      "slot": "S-HERO",
+      "variant": "hero-centered",
+      "enabled": true,
+      "order": 1
+    },
+    {
+      "slot": "S-BEN",
+      "variant": "ben-list",
+      "enabled": true,
+      "order": 2
+    },
+    {
+      "slot": "S-TEST",
+      "variant": "test-quote",
+      "enabled": true,
+      "order": 3
+    },
+    {
+      "slot": "S-CTA",
+      "variant": "cta-boxed",
+      "enabled": true,
+      "order": 4
+    },
+    {
+      "slot": "S-FOOT",
+      "variant": "foot-minimal",
+      "enabled": true,
+      "order": 10
+    }
+  ],
+  "license": "JiooDev Commercial",
+  "owner": "JiooDev",
+  "reviewer": "Product Owner",
+  "status": "READY",
+  "version": 1
+}

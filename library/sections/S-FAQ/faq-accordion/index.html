@@ -1,0 +1,14 @@
+<section class="s-faq">
+  <header class="s-faq__head">
+    <h2 class="s-faq__title">{{title}}</h2>
+    <p class="s-faq__lead">{{subtitle}}</p>
+  </header>
+  <div class="s-faq__list">
+    {{#items}}
+    <details class="s-faq__item">
+      <summary>{{question}}</summary>
+      <p>{{answer}}</p>
+    </details>
+    {{/items}}
+  </div>
+</section>

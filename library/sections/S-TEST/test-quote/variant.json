@@ -1,0 +1,23 @@
+{
+  "record_type": "variant",
+  "code": "test-quote",
+  "name": "Test Quote",
+  "display_name": "test-quote",
+  "slot_code": "S-TEST",
+  "html_partial": "sections/S-TEST/test-quote/index.html",
+  "css_scope": "sections/S-TEST/test-quote/style.css",
+  "js_scope": "",
+  "compatible_themes": [
+    "split-edt"
+  ],
+  "compatible_tiers": [
+    "BASIC",
+    "PRO",
+    "AGENCY"
+  ],
+  "dependencies": [],
+  "license": "JiooDev Commercial",
+  "status": "READY",
+  "version": 1,
+  "reviewer": "Product Owner"
+}
