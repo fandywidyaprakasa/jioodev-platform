@@ -123,7 +123,7 @@ export const api = {
         ? delay({
             id: `dep_${Date.now()}`,
             projectId: id,
-            target: "platform",
+            target: "container",
             environment: "production",
             status: "LIVE",
             liveUrl: `/p/${id}`,

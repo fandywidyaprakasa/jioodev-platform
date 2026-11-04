@@ -124,7 +124,7 @@ export async function markPublished(
   const existing = await getDeployment(projectId);
   const payload = {
     project_id: projectId,
-    target: "platform",
+    target: "container",
     environment: "production",
     status: "LIVE",
     live_url: liveUrl,
