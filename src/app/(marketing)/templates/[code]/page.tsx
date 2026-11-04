@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { TemplateDetailPreview } from "@/modules/catalog/components/template-detail-preview";
 import { getTemplate } from "@/shared/lib/templates-server";
+import { getTheme } from "@/shared/lib/catalog-server";
 import { Badge, PageHeader } from "@/shared/ui";
 
 export const dynamic = "force-dynamic";
@@ -28,6 +29,9 @@ export default async function TemplateDetailPage({
 }) {
   const template = await getTemplate(params.code);
   if (!template) notFound();
+  const theme = template.themeId
+    ? await getTheme(template.themeId).catch(() => null)
+    : null;
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-14 lg:py-20">
@@ -36,7 +40,16 @@ export default async function TemplateDetailPage({
         description={template.description}
         actions={
           <>
+            {theme ? (
+              <Link
+                href={`/templates/theme/${theme.themeId}`}
+                className="text-sm font-medium text-accent hover:underline"
+              >
+                {theme.name}
+              </Link>
+            ) : null}
             <Badge variant="accent">{template.productType}</Badge>
+            {template.tier ? <Badge>{template.tier}</Badge> : null}
             <Badge>{template.layout}</Badge>
             <Badge>{template.style}</Badge>
           </>

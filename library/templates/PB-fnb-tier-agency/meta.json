@@ -41,5 +41,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Dapur Nusantara (Tier 3 — Agency / Enterprise)",
-  "slug": "pb-fnb-tier-agency"
+  "slug": "pb-fnb-tier-agency",
+  "theme_id": "dapur-nusantara",
+  "tier": "AGENCY",
+  "variant_label": "Agency Enterprise",
+  "variant_of": "dapur-nusantara"
 }

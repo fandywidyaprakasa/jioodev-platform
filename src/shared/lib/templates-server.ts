@@ -40,9 +40,12 @@ interface Meta {
   style_secondary?: string;
   industries?: string[];
   business_purposes?: string[];
+  theme_id?: string;
+  tier?: Template["tier"];
+  variant_label?: string;
 }
 
-async function listLocalTemplates(): Promise<Template[]> {
+export async function listLocalTemplates(): Promise<Template[]> {
   const root =
     process.env.JIOODEV_LIBRARY_DIR ??
     path.join(process.cwd(), "..", "library");
@@ -51,7 +54,7 @@ async function listLocalTemplates(): Promise<Template[]> {
   try {
     entries = await fs.readdir(dir);
   } catch {
-    return mockTemplates;
+    return [];
   }
 
   const templates: Template[] = [];
@@ -68,6 +71,7 @@ async function listLocalTemplates(): Promise<Template[]> {
       templates.push({
         code: meta.asset_code ?? code,
         name:
+          meta.variant_label ??
           meta.display_name ??
           NAMES[meta.asset_code ?? code] ??
           `${layout} template`,
@@ -80,29 +84,31 @@ async function listLocalTemplates(): Promise<Template[]> {
           LAYOUTS[layout] ?? layout
         } dan pendekatan editorial.`,
         previewUrl: `/template-preview/${meta.asset_code ?? code}`,
+        themeId: meta.theme_id,
+        tier: meta.tier,
+        variantLabel: meta.variant_label,
       });
     } catch {
       // Skip folders without a complete template.
     }
   }
 
-  if (!templates.length) return mockTemplates;
   return templates.sort((a, b) =>
     `${a.productType}-${a.code}`.localeCompare(`${b.productType}-${b.code}`),
   );
 }
 
 export async function listTemplates(): Promise<Template[]> {
+  const local = await listLocalTemplates();
+  if (local.length) return local;
   const master = await listCatalogTemplates().catch(() => []);
-  const usingFallback =
-    master.length === mockTemplates.length &&
-    master[0]?.code === mockTemplates[0]?.code;
-  return usingFallback ? await listLocalTemplates() : master;
+  return master.length ? master : mockTemplates;
 }
 
 export async function getTemplate(code: string): Promise<Template | null> {
-  const remote = await getMasterTemplate(code);
-  if (remote) return remote;
   const local = await listLocalTemplates();
-  return local.find((item) => item.code === code) ?? null;
+  const match = local.find((item) => item.code === code);
+  if (match) return match;
+  const remote = await getMasterTemplate(code);
+  return remote ?? mockTemplates.find((item) => item.code === code) ?? null;
 }

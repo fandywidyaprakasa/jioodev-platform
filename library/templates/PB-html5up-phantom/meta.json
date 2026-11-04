@@ -41,5 +41,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Phantom",
-  "slug": "pb-html5up-phantom"
+  "slug": "pb-html5up-phantom",
+  "theme_id": "html5up",
+  "tier": "BASIC",
+  "variant_label": "Phantom",
+  "variant_of": "html5up"
 }

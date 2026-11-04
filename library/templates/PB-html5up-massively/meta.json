@@ -41,5 +41,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Massively",
-  "slug": "pb-html5up-massively"
+  "slug": "pb-html5up-massively",
+  "theme_id": "html5up",
+  "tier": "BASIC",
+  "variant_label": "Massively",
+  "variant_of": "html5up"
 }

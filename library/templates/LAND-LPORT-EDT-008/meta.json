@@ -47,5 +47,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Petal",
-  "slug": "petal"
+  "slug": "petal",
+  "theme_id": "editorial-warm",
+  "tier": "PRO",
+  "variant_label": "Petal",
+  "variant_of": "editorial-warm"
 }

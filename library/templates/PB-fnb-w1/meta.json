@@ -41,5 +41,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Titik Temu Roastery (FNB W1 - Website Simple)",
-  "slug": "pb-fnb-w1"
+  "slug": "pb-fnb-w1",
+  "theme_id": "dapur-nusantara",
+  "tier": "BASIC",
+  "variant_label": "Website Simple",
+  "variant_of": "dapur-nusantara"
 }

@@ -1,26 +1,30 @@
 import type { Metadata } from "next";
-import { TemplateGrid } from "@/modules/catalog/components/template-grid";
-import { listTemplates } from "@/shared/lib/templates-server";
+import { ThemeCatalog } from "@/modules/catalog/components/theme-catalog";
+import { listThemes } from "@/shared/lib/catalog-server";
 import { PageHeader } from "@/shared/ui";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Katalog Template — JiooDev",
+  title: "Katalog Theme — JiooDev",
   description:
-    "Jelajahi fondasi desain JiooDev untuk landing page, website, dan commerce.",
+    "Jelajahi theme JiooDev: satu theme, banyak varian untuk landing page, website, dan commerce.",
 };
 
 export default async function TemplatesPage() {
-  const templates = await listTemplates();
+  const themes = await listThemes();
+  const variantCount = themes.reduce(
+    (total, theme) => total + theme.variantCount,
+    0,
+  );
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-14 lg:py-20">
       <PageHeader
-        title="Fondasi desain, bukan tema instan."
-        description={`${templates.length} template terkurasi dengan struktur section yang bisa ditransformasi sesuai konteks bisnis.`}
+        title="Pilih theme, lalu variannya."
+        description={`${themes.length} theme · ${variantCount} varian terkurasi. Buka theme untuk melihat tipe produk, tier, dan varian.`}
       />
-      <TemplateGrid templates={templates} hrefBase="/templates" />
+      <ThemeCatalog themes={themes} mode="browse" />
     </div>
   );
 }

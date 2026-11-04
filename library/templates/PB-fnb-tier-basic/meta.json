@@ -41,5 +41,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Dapur Nusantara (Tier 1 — Basic / Starter)",
-  "slug": "pb-fnb-tier-basic"
+  "slug": "pb-fnb-tier-basic",
+  "theme_id": "dapur-nusantara",
+  "tier": "BASIC",
+  "variant_label": "Starter",
+  "variant_of": "dapur-nusantara"
 }

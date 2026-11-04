@@ -41,5 +41,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Dapur Nusantara (FNB L2 - Landing Advanced)",
-  "slug": "pb-fnb-l2"
+  "slug": "pb-fnb-l2",
+  "theme_id": "dapur-nusantara",
+  "tier": "PRO",
+  "variant_label": "Landing Advanced",
+  "variant_of": "dapur-nusantara"
 }

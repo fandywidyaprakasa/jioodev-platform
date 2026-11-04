@@ -9,9 +9,10 @@ test("marketing home renders", async ({ page }) => {
 test("template catalog renders", async ({ page }) => {
   await page.goto("/templates");
   await expect(
-    page.getByRole("heading", { name: /Fondasi desain/ }),
+    page.getByRole("heading", { name: /Pilih theme/ }),
   ).toBeVisible();
-  await expect(page.getByLabel("Cari template")).toBeVisible();
+  await expect(page.getByLabel("Cari theme")).toBeVisible();
+  await expect(page.getByRole("link", { name: /Editorial Warm/ })).toBeVisible();
 });
 
 test("guest can open the new project form", async ({ page }) => {

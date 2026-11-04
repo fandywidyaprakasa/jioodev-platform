@@ -45,5 +45,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Story",
-  "slug": "story"
+  "slug": "story",
+  "theme_id": "editorial-warm",
+  "tier": "PRO",
+  "variant_label": "Story",
+  "variant_of": "editorial-warm"
 }

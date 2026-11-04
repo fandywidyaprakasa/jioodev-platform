@@ -46,5 +46,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Advisory",
-  "slug": "advisory"
+  "slug": "advisory",
+  "theme_id": "editorial-warm",
+  "tier": "BASIC",
+  "variant_label": "Advisory",
+  "variant_of": "editorial-warm"
 }

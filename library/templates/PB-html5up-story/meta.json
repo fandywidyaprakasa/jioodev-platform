@@ -41,5 +41,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Story",
-  "slug": "pb-html5up-story"
+  "slug": "pb-html5up-story",
+  "theme_id": "html5up",
+  "tier": "BASIC",
+  "variant_label": "Story",
+  "variant_of": "html5up"
 }

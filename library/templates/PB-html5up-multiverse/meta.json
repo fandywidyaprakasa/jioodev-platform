@@ -41,5 +41,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Multiverse",
-  "slug": "pb-html5up-multiverse"
+  "slug": "pb-html5up-multiverse",
+  "theme_id": "html5up",
+  "tier": "BASIC",
+  "variant_label": "Multiverse",
+  "variant_of": "html5up"
 }

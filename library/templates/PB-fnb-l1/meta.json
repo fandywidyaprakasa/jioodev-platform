@@ -41,5 +41,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Sambal Juara (FNB L1 - Micro Landing)",
-  "slug": "pb-fnb-l1"
+  "slug": "pb-fnb-l1",
+  "theme_id": "dapur-nusantara",
+  "tier": "BASIC",
+  "variant_label": "Micro Landing",
+  "variant_of": "dapur-nusantara"
 }

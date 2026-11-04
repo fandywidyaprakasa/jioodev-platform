@@ -49,5 +49,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Split",
-  "slug": "editorial-split"
+  "slug": "editorial-split",
+  "theme_id": "editorial-warm",
+  "tier": "BASIC",
+  "variant_label": "Split",
+  "variant_of": "editorial-warm"
 }

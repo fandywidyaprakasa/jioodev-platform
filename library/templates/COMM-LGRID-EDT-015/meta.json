@@ -46,5 +46,9 @@
     ]
   },
   "taxonomy_version": "1",
-  "brand": "JiooDev"
+  "brand": "JiooDev",
+  "theme_id": "commerce-classic",
+  "tier": "BASIC",
+  "variant_label": "Grid Catalog",
+  "variant_of": "commerce-classic"
 }

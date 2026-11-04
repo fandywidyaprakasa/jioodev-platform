@@ -41,5 +41,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Future Imperfect",
-  "slug": "pb-html5up-future-imperfect"
+  "slug": "pb-html5up-future-imperfect",
+  "theme_id": "html5up",
+  "tier": "BASIC",
+  "variant_label": "Future Imperfect",
+  "variant_of": "html5up"
 }

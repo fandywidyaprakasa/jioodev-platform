@@ -41,5 +41,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Editorial",
-  "slug": "pb-html5up-editorial"
+  "slug": "pb-html5up-editorial",
+  "theme_id": "html5up",
+  "tier": "BASIC",
+  "variant_label": "Editorial",
+  "variant_of": "html5up"
 }

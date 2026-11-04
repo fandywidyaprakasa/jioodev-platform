@@ -41,5 +41,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Dapur Nusantara — Modern Minimalist (L2)",
-  "slug": "pb-fnb-01-l2-minimal"
+  "slug": "pb-fnb-01-l2-minimal",
+  "theme_id": "dapur-nusantara",
+  "tier": "PRO",
+  "variant_label": "Modern Minimalist",
+  "variant_of": "dapur-nusantara"
 }

@@ -41,5 +41,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Dapur Nusantara (Tier 2 — Pro / Production)",
-  "slug": "pb-fnb-tier-pro"
+  "slug": "pb-fnb-tier-pro",
+  "theme_id": "dapur-nusantara",
+  "tier": "PRO",
+  "variant_label": "Production",
+  "variant_of": "dapur-nusantara"
 }

@@ -121,3 +121,24 @@ test("published page returns 404 for unknown slug", async ({ request }) => {
   const response = await request.get("/p/tidak-ada-xyz");
   expect(response.status()).toBe(404);
 });
+
+test("catalog themes groups variants by product and tier", async ({ request }) => {
+  const response = await request.get("/api/catalog/themes?product=LAND");
+  expect(response.status()).toBe(200);
+  const themes = await response.json();
+  expect(Array.isArray(themes)).toBe(true);
+  const editorial = themes.find(
+    (theme: { themeId?: string }) => theme.themeId === "editorial-warm",
+  );
+  expect(editorial).toMatchObject({
+    themeId: "editorial-warm",
+    name: "Editorial Warm",
+    status: "READY",
+  });
+  expect(editorial.products[0].type).toBe("LAND");
+  const tiers = editorial.products[0].tiers.map(
+    (tier: { tier: string }) => tier.tier,
+  );
+  expect(tiers).toContain("BASIC");
+  expect(tiers).toContain("PRO");
+});

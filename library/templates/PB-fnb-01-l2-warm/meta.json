@@ -41,5 +41,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Dapur Nusantara — Warm Rustic (L2)",
-  "slug": "pb-fnb-01-l2-warm"
+  "slug": "pb-fnb-01-l2-warm",
+  "theme_id": "dapur-nusantara",
+  "tier": "PRO",
+  "variant_label": "Warm Rustic",
+  "variant_of": "dapur-nusantara"
 }

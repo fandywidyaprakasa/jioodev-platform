@@ -1,6 +1,10 @@
 import { notFound } from "next/navigation";
-import { TemplatePicker } from "@/modules/catalog/components/template-picker";
-import { listTemplates } from "@/shared/lib/templates-server";
+import { ThemeCatalog } from "@/modules/catalog/components/theme-catalog";
+import {
+  listThemes,
+  themeScore,
+  themesForProduct,
+} from "@/shared/lib/catalog-server";
 import {
   canAccess,
   findProject,
@@ -33,34 +37,31 @@ export default async function ProjectTemplatesPage({
     notFound();
   }
 
-  const [templates, profile] = await Promise.all([
-    listTemplates(),
+  const [allThemes, profile] = await Promise.all([
+    listThemes(),
     getBusinessProfile(params.projectId).catch(() => null),
   ]);
-  const byType = templates.filter(
-    (template) => template.productType === project.product_type,
-  );
-  const score = (template: (typeof templates)[number]) =>
-    (profile?.industry && template.industries.includes(profile.industry) ? 2 : 0) +
-    (profile?.business_purpose ?? []).filter((purpose) =>
-      template.purposes.includes(purpose),
-    ).length;
-  const relevant = [...(byType.length ? byType : templates)].sort(
-    (a, b) => score(b) - score(a),
+  const industry = profile?.industry ?? undefined;
+  const purposes = profile?.business_purpose ?? [];
+  const themes = themesForProduct(allThemes, project.product_type ?? "LAND").sort(
+    (a, b) =>
+      themeScore(b, industry, purposes) - themeScore(a, industry, purposes) ||
+      a.name.localeCompare(b.name),
   );
 
   return (
     <div>
       <PageHeader
-        title="Pilih Template"
-        description="Template menentukan fondasi struktur halaman."
+        title="Pilih Theme"
+        description="Mulai dari satu theme, lalu pilih tipe, tier, dan varian yang tersedia."
       />
-      <TemplatePicker
+      <ThemeCatalog
+        themes={themes}
+        mode="pick"
         projectId={params.projectId}
-        templates={relevant}
         contextNote={`Direkomendasikan untuk ${project.product_type}${
-          profile?.industry ? ` · industri ${profile.industry}` : ""
-        }`}
+          industry ? ` · industri ${industry}` : ""
+        }${purposes.length ? ` · tujuan ${purposes.join(", ")}` : ""}`}
       />
     </div>
   );

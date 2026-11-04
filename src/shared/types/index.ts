@@ -61,6 +61,9 @@ export interface ComprehendResult {
   confidence: number;
 }
 
+export type ThemeTier = "BASIC" | "PRO" | "AGENCY";
+export type ThemeStatus = "READY" | "CLASSIFIED" | "DRAFT" | "DEPRECATED";
+
 export interface Template {
   code: string;
   name: string;
@@ -72,6 +75,30 @@ export interface Template {
   description: string;
   previewUrl?: string;
   thumbnailUrl?: string;
+  themeId?: string;
+  tier?: ThemeTier;
+  variantLabel?: string;
+}
+
+export interface ThemeTierGroup {
+  tier: ThemeTier;
+  variants: Template[];
+}
+
+export interface ThemeProductGroup {
+  type: ProductType;
+  tiers: ThemeTierGroup[];
+}
+
+export interface Theme {
+  themeId: string;
+  name: string;
+  description: string;
+  style: string;
+  thumbnailUrl?: string;
+  status: ThemeStatus;
+  products: ThemeProductGroup[];
+  variantCount: number;
 }
 
 export interface JobVariant {

@@ -41,5 +41,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Dapur Nusantara — Playful Casual Pop (L2)",
-  "slug": "pb-fnb-01-l2-playful"
+  "slug": "pb-fnb-01-l2-playful",
+  "theme_id": "dapur-nusantara",
+  "tier": "PRO",
+  "variant_label": "Playful Casual",
+  "variant_of": "dapur-nusantara"
 }

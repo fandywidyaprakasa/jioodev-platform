@@ -41,5 +41,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Nusantara Food Supply (FNB B2B - Corporate Supply)",
-  "slug": "pb-fnb-b2b"
+  "slug": "pb-fnb-b2b",
+  "theme_id": "dapur-nusantara",
+  "tier": "PRO",
+  "variant_label": "B2B Supply",
+  "variant_of": "dapur-nusantara"
 }

@@ -46,5 +46,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Studio",
-  "slug": "studio"
+  "slug": "studio",
+  "theme_id": "editorial-warm",
+  "tier": "PRO",
+  "variant_label": "Studio",
+  "variant_of": "editorial-warm"
 }

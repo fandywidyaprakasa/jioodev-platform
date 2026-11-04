@@ -41,5 +41,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Dapur Nusantara — Dark Luxury Dining (L2)",
-  "slug": "pb-fnb-01-l2-luxury"
+  "slug": "pb-fnb-01-l2-luxury",
+  "theme_id": "dapur-nusantara",
+  "tier": "PRO",
+  "variant_label": "Dark Luxury",
+  "variant_of": "dapur-nusantara"
 }

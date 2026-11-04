@@ -7,6 +7,7 @@ const PAGES = [
   "/pricing",
   "/templates",
   "/templates/LAND-LMENU-EDT-003",
+  "/templates/theme/editorial-warm",
   "/contact",
   "/login",
   "/register",

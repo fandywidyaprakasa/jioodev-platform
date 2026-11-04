@@ -48,5 +48,9 @@
   "taxonomy_version": "1",
   "brand": "JiooDev",
   "display_name": "Bloom",
-  "slug": "bloom"
+  "slug": "bloom",
+  "theme_id": "editorial-warm",
+  "tier": "PRO",
+  "variant_label": "Bloom",
+  "variant_of": "editorial-warm"
 }
