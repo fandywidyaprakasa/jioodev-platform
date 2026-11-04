@@ -342,7 +342,12 @@ export async function completeJob(input: {
       : input.status === "FAILED"
         ? "FAILED"
         : "PROCESSING";
-  const variants = input.variants ?? output.report?.variants ?? [];
+  const variants = (input.variants ?? output.report?.variants ?? [])
+    .filter((variant) => Boolean(variant?.id))
+    .map((variant) => ({
+      ...variant,
+      previewUrl: `/preview/${encodePreviewToken(output.id, variant.id)}`,
+    }));
   const wasReady = output.status === "READY";
   const updated = await updateRecord<PbOutput>("production_outputs", input.jobId, {
     status,

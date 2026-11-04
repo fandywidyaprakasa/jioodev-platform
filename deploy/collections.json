@@ -446,6 +446,14 @@
           "type": "date"
         },
         {
+          "name": "confirmed_at",
+          "type": "date"
+        },
+        {
+          "name": "confirmed_by",
+          "type": "text"
+        },
+        {
           "name": "raw_response",
           "type": "json"
         },

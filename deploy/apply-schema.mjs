@@ -19,7 +19,7 @@ if (!schemaPath) {
   process.exit(1);
 }
 const schema = JSON.parse(fs.readFileSync(schemaPath, "utf8"));
-const PB = process.env.PB_URL;
+const PB = process.env.PB_URL ?? process.env.POCKETBASE_PLATFORM_URL;
 const TOKEN = process.env.PB_TOKEN;
 const DRY = process.argv.includes("--dry-run");
 
