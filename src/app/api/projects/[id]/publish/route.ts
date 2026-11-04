@@ -7,6 +7,7 @@ import {
   unpublishProject,
 } from "@/shared/lib/published-server";
 import { notFound, requireUser } from "@/shared/lib/server-auth";
+import { markPublished, suspendDeployment } from "@/shared/lib/deploy-server";
 
 async function owned(projectId: string, userId: string, isAdmin: boolean) {
   const project = await findProject(projectId).catch(() => null);
@@ -53,6 +54,9 @@ export async function POST(
       { status },
     );
   }
+  await markPublished(params.id, result.page.url, result.page.slug).catch(
+    () => null,
+  );
   return NextResponse.json(result.page);
 }
 
@@ -72,5 +76,6 @@ export async function DELETE(
       { status: 404 },
     );
   }
+  await suspendDeployment(params.id).catch(() => null);
   return NextResponse.json({ ok: true, page: result.page });
 }

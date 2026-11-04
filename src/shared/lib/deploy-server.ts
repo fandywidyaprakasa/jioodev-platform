@@ -113,8 +113,15 @@ export async function requestDeployment(
 
   const published = await publishProject(projectId);
   if (!published.ok) return null;
+  return markPublished(projectId, published.page.url, published.page.slug);
+}
 
-  const liveUrl = published.page.url;
+export async function markPublished(
+  projectId: string,
+  liveUrl: string,
+  slug: string,
+): Promise<Deployment | null> {
+  const existing = await getDeployment(projectId);
   const payload = {
     project_id: projectId,
     target: "platform",
@@ -123,21 +130,14 @@ export async function requestDeployment(
     live_url: liveUrl,
     health: "OK",
   };
-  let deployment: PbDeployment;
-  if (existing) {
-    deployment = await updateRecord<PbDeployment>(
-      "deployments",
-      existing.id,
-      payload,
-    );
-  } else {
-    deployment = await createRecord<PbDeployment>("deployments", payload);
-  }
+  const deployment = existing
+    ? await updateRecord<PbDeployment>("deployments", existing.id, payload)
+    : await createRecord<PbDeployment>("deployments", payload);
 
   await patchProject(projectId, {
     status: "ACTIVE",
     deployment_id: deployment.id,
-    preview_url: buildPublicPath(published.page.slug),
+    preview_url: buildPublicPath(slug),
   }).catch(() => undefined);
   await logActivity({
     actor: "user",
@@ -146,8 +146,21 @@ export async function requestDeployment(
     entityId: deployment.id,
     meta: { project_id: projectId, live_url: liveUrl },
   });
-
   return toDeployment(deployment);
+}
+
+export async function suspendDeployment(
+  projectId: string,
+): Promise<Deployment | null> {
+  const existing = await getDeployment(projectId);
+  if (!existing) return null;
+  const updated = await updateRecord<PbDeployment>(
+    "deployments",
+    existing.id,
+    { status: "SUSPENDED", health: "UNKNOWN" },
+  );
+  await patchProject(projectId, { status: "PAID" }).catch(() => undefined);
+  return toDeployment(updated);
 }
 
 export async function checkDeploymentHealth(projectId: string) {
