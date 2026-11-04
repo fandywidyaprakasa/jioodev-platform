@@ -1,5 +1,5 @@
-import { TemplateGrid } from "@/modules/catalog/components/template-grid";
-import { getTemplate, listTemplates } from "@/shared/lib/templates-server";
+import { ThemeCatalog } from "@/modules/catalog/components/theme-catalog";
+import { listThemes } from "@/shared/lib/catalog-server";
 import { mockCopy, mockSections } from "@/shared/lib/mock-data";
 import { listMasterCopy, listMasterSections } from "@/shared/lib/master-hub";
 import { Alert, Badge, Card, PageHeader, Tabs, Table, Tbody, Td, Th, Thead, Tr } from "@/shared/ui";
@@ -7,8 +7,8 @@ import { Alert, Badge, Card, PageHeader, Tabs, Table, Tbody, Td, Th, Thead, Tr }
 export const dynamic = "force-dynamic";
 
 export default async function AdminContentPage() {
-  const [templates, sections, copyLibrary] = await Promise.all([
-    listTemplates(),
+  const [themes, sections, copyLibrary] = await Promise.all([
+    listThemes(),
     listMasterSections().catch(() => []),
     listMasterCopy().catch(() => []),
   ]);
@@ -49,7 +49,7 @@ export default async function AdminContentPage() {
           {
             id: "templates",
             label: "Template",
-            content: <TemplateGrid templates={templates} hrefBase="/templates" />,
+            content: <ThemeCatalog themes={themes} mode="browse" />,
           },
           {
             id: "sections",
