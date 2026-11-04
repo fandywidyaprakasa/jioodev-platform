@@ -55,24 +55,29 @@ Salin `.env.example` → `.env.local`. Variabel penting:
 Tanpa kredensial eksternal, platform tetap berjalan dengan fallback:
 variasi lokal (Hermes), QRIS manual, deploy semi-manual, dan katalog template mock 18.
 
-## Deploy (Coolify / Docker)
+## Deploy (Coolify)
 
-Deploy dari **root repo** (bukan `app/`) memakai `Dockerfile` di root, supaya folder
-`library/` ikut ke dalam image. Image menjalankan Next.js standalone di port 3000
-dengan `JIOODEV_LIBRARY_DIR=/library` dan healthcheck `GET /api/health`.
+Production memakai repo artifact **`fandywidyaprakasa/jioodev-platform`** (Nixpacks,
+base directory `/`). Repo itu berisi `app/` di root + `library/{templates,sections,
+compositions,themes}`. Jangan edit repo itu manual.
 
-1. Coolify → **New Resource → Dockerfile**, repository root, Dockerfile `/Dockerfile`.
-2. Persistent volume untuk PocketBase (resource terpisah, lihat `pocketbase-platform/`).
-3. Isi environment produksi (lihat `.env.example`); minimal:
-   `POCKETBASE_PLATFORM_URL`, `PB_ADMIN_EMAIL`, `PB_ADMIN_PASSWORD`,
-   `MASTER_HUB_URL`, `MASTER_HUB_TOKEN`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL`,
-   `PREVIEW_TOKEN_SECRET`, `JIOODEV_AUTH_MODE=real`, `NEXT_PUBLIC_API_MODE=real`.
-4. Deploy, lalu cek `https://<domain>/api/health` (`pocketbase=ok`).
-5. Jalankan `scripts/apply-pb-schema.mjs` + `scripts/seed-platform.mjs` ke PocketBase.
+Alur dari monorepo:
 
-Tanpa Docker (Nixpacks), set base directory ke root repo dan tambahkan
-`JIOODEV_LIBRARY_DIR=<path repo>/library`; jika base directory `app/`, folder
-`library/` tidak tersedia saat runtime dan preview template akan gagal.
+```bash
+node scripts/sync-platform.mjs --dry-run   # cek rencana
+node scripts/sync-platform.mjs             # sync + commit + push
+```
+
+Lalu redeploy `jioodev-platform-app` di Coolify. Environment produksi minimal:
+`POCKETBASE_PLATFORM_URL`, `PB_ADMIN_EMAIL`, `PB_ADMIN_PASSWORD`,
+`MASTER_HUB_URL`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL`, `JIOODEV_AUTH_MODE=real`,
+`NEXT_PUBLIC_API_MODE=real`, `JIOODEV_LIBRARY_DIR=/app/library`.
+
+Cek `https://app.jioo.site/api/health` → `ok:true`. Jalankan
+`scripts/apply-pb-schema.mjs` setelah ada perubahan schema.
+
+**Docker (opsional, self-host):** `Dockerfile` di root monorepo membangun image
+standalone dengan `library/` di `/library` dan healthcheck `GET /api/health`.
 
 ## Worker & backup
 
