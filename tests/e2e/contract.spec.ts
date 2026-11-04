@@ -116,3 +116,8 @@ test("sections endpoint validates variant and content schema", async ({ request 
     content: { headline: "Halo dari JiooDev" },
   });
 });
+
+test("published page returns 404 for unknown slug", async ({ request }) => {
+  const response = await request.get("/p/tidak-ada-xyz");
+  expect(response.status()).toBe(404);
+});

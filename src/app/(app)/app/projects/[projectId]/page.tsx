@@ -64,6 +64,10 @@ export default async function ProjectDetailPage({
   }
   const project = toProject(record);
   const next = NEXT_ACTION[project.status] ?? NEXT_ACTION.DRAFT;
+  const nextAction =
+    (project.status === "DEPLOYED" || project.status === "ACTIVE") && project.previewUrl
+      ? { label: "Buka halaman", href: project.previewUrl }
+      : next;
   const currentRank = STATUS_RANK[project.status] ?? 0;
 
   return (
@@ -127,10 +131,10 @@ export default async function ProjectDetailPage({
               alur tanpa kehilangan konteks yang sudah tersimpan.
             </p>
             <Link
-              href={`/app/projects/${project.id}/${next.href}`}
+              href={nextAction.href.startsWith("/") ? nextAction.href : `/app/projects/${project.id}/${nextAction.href}`}
               className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-accent px-5 text-sm font-medium text-on-accent transition-colors duration-150 hover:bg-accent-strong"
             >
-              {next.label}
+              {nextAction.label}
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </Card>
@@ -152,7 +156,18 @@ export default async function ProjectDetailPage({
               <div className="flex justify-between gap-3 py-2.5 first:pt-0 last:pb-0">
                 <dt className="text-muted">Preview</dt>
                 <dd className="text-right text-ink">
-                  {project.previewUrl ? "Tersedia" : "Belum ada"}
+                  {project.previewUrl ? (
+                    <a
+                      href={project.previewUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="font-medium text-accent hover:underline"
+                    >
+                      Buka halaman
+                    </a>
+                  ) : (
+                    "Belum ada"
+                  )}
                 </dd>
               </div>
               <div className="flex justify-between gap-3 py-2.5 first:pt-0 last:pb-0">

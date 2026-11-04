@@ -31,6 +31,7 @@ import type {
   Payment,
   ProductType,
   Project,
+  PublishedPage,
   Section,
   Subscription,
   Template,
@@ -122,13 +123,32 @@ export const api = {
         ? delay({
             id: `dep_${Date.now()}`,
             projectId: id,
-            target: "coolify",
+            target: "platform",
             environment: "production",
-            status: "PROVISIONING",
-            liveUrl: `${id}.jioo.site`,
-            health: "PENDING",
+            status: "LIVE",
+            liveUrl: `/p/${id}`,
+            health: "OK",
           })
         : request(`/projects/${id}/deploy`, { method: "POST" }),
+    publish: (id: string): Promise<PublishedPage> =>
+      USE_MOCK
+        ? delay({
+            slug: id.toLowerCase(),
+            url: `/p/${id.toLowerCase()}`,
+            status: "PUBLISHED" as const,
+            version: 1,
+            title: "Project Baru",
+            noindex: false,
+          })
+        : request(`/projects/${id}/publish`, { method: "POST" }),
+    published: (id: string): Promise<{ published: boolean; page: PublishedPage | null }> =>
+      USE_MOCK
+        ? delay({ published: false, page: null })
+        : request(`/projects/${id}/publish`),
+    unpublish: (id: string): Promise<{ ok: boolean }> =>
+      USE_MOCK
+        ? delay({ ok: true })
+        : request(`/projects/${id}/publish`, { method: "DELETE" }),
     assets: (id: string): Promise<{ id: string; name: string; url: string; size: number; createdAt: string }[]> =>
       USE_MOCK ? delay([]) : request(`/projects/${id}/assets`),
     uploadAsset: async (

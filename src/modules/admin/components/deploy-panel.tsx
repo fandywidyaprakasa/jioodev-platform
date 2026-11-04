@@ -36,8 +36,8 @@ export function DeployPanel({ projectId }: { projectId: string }) {
         const result = await api.projects.deploy(projectId);
         setDeployment(result);
         toast({
-          title: "Deploy dimulai",
-          description: `Status: ${result.status}.`,
+          title: "Halaman dipublish",
+          description: result.liveUrl || `Status: ${result.status}.`,
         });
       } catch (error) {
         toast({
@@ -114,11 +114,11 @@ export function DeployPanel({ projectId }: { projectId: string }) {
   }
 
   const live = deployment?.status === "LIVE";
-  const subdomain = `${projectId.replace(/_/g, "-")}.jioo.site`;
+  const publicUrl = deployment?.liveUrl;
 
   return (
     <div className="grid gap-4 lg:grid-cols-2">
-      <Card title="Status deployment">
+      <Card title="Halaman publik">
         <div className="flex items-center justify-between">
           <span className="text-sm text-muted">Status</span>
           <Badge variant={live ? "success" : "warning"}>
@@ -128,7 +128,7 @@ export function DeployPanel({ projectId }: { projectId: string }) {
         <dl className="mt-4 space-y-2 text-sm">
           <div className="flex justify-between gap-3">
             <dt className="text-muted">URL</dt>
-            <dd className="text-ink">{deployment?.liveUrl || subdomain}</dd>
+            <dd className="text-ink">{deployment?.liveUrl || "Belum dipublish"}</dd>
           </div>
           <div className="flex justify-between gap-3">
             <dt className="text-muted">Health</dt>
@@ -137,7 +137,7 @@ export function DeployPanel({ projectId }: { projectId: string }) {
         </dl>
         <div className="mt-4 flex gap-2">
           <Button onClick={deploy} loading={pending}>
-            Deploy Sekarang
+            Publish Halaman
           </Button>
           <Button variant="secondary" onClick={health} disabled={pending}>
             Health Check
@@ -150,13 +150,15 @@ export function DeployPanel({ projectId }: { projectId: string }) {
           >
             Kembali ke Project
           </Link>
-          {live ? (
-            <Link
-              href={`/app/projects/${projectId}/preview`}
+          {live && publicUrl ? (
+            <a
+              href={publicUrl}
+              target="_blank"
+              rel="noreferrer"
               className="font-medium text-accent hover:underline"
             >
-              Lihat Preview
-            </Link>
+              Buka Halaman Publik
+            </a>
           ) : null}
         </div>
       </Card>

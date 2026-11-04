@@ -6,8 +6,14 @@ import {
   listRecords,
   updateRecord,
 } from "./pb-platform";
-import { canTransition, findProject, patchProject } from "./projects-server";
+import { findProject, patchProject } from "./projects-server";
 import { logActivity } from "./activity-server";
+import {
+  buildPublicPath,
+  findPublishedPageByProject,
+  publishProject,
+  publicBaseUrl,
+} from "./published-server";
 
 export interface Deployment {
   id: string;
@@ -91,18 +97,6 @@ export async function listDeployments(): Promise<Deployment[]> {
   return data.items.map(toDeployment);
 }
 
-async function triggerCoolify(projectId: string) {
-  const webhook = process.env.COOLIFY_DEPLOY_WEBHOOK;
-  if (!webhook) return null;
-  const response = await fetch(webhook, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ project_id: projectId }),
-    cache: "no-store",
-  }).catch(() => null);
-  return response?.ok ? "PROVISIONING" : "FAILED";
-}
-
 export async function requestDeployment(
   projectId: string,
 ): Promise<Deployment | null> {
@@ -110,32 +104,24 @@ export async function requestDeployment(
   if (!project) return null;
 
   const status = project.status ?? "DRAFT";
+  if (!["PAID", "DEPLOYED", "ACTIVE"].includes(status)) return null;
+
   const existing = await getDeployment(projectId);
   if (existing && (existing.status === "LIVE" || existing.status === "PROVISIONING")) {
     return existing;
   }
-  if (existing?.status === "FAILED" && status === "DEPLOYED") {
-    return existing;
-  }
-  if (!canTransition(status, "DEPLOYED") && status !== "DEPLOYED") {
-    return null;
-  }
 
-  const slug = (project.client_label ?? project.id)
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 40);
-  const liveUrl = `${slug || project.id}.jioo.site`;
-  const remoteStatus = await triggerCoolify(projectId);
+  const published = await publishProject(projectId);
+  if (!published.ok) return null;
 
+  const liveUrl = published.page.url;
   const payload = {
     project_id: projectId,
-    target: "container",
+    target: "platform",
     environment: "production",
-    status: remoteStatus ?? "PROVISIONING",
+    status: "LIVE",
     live_url: liveUrl,
-    health: "PENDING",
+    health: "OK",
   };
   let deployment: PbDeployment;
   if (existing) {
@@ -148,18 +134,14 @@ export async function requestDeployment(
     deployment = await createRecord<PbDeployment>("deployments", payload);
   }
 
-  if (remoteStatus === "FAILED") {
-    return toDeployment(deployment);
-  }
-
   await patchProject(projectId, {
-    status: "DEPLOYED",
+    status: "ACTIVE",
     deployment_id: deployment.id,
-    preview_url: liveUrl,
-  });
+    preview_url: buildPublicPath(published.page.slug),
+  }).catch(() => undefined);
   await logActivity({
     actor: "user",
-    action: "deploy.request",
+    action: "deploy.publish",
     entityType: "deployment",
     entityId: deployment.id,
     meta: { project_id: projectId, live_url: liveUrl },
@@ -172,13 +154,15 @@ export async function checkDeploymentHealth(projectId: string) {
   const deployment = await getDeployment(projectId);
   if (!deployment) return null;
 
-  const healthUrl = process.env.DEPLOY_HEALTH_URL;
-  let healthy = true;
-  if (healthUrl) {
-    const response = await fetch(`${healthUrl}/health`, {
-      cache: "no-store",
-    }).catch(() => null);
-    healthy = Boolean(response?.ok);
+  const page = await findPublishedPageByProject(projectId).catch(() => null);
+  let healthy = Boolean(page && page.status === "PUBLISHED");
+  if (healthy && page) {
+    const base = publicBaseUrl();
+    const url = base ? `${base}${buildPublicPath(page.slug ?? "")}` : "";
+    if (url) {
+      const response = await fetch(url, { cache: "no-store" }).catch(() => null);
+      healthy = Boolean(response?.ok);
+    }
   }
 
   const updated = await updateRecord<PbDeployment>(
@@ -189,9 +173,9 @@ export async function checkDeploymentHealth(projectId: string) {
       health: healthy ? "OK" : "FAIL",
     },
   );
-  if (healthy) {
-    await patchProject(projectId, { status: "ACTIVE" }).catch(() => undefined);
-  }
+  await patchProject(projectId, {
+    status: healthy ? "ACTIVE" : "PAID",
+  }).catch(() => undefined);
   return toDeployment(updated);
 }
 

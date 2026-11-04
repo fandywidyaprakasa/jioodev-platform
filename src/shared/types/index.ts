@@ -12,6 +12,18 @@ export type ProjectStatus =
   | "DEPLOYED"
   | "ACTIVE";
 
+export interface PublishedPage {
+  slug: string;
+  url: string;
+  status: "PUBLISHED" | "UNPUBLISHED";
+  version: number;
+  title: string;
+  noindex: boolean;
+  publishedAt?: string;
+  unpublishedAt?: string;
+  customDomain?: string;
+}
+
 export type PaymentStatus = "PENDING" | "CONFIRMED" | "FAILED" | "REFUNDED";
 export type DeploymentStatus =
   | "PENDING"

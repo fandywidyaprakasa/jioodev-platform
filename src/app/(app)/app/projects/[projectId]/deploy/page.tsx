@@ -34,8 +34,8 @@ export default async function DeployPage({
   return (
     <div>
       <PageHeader
-        title="Deploy"
-        description="Pantau status live dan domain."
+        title="Publish Halaman"
+        description="Halaman publik project dan domain opsional."
       />
       <DeployPanel projectId={params.projectId} />
     </div>

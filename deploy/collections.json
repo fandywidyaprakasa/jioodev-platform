@@ -739,6 +739,71 @@
           "type": "json"
         }
       ]
+    },
+    {
+      "name": "published_pages",
+      "type": "base",
+      "fields": [
+        {
+          "name": "project_id",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "user_id",
+          "type": "text"
+        },
+        {
+          "name": "slug",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "status",
+          "type": "select",
+          "values": [
+            "PUBLISHED",
+            "UNPUBLISHED"
+          ],
+          "maxSelect": 1
+        },
+        {
+          "name": "output_id",
+          "type": "text"
+        },
+        {
+          "name": "variant_id",
+          "type": "text"
+        },
+        {
+          "name": "template",
+          "type": "text"
+        },
+        {
+          "name": "title",
+          "type": "text"
+        },
+        {
+          "name": "noindex",
+          "type": "bool"
+        },
+        {
+          "name": "version",
+          "type": "number"
+        },
+        {
+          "name": "published_at",
+          "type": "date"
+        },
+        {
+          "name": "unpublished_at",
+          "type": "date"
+        },
+        {
+          "name": "custom_domain",
+          "type": "text"
+        }
+      ]
     }
   ]
 }
