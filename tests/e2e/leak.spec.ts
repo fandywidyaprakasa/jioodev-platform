@@ -27,5 +27,6 @@ test("imported PB template preview works through the app origin", async ({ reque
   const response = await request.get("/template-preview/PB-fnb-l1");
   expect(response.status()).toBe(200);
   const html = await response.text();
-  expect(html).toContain('<base href="https://know.jioo.site/preview/fnb-l1/">');
+  expect(html).toContain('<base href="/template-preview/PB-fnb-l1/">');
+  expect(html).not.toContain("know.jioo.site");
 });

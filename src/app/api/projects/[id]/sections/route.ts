@@ -8,7 +8,7 @@ import {
   findProject,
 } from "@/shared/lib/projects-server";
 import { badRequest, notFound, requireActor } from "@/shared/lib/server-auth";
-import type { Section } from "@/shared/types";
+import { parseSections, validateSections } from "@/shared/lib/section-schema";
 
 export async function GET(
   _request: NextRequest,
@@ -56,12 +56,17 @@ export async function PATCH(
   }
   if (!project && auth.user.role !== "admin") return notFound();
 
-  const body = (await request.json().catch(() => null)) as Section[] | null;
-  if (!Array.isArray(body)) {
-    return badRequest("Body wajib berupa array section.");
+  const parsed = parseSections(await request.json().catch(() => null));
+  if (!parsed.sections) {
+    return badRequest(parsed.error);
   }
 
-  const normalized = normalizeSections(body);
+  const errors = await validateSections(parsed.sections);
+  if (errors.length) {
+    return badRequest(errors[0], { errors });
+  }
+
+  const normalized = normalizeSections(parsed.sections);
   const saved = await saveProjectSections(params.id, normalized).catch(
     () => normalized,
   );

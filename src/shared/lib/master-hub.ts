@@ -109,7 +109,7 @@ export async function listCatalogTemplates(): Promise<Template[]> {
 export interface MasterSection {
   code: string;
   name: string;
-  purposes: string[];
+  slotCode?: string;
 }
 
 export interface MasterCopy {
@@ -141,16 +141,20 @@ async function fetchCollection<T>(
 }
 
 export async function listMasterSections(): Promise<MasterSection[]> {
+  const filter = encodeURIComponent("status='READY' && record_type='slot'");
   const items = await fetchCollection<{
-    section_code?: string;
+    code?: string;
     name?: string;
-    purpose?: string[];
-  }>("section_library", "filter=status='READY'&perPage=200&sort=name");
-  return items.map((item) => ({
-    code: item.section_code ?? "",
-    name: item.name ?? item.section_code ?? "Section",
-    purposes: item.purpose ?? [],
-  }));
+    display_name?: string;
+    slot_code?: string;
+  }>("section_library", `filter=${filter}&perPage=200&sort=name`);
+  return items
+    .map((item) => ({
+      code: item.code ?? item.slot_code ?? "",
+      name: item.display_name ?? item.name ?? item.code ?? "Section",
+      slotCode: item.slot_code,
+    }))
+    .filter((item) => Boolean(item.code));
 }
 
 export async function listMasterCopy(): Promise<MasterCopy[]> {

@@ -80,6 +80,8 @@ export interface Section {
   name: string;
   enabled: boolean;
   order: number;
+  variantId?: string;
+  content?: Record<string, unknown>;
 }
 
 export interface CopyField {

@@ -79,3 +79,40 @@ test("contact endpoint validates required fields", async ({ request }) => {
   expect(valid.status()).toBe(200);
   expect(await valid.json()).toMatchObject({ ok: true });
 });
+
+test("sections endpoint validates variant and content schema", async ({ request }) => {
+  const invalidVariant = await request.patch("/api/projects/proj_kopi_pagi/sections", {
+    data: [
+      { code: "S-HERO", name: "Hero", enabled: true, order: 1, variantId: "tidak-ada" },
+    ],
+  });
+  expect(invalidVariant.status()).toBe(400);
+  expect(await invalidVariant.json()).toMatchObject({
+    error: { code: "VALIDATION" },
+  });
+
+  const invalidContent = await request.patch("/api/projects/proj_kopi_pagi/sections", {
+    data: [{ code: "S-HERO", name: "Hero", enabled: true, order: 1, content: {} }],
+  });
+  expect(invalidContent.status()).toBe(400);
+
+  const valid = await request.patch("/api/projects/proj_kopi_pagi/sections", {
+    data: [
+      {
+        code: "S-HERO",
+        name: "Hero",
+        enabled: true,
+        order: 1,
+        variantId: "hero-split",
+        content: { headline: "Halo dari JiooDev" },
+      },
+    ],
+  });
+  expect(valid.status()).toBe(200);
+  const body = await valid.json();
+  expect(body[0]).toMatchObject({
+    code: "S-HERO",
+    variantId: "hero-split",
+    content: { headline: "Halo dari JiooDev" },
+  });
+});

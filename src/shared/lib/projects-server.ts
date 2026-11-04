@@ -298,7 +298,15 @@ export interface PbSection {
   variant_id?: string;
   order?: number;
   enabled?: boolean;
-  content?: { name?: string } | null;
+  content?: ({ name?: string } & Record<string, unknown>) | null;
+}
+
+function sectionContent(
+  content: PbSection["content"],
+): Record<string, unknown> | undefined {
+  if (!content || typeof content !== "object") return undefined;
+  const { name: _name, ...rest } = content;
+  return Object.keys(rest).length ? rest : undefined;
 }
 
 async function listSectionRows(projectId: string) {
@@ -320,15 +328,23 @@ export async function getProjectSections(
     const rows = await listSectionRows(projectId);
     if (!rows.length) return fallback;
     return rows
-      .map((row) => ({
-        code: row.section_code,
-        name:
-          row.content?.name ??
-          fallback.find((item) => item.code === row.section_code)?.name ??
-          row.section_code,
-        enabled: row.enabled !== false,
-        order: row.order ?? 0,
-      }))
+      .map((row) => {
+        const fallbackItem = fallback.find(
+          (item) => item.code === row.section_code,
+        );
+        const content = sectionContent(row.content);
+        const variantId = row.variant_id || fallbackItem?.variantId;
+        return {
+          code: row.section_code,
+          name: row.content?.name ?? fallbackItem?.name ?? row.section_code,
+          enabled: row.enabled !== false,
+          order: row.order ?? 0,
+          ...(variantId ? { variantId } : {}),
+          ...(content ?? fallbackItem?.content
+            ? { content: content ?? fallbackItem?.content }
+            : {}),
+        };
+      })
       .sort((a, b) => a.order - b.order);
   } catch {
     return fallback;
@@ -362,14 +378,19 @@ export async function saveProjectSections(
     (await listSectionRows(projectId)).map((row) => [row.section_code, row]),
   );
   for (const [index, section] of normalized.entries()) {
+    const current = existing.get(section.code);
     const payload = {
       project_id: projectId,
       section_code: section.code,
+      variant_id: section.variantId ?? current?.variant_id ?? "",
       order: section.order || index + 1,
       enabled: section.enabled,
-      content: { name: section.name },
+      content: {
+        ...(current?.content ?? {}),
+        ...(section.content ?? {}),
+        name: section.name,
+      },
     };
-    const current = existing.get(section.code);
     if (current) {
       await updateRecord<PbSection>("project_sections", current.id, payload);
     } else {

@@ -352,7 +352,10 @@ export function WorkspaceCanvas({
           </div>
         </div>
 
-        <aside className="rounded-lg border border-line bg-surface p-3">
+        <aside
+          data-testid="workspace-inspector"
+          className="rounded-lg border border-line bg-surface p-3"
+        >
           <h2 className="mb-2 text-sm font-semibold text-ink">Inspector</h2>
           {selectedBlock ? (
             <div className="space-y-3">

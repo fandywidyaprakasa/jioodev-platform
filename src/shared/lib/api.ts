@@ -37,8 +37,7 @@ import type {
 } from "@/shared/types";
 
 const BASE = process.env.NEXT_PUBLIC_API_BASE ?? "/api";
-const USE_MOCK =
-  process.env.NEXT_PUBLIC_API_MODE === "mock" || typeof window === "undefined";
+const USE_MOCK = process.env.NEXT_PUBLIC_API_MODE === "mock";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${BASE}${path}`, {

@@ -55,6 +55,25 @@ Salin `.env.example` → `.env.local`. Variabel penting:
 Tanpa kredensial eksternal, platform tetap berjalan dengan fallback:
 variasi lokal (Hermes), QRIS manual, deploy semi-manual, dan katalog template mock 18.
 
+## Deploy (Coolify / Docker)
+
+Deploy dari **root repo** (bukan `app/`) memakai `Dockerfile` di root, supaya folder
+`library/` ikut ke dalam image. Image menjalankan Next.js standalone di port 3000
+dengan `JIOODEV_LIBRARY_DIR=/library` dan healthcheck `GET /api/health`.
+
+1. Coolify → **New Resource → Dockerfile**, repository root, Dockerfile `/Dockerfile`.
+2. Persistent volume untuk PocketBase (resource terpisah, lihat `pocketbase-platform/`).
+3. Isi environment produksi (lihat `.env.example`); minimal:
+   `POCKETBASE_PLATFORM_URL`, `PB_ADMIN_EMAIL`, `PB_ADMIN_PASSWORD`,
+   `MASTER_HUB_URL`, `MASTER_HUB_TOKEN`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL`,
+   `PREVIEW_TOKEN_SECRET`, `JIOODEV_AUTH_MODE=real`, `NEXT_PUBLIC_API_MODE=real`.
+4. Deploy, lalu cek `https://<domain>/api/health` (`pocketbase=ok`).
+5. Jalankan `scripts/apply-pb-schema.mjs` + `scripts/seed-platform.mjs` ke PocketBase.
+
+Tanpa Docker (Nixpacks), set base directory ke root repo dan tambahkan
+`JIOODEV_LIBRARY_DIR=<path repo>/library`; jika base directory `app/`, folder
+`library/` tidak tersedia saat runtime dan preview template akan gagal.
+
 ## Worker & backup
 
 ```bash

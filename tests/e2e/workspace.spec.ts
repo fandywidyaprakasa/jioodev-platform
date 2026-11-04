@@ -24,7 +24,10 @@ test("workspace swaps variant and undo", async ({ page }) => {
   const frame = page.frameLocator('iframe[title="Workspace canvas"]');
   await expect(frame.locator('[data-variant="hero-split"]')).toBeVisible();
 
-  await page.locator("aside").last().locator("select").first().selectOption("hero-centered");
+  await page
+    .getByTestId("workspace-inspector")
+    .getByLabel("Variant")
+    .selectOption("hero-centered");
   await expect(frame.locator('[data-variant="hero-centered"]')).toBeVisible();
 
   await page.getByRole("button", { name: "Undo" }).click();
