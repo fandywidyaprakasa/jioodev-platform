@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { badRequest, notFound, requireActor } from "@/shared/lib/server-auth";
-import { canAccess, findProject } from "@/shared/lib/projects-server";
+import { badRequest, notFound, requireActor } from "@/modules/auth";
+import { canAccess, findProject } from "@/modules/projects";
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function POST(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const auth = await requireActor();
   if ("response" in auth) return auth.response;
 

@@ -4,8 +4,12 @@ import { Eye, Layers, Type } from "lucide-react";
 import Link from "next/link";
 import { useState, useTransition } from "react";
 import { api } from "@/shared/lib/api";
-import { Badge, Button, Card, useToast } from "@/shared/ui";
-import type { CopyField, Section } from "@/shared/types";
+import { Badge, Button, Card, Select, useToast } from "@/shared/ui";
+import type { CopyField, SectionWithVariants } from "@/shared/types";
+import {
+  PREVIEW_IFRAME_SANDBOX,
+  shouldSandboxPreviewIframe,
+} from "@/lib/iframe-sandbox";
 
 type Tool = "sections" | "copy";
 
@@ -17,7 +21,7 @@ export function CustomizeEditor({
   businessName,
 }: {
   projectId: string;
-  sections: Section[];
+  sections: SectionWithVariants[];
   copy: CopyField[];
   previewUrl?: string;
   businessName?: string;
@@ -47,6 +51,16 @@ export function CustomizeEditor({
     setItems((current) =>
       current.map((item) =>
         item.code === code ? { ...item, enabled: !item.enabled } : item,
+      ),
+    );
+  }
+
+  function setVariant(code: string, variantId: string) {
+    setItems((current) =>
+      current.map((item) =>
+        item.code === code
+          ? { ...item, variantId: variantId || undefined }
+          : item,
       ),
     );
   }
@@ -138,6 +152,22 @@ export function CustomizeEditor({
                       </span>
                     ) : null}
                   </label>
+                  {item.variants.length ? (
+                    <div className="w-full sm:w-52">
+                      <Select
+                        label={`Varian ${item.name}`}
+                        value={item.variantId ?? ""}
+                        onChange={(event) => setVariant(item.code, event.target.value)}
+                        options={[
+                          { value: "", label: "Default" },
+                          ...item.variants.map((variant) => ({
+                            value: variant.code,
+                            label: variant.name,
+                          })),
+                        ]}
+                      />
+                    </div>
+                  ) : null}
                   <div className="flex gap-1">
                     <Button size="sm" variant="ghost" onClick={() => move(index, -1)} disabled={index === 0}>
                       Naik
@@ -253,11 +283,16 @@ export function CustomizeEditor({
               src={previewUrl}
               title="Preview HTML"
               className="h-[620px] w-full bg-white"
+              sandbox={
+                shouldSandboxPreviewIframe(previewUrl)
+                  ? PREVIEW_IFRAME_SANDBOX
+                  : undefined
+              }
             />
           ) : (
             <div className="space-y-4 p-6">
               <Badge variant="accent">{value("hero_eyebrow") || "Eyebrow"}</Badge>
-              <h2 className="font-display text-3xl leading-tight text-ink">
+              <h2 className="text-balance font-display text-3xl leading-tight text-ink">
                 {value("hero_title") || "Judul utama Anda"}
               </h2>
               <p className="max-w-xl text-sm text-muted">
@@ -286,13 +321,13 @@ export function CustomizeEditor({
           <div className="flex gap-2">
             <Link
               href={`/app/projects/${projectId}`}
-              className="rounded-full border border-line px-4 py-2 text-sm font-medium text-ink hover:border-ink/40"
+              className="inline-flex items-center rounded-full border border-line px-4 py-2 text-sm font-medium text-ink transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:border-ink/40"
             >
               Kembali
             </Link>
             <Link
               href={`/app/projects/${projectId}/payment`}
-              className="rounded-full bg-accent px-4 py-2 text-sm font-medium text-on-accent hover:bg-accent-strong"
+              className="inline-flex items-center rounded-full bg-accent px-4 py-2 text-sm font-medium text-on-accent transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:bg-accent-strong"
             >
               Lanjut Pembayaran
             </Link>

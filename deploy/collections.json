@@ -166,6 +166,41 @@
       ]
     },
     {
+      "name": "project_pages",
+      "type": "base",
+      "fields": [
+        {
+          "name": "project_id",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "title",
+          "type": "text"
+        },
+        {
+          "name": "slug",
+          "type": "text"
+        },
+        {
+          "name": "is_home",
+          "type": "bool"
+        },
+        {
+          "name": "order",
+          "type": "number"
+        },
+        {
+          "name": "seo",
+          "type": "json"
+        },
+        {
+          "name": "settings",
+          "type": "json"
+        }
+      ]
+    },
+    {
       "name": "project_sections",
       "type": "base",
       "fields": [
@@ -173,6 +208,10 @@
           "name": "project_id",
           "type": "text",
           "required": true
+        },
+        {
+          "name": "page_id",
+          "type": "text"
         },
         {
           "name": "section_code",
@@ -293,7 +332,14 @@
         {
           "name": "revoked_at",
           "type": "date"
+        },
+        {
+          "name": "idempotency_key",
+          "type": "text"
         }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX `idx_production_outputs_publish_key` ON `production_outputs` (`idempotency_key`) WHERE `idempotency_key` IS NOT NULL AND `idempotency_key` != ''"
       ]
     },
     {
@@ -803,6 +849,11 @@
           "name": "custom_domain",
           "type": "text"
         }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX `idx_published_pages_slug` ON `published_pages` (`slug`) WHERE `slug` IS NOT NULL AND `slug` != ''",
+        "CREATE UNIQUE INDEX `idx_published_pages_output` ON `published_pages` (`output_id`) WHERE `output_id` IS NOT NULL AND `output_id` != ''",
+        "CREATE UNIQUE INDEX `idx_published_pages_active_project` ON `published_pages` (`project_id`) WHERE `status` = 'PUBLISHED'"
       ]
     }
   ]

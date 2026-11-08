@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { refundPayment } from "@/shared/lib/payments-server";
-import { notFound, requireUser } from "@/shared/lib/server-auth";
+import { refundPayment } from "@/modules/payments";
+import { notFound, requireUser } from "@/modules/auth";
 
-export async function POST(
-  _request: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function POST(_request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const auth = await requireUser("admin");
   if ("response" in auth) return auth.response;
 

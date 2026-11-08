@@ -15,8 +15,8 @@ const variantClass: Record<Variant, string> = {
 };
 
 const sizeClass: Record<Size, string> = {
-  sm: "h-8 min-h-11 px-3 text-xs md:min-h-0",
-  md: "h-9 min-h-11 px-4 text-sm md:min-h-0",
+  sm: "h-8 min-h-11 px-3 text-xs md:min-h-0 after:absolute after:inset-x-0 after:-inset-y-1 after:content-['']",
+  md: "h-9 min-h-11 px-4 text-sm md:min-h-0 after:absolute after:inset-x-0 after:-inset-y-0.5 after:content-['']",
   lg: "h-10 min-h-11 px-5 text-sm md:min-h-0",
 };
 
@@ -45,7 +45,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         type={props.type ?? "button"}
         disabled={disabled || loading}
         aria-busy={loading || undefined}
-        className={`inline-flex items-center justify-center gap-2 rounded-md border font-medium transition-[background-color,border-color,color,box-shadow] duration-150 active:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/35 focus-visible:ring-offset-2 focus-visible:ring-offset-paper disabled:cursor-not-allowed disabled:opacity-60 ${variantClass[variant]} ${sizeClass[size]} ${className}`}
+        className={`relative inline-flex items-center justify-center gap-2 rounded-md border font-medium transition-[background-color,border-color,color,box-shadow,transform] duration-150 active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/35 focus-visible:ring-offset-2 focus-visible:ring-offset-paper disabled:cursor-not-allowed disabled:opacity-60 ${variantClass[variant]} ${sizeClass[size]} ${className}`}
         {...props}
       >
         {loading ? (

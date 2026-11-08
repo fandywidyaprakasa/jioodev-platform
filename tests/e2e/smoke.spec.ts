@@ -12,12 +12,23 @@ test("template catalog renders", async ({ page }) => {
     page.getByRole("heading", { name: /Pilih theme/ }),
   ).toBeVisible();
   await expect(page.getByLabel("Cari theme")).toBeVisible();
-  await expect(page.getByRole("link", { name: /Editorial Warm/ })).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: /Editorial Warm/ }),
+  ).toBeVisible();
+  await expect(page.getByLabel("Produk")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Semua varian" })).toBeVisible();
 });
 
 test("guest can open the new project form", async ({ page }) => {
   await page.goto("/app/projects/new");
   await expect(page.getByRole("heading", { name: "Buat Project" })).toBeVisible();
+  await expect(page.getByRole("button", { name: /Landing Page/ })).toBeVisible();
+  await expect(page.getByRole("button", { name: /Bantu saya menentukan/ })).toBeVisible();
+  await expect(page.getByRole("button", { name: /Saya sudah punya ide/ })).toBeVisible();
+  await expect(page.getByRole("button", { name: /Website/ })).toHaveCount(0);
+  await expect(
+    page.getByText("Simple Website dan Commerce Lite sedang disiapkan dan belum tersedia di MVP."),
+  ).toBeVisible();
   await expect(page.getByRole("button", { name: "Buat Project" })).toBeVisible();
 });
 

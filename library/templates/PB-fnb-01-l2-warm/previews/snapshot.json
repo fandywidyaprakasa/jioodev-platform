@@ -1,0 +1,28 @@
+{
+  "asset_code": "PB-fnb-01-l2-warm",
+  "version": 3,
+  "status": "READY",
+  "template_hash": "sha256:3a16092d3fd523d2865ff149e52215fb7606b5406e5f8df29e424eb79be23e65",
+  "render_hash": "sha256:09330d4c4e7e433dec4b8f85f6f0b8dfea3a1f7b0388e80630c505a3ae40ec6d",
+  "renderer": "template-preview",
+  "renderer_version": "1",
+  "captured_at": "2026-11-04T18:45:11.206Z",
+  "captured_by": "snapshot-template-previews.mjs",
+  "viewports": {
+    "web": {
+      "file": "web.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "tablet": {
+      "file": "tablet.webp",
+      "width": 834,
+      "height": 1112
+    },
+    "mobile": {
+      "file": "mobile.webp",
+      "width": 390,
+      "height": 844
+    }
+  }
+}

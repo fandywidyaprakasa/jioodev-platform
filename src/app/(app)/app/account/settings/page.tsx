@@ -1,13 +1,13 @@
 import Link from "next/link";
-import { NotificationSettings } from "@/modules/account/components/notification-settings";
-import { ThemeToggle } from "@/modules/account/components/theme-toggle";
-import { LanguageToggle } from "@/modules/account/components/language-toggle";
+import { NotificationSettings } from "@/modules/account/client";
+import { ThemeToggle } from "@/modules/account/client";
+import { LanguageToggle } from "@/modules/account/client";
 import { getLocale } from "@/shared/lib/locale";
 import { t } from "@/shared/lib/i18n";
 import { Card, PageHeader } from "@/shared/ui";
 
-export default function SettingsPage() {
-  const locale = getLocale();
+export default async function SettingsPage() {
+  const locale = await getLocale();
   return (
     <div className="space-y-6">
       <PageHeader

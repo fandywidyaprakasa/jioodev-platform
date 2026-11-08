@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { listProjectAssets, uploadProjectAsset } from "@/shared/lib/assets-server";
-import { canAccess, findProject } from "@/shared/lib/projects-server";
-import { badRequest, notFound, requireActor } from "@/shared/lib/server-auth";
+import { listProjectAssets, uploadProjectAsset } from "@/modules/projects";
+import { canAccess, findProject } from "@/modules/projects";
+import { badRequest, notFound, requireActor } from "@/modules/auth";
+import { isWorkspaceOperationSupported } from "@/modules/workspace";
 
 async function authorize(id: string) {
   const auth = await requireActor();
@@ -24,21 +25,24 @@ async function authorize(id: string) {
 const MAX_BYTES = 5 * 1024 * 1024;
 const ACCEPTED = ["image/png", "image/jpeg", "image/webp", "image/svg+xml"];
 
-export async function GET(
-  _request: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function GET(_request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const auth = await authorize(params.id);
   if ("response" in auth) return auth.response;
   return NextResponse.json(await listProjectAssets(params.id));
 }
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function POST(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const auth = await authorize(params.id);
   if ("response" in auth) return auth.response;
+
+  if (!isWorkspaceOperationSupported(auth.project, "media.upload")) {
+    return NextResponse.json(
+      { error: { code: "UNSUPPORTED_OPERATION", message: "Operasi media.upload tidak didukung oleh adapter terpasang." } },
+      { status: 403 },
+    );
+  }
 
   const form = await request.formData().catch(() => null);
   const file = form?.get("file");

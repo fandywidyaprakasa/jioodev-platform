@@ -1,0 +1,28 @@
+{
+  "asset_code": "LAND-LSVC-EDT-002",
+  "version": 3,
+  "status": "READY",
+  "template_hash": "sha256:7159581915f2c9b68e489f78e81fcad54ef849a3ddaa89107a63460b569673a1",
+  "render_hash": "sha256:dcc57d7fe5cf111dd2ff3d6937728790eb9e745c3ccf0054203228d517e79aad",
+  "renderer": "template-preview",
+  "renderer_version": "1",
+  "captured_at": "2026-11-04T18:45:00.173Z",
+  "captured_by": "snapshot-template-previews.mjs",
+  "viewports": {
+    "web": {
+      "file": "web.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "tablet": {
+      "file": "tablet.webp",
+      "width": 834,
+      "height": 1112
+    },
+    "mobile": {
+      "file": "mobile.webp",
+      "width": 390,
+      "height": 844
+    }
+  }
+}

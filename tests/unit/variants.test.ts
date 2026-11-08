@@ -1,7 +1,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { renderVariantPreview } from "@/shared/lib/composition-render";
+import { renderVariantPreview } from "@/modules/workspace";
 
 const SECTION_ROOT = path.join(process.cwd(), "..", "library", "sections");
 

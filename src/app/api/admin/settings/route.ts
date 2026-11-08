@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getPlatformSettings, savePlatformSettings } from "@/shared/lib/settings-server";
-import { logActivity } from "@/shared/lib/activity-server";
-import { badRequest, requireUser } from "@/shared/lib/server-auth";
+import {
+  getPlatformSettings,
+  updatePlatformSettings,
+} from "@/modules/admin";
+import { badRequest, requireUser } from "@/modules/auth";
 
 export async function GET() {
   const auth = await requireUser("admin");
@@ -26,19 +28,15 @@ export async function PATCH(request: NextRequest) {
     return badRequest("Body wajib berupa objek.");
   }
 
-  const settings = await savePlatformSettings(body).catch(() => null);
+  const settings = await updatePlatformSettings(body, {
+    userId: auth.user.id,
+    email: auth.user.email,
+  }).catch(() => null);
   if (!settings) {
     return NextResponse.json(
       { error: { code: "BACKEND_ERROR", message: "Gagal menyimpan pengaturan." } },
       { status: 502 },
     );
   }
-  await logActivity({
-    userId: auth.user.id,
-    actor: auth.user.email ?? "admin",
-    action: "settings.update",
-    entityType: "settings",
-    meta: body,
-  });
   return NextResponse.json(settings);
 }

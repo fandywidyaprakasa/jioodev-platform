@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { addDomain, listDomains } from "@/shared/lib/deploy-server";
-import { canAccess, findProject } from "@/shared/lib/projects-server";
-import { badRequest, notFound, requireUser } from "@/shared/lib/server-auth";
+import { addDomain, listDomains } from "@/modules/publishing";
+import { canAccess, findProject } from "@/modules/projects";
+import { badRequest, notFound, requireUser } from "@/modules/auth";
 
 async function authorize(projectId: string, userId: string, isAdmin: boolean) {
   const project = await findProject(projectId).catch(() => null);
@@ -9,10 +9,8 @@ async function authorize(projectId: string, userId: string, isAdmin: boolean) {
   return project;
 }
 
-export async function GET(
-  _request: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function GET(_request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const auth = await requireUser();
   if ("response" in auth) return auth.response;
   if (!(await authorize(params.id, auth.user.id, auth.user.role === "admin"))) {
@@ -21,19 +19,33 @@ export async function GET(
   return NextResponse.json(await listDomains(params.id));
 }
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function POST(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const auth = await requireUser();
   if ("response" in auth) return auth.response;
   if (!(await authorize(params.id, auth.user.id, auth.user.role === "admin"))) {
     return notFound();
   }
 
-  const body = (await request.json().catch(() => null)) as { domain?: string } | null;
-  if (!body?.domain) return badRequest("domain wajib diisi.");
-  const domain = await addDomain(params.id, body.domain).catch(() => null);
-  if (!domain) return badRequest("Format domain tidak valid.");
-  return NextResponse.json(domain, { status: 201 });
+  const body = (await request.json().catch(() => null)) as { domain?: unknown } | null;
+  if (!body || typeof body.domain !== "string" || !body.domain.trim()) {
+    return badRequest("domain wajib diisi.");
+  }
+  const result = await addDomain(params.id, body.domain).catch(() => null);
+  if (!result) {
+    return NextResponse.json(
+      { error: { code: "BACKEND_ERROR", message: "Gagal menambah domain." } },
+      { status: 502 },
+    );
+  }
+  if (!result.ok) {
+    if (result.code === "CONFLICT") {
+      return NextResponse.json(
+        { error: { code: "CONFLICT", message: result.message } },
+        { status: 409 },
+      );
+    }
+    return badRequest(result.message);
+  }
+  return NextResponse.json(result.domain, { status: 201 });
 }

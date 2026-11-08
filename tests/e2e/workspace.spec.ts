@@ -34,14 +34,30 @@ test("workspace swaps variant and undo", async ({ page }) => {
   await expect(frame.locator('[data-variant="hero-split"]')).toBeVisible();
 });
 
+test("workspace edits a human-labeled content field", async ({ page }) => {
+  await page.goto(PATH);
+  const frame = page.frameLocator('iframe[title="Workspace canvas"]');
+  await expect(frame.getByText("Bangun kehadiran digital yang benar-benar bekerja.")).toBeVisible();
+
+  await page.getByLabel("Judul utama").fill("Judul dari editor ramah");
+  await expect(frame.getByText("Judul dari editor ramah")).toBeVisible();
+
+  await page.getByLabel("Tombol utama › Teks tombol").fill("Mulai dari sini");
+  await expect(frame.getByText("Mulai dari sini")).toBeVisible();
+
+  await page.getByRole("button", { name: "Undo" }).click();
+  await expect(frame.getByText("Mulai Sekarang")).toBeVisible();
+});
+
 test("workspace edits content and tier", async ({ page }) => {
   await page.goto(PATH);
   const frame = page.frameLocator('iframe[title="Workspace canvas"]');
   await expect(frame.getByText("Bangun kehadiran digital yang benar-benar bekerja.")).toBeVisible();
 
+  await page.getByTestId("workspace-advanced-editor").getByText("Editor JSON lanjutan").click();
   const textarea = page.getByTestId("workspace-inspector-content");
   await textarea.fill(JSON.stringify({ headline: "Judul dari workspace", subheadline: "Subjudul baru." }));
-  await page.getByRole("button", { name: "Terapkan Konten" }).click();
+  await page.getByRole("button", { name: "Terapkan JSON" }).click();
   await expect(frame.getByText("Judul dari workspace")).toBeVisible();
 
   await page.locator("label", { hasText: "Tier" }).locator("select").selectOption("PRO");

@@ -1,12 +1,13 @@
 import {
   publishedAssetType,
   readPublishedAsset,
-} from "@/shared/lib/published-server";
+} from "@/modules/publishing";
 
 export async function GET(
   _request: Request,
-  { params }: { params: { slug: string; path: string[] } },
+  props: { params: Promise<{ slug: string; path: string[] }> }
 ) {
+  const params = await props.params;
   const data = await readPublishedAsset(params.slug, "assets", params.path);
   if (!data) return new Response("Not found", { status: 404 });
   const type = publishedAssetType(params.path[params.path.length - 1] ?? "");

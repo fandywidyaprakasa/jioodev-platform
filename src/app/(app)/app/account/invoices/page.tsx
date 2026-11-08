@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
-import { listInvoices } from "@/shared/lib/account-server";
-import { currentUser } from "@/shared/lib/server-auth";
+import { listInvoices } from "@/modules/account";
+import { currentUser } from "@/modules/auth";
 import { dateID, rupiah } from "@/shared/lib/format";
 import { Empty, PageHeader, StatusBadge, Table, Tbody, Td, Th, Thead, Tr } from "@/shared/ui";
 

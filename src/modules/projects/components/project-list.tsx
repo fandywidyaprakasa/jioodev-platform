@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { dateID } from "@/shared/lib/format";
+import { productLabel } from "@/shared/lib/taxonomy";
 import { Empty, Select, StatusBadge, Table, Tbody, Td, Th, Thead, Tr } from "@/shared/ui";
+import { groupProjects } from "../group-projects";
 import type { Project, ProjectStatus } from "@/shared/types";
 
 const STATUS_OPTIONS: { value: string; label: string }[] = [
@@ -33,17 +35,18 @@ export function ProjectList({
         : projects.filter((project) => project.status === (status as ProjectStatus)),
     [projects, status],
   );
+  const groups = useMemo(() => groupProjects(filtered), [filtered]);
 
   if (!projects.length) {
     return (
       <Empty
         title="Belum ada project"
-        description="Mulai dari satu tipe produk, lalu isi business context."
+        description="Mulai dari satu project Landing, lalu isi business context klien."
         action={
           showCreate ? (
             <Link
               href="/app/projects/new"
-              className="rounded-full bg-accent px-4 py-2 text-sm font-medium text-on-accent hover:bg-accent-strong"
+              className="inline-flex items-center rounded-full bg-accent px-4 py-2 text-sm font-medium text-on-accent transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:bg-accent-strong"
             >
               Buat Project
             </Link>
@@ -65,40 +68,52 @@ export function ProjectList({
       </div>
 
       {filtered.length ? (
-        <Table>
-          <Thead>
-            <Tr>
-              <Th>Project</Th>
-              <Th>Tipe</Th>
-              <Th>Status</Th>
-              <Th>Diperbarui</Th>
-              <Th>Aksi</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {filtered.map((project) => (
-              <Tr key={project.id}>
-                <Td label="Project">
-                  <p className="font-medium text-ink">{project.clientLabel}</p>
-                  <p className="font-mono text-[10px] text-muted">{project.id}</p>
-                </Td>
-                <Td label="Tipe">{project.productType}</Td>
-                <Td label="Status">
-                  <StatusBadge status={project.status} />
-                </Td>
-                <Td label="Diperbarui">{dateID(project.updatedAt)}</Td>
-                <Td label="Aksi">
-                  <Link
-                    href={`${basePath}/${project.id}`}
-                    className="text-sm font-medium text-accent hover:underline"
-                  >
-                    Buka
-                  </Link>
-                </Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
+        <div className="space-y-6">
+          {groups.map((group, index) => (
+            <section key={group.label} aria-labelledby={`client-group-${index}`}>
+              <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
+                <h2 id={`client-group-${index}`} className="text-[15px] font-semibold text-ink">
+                  {group.label}
+                </h2>
+                <p className="text-xs text-muted">{group.projects.length} project</p>
+              </div>
+              <Table>
+                <Thead>
+                  <Tr>
+                    <Th>Project</Th>
+                    <Th>Tipe</Th>
+                    <Th>Status</Th>
+                    <Th>Diperbarui</Th>
+                    <Th>Aksi</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {group.projects.map((project) => (
+                    <Tr key={project.id}>
+                      <Td label="Project">
+                        <p className="font-medium text-ink">{project.clientLabel}</p>
+                        <p className="font-mono text-[10px] text-muted">{project.id}</p>
+                      </Td>
+                      <Td label="Tipe">{productLabel(project.productType)}</Td>
+                      <Td label="Status">
+                        <StatusBadge status={project.status} />
+                      </Td>
+                      <Td label="Diperbarui">{dateID(project.updatedAt)}</Td>
+                      <Td label="Aksi">
+                        <Link
+                          href={`${basePath}/${project.id}`}
+                          className="text-sm font-medium text-accent hover:underline"
+                        >
+                          Buka
+                        </Link>
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+            </section>
+          ))}
+        </div>
       ) : (
         <Empty
           title="Tidak ada project dengan status ini"

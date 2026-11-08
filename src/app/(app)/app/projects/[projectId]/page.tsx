@@ -1,53 +1,53 @@
 import { ArrowRight, Check } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { currentUser } from "@/shared/lib/server-auth";
-import { canAccess, findProject, toProject } from "@/shared/lib/projects-server";
+import { currentUser } from "@/modules/auth";
+import { canAccess, findProject, toProject } from "@/modules/projects";
 import { dateTimeID } from "@/shared/lib/format";
+import { productLabel } from "@/shared/lib/taxonomy";
 import { Card, PageHeader, StatusBadge } from "@/shared/ui";
 
 const STEPS = [
-  { label: "Context", slug: "context", rank: 0 },
-  { label: "Comprehend", slug: "comprehend", rank: 1 },
-  { label: "Template", slug: "templates", rank: 2 },
-  { label: "Generate", slug: "generate", rank: 3 },
-  { label: "Preview", slug: "preview", rank: 4 },
-  { label: "Customize", slug: "customize", rank: 5 },
-  { label: "Payment", slug: "payment", rank: 6 },
-  { label: "Deploy", slug: "deploy", rank: 7 },
+  { label: "Business Brief", slug: "context", rank: 0 },
+  { label: "Pilih Template", slug: "templates", rank: 1 },
+  { label: "Preview", slug: "preview", rank: 2 },
+  { label: "Customize", slug: "customize", rank: 3 },
+  { label: "Pembayaran", slug: "payment", rank: 4 },
+  { label: "Publish", slug: "deploy", rank: 5 },
 ];
 
 const STATUS_RANK: Record<string, number> = {
   DRAFT: 0,
   INTAKE: 0,
   COMPREHENDED: 1,
-  TEMPLATE_CHOSEN: 2,
-  GENERATING: 3,
-  PREVIEWS: 4,
-  PICKED: 5,
-  PAID: 6,
-  DEPLOYED: 7,
-  ACTIVE: 7,
+  TEMPLATE_CHOSEN: 1,
+  GENERATING: 2,
+  PREVIEWS: 2,
+  PICKED: 3,
+  PAID: 5,
+  DEPLOYED: 6,
+  ACTIVE: 6,
 };
 
 const NEXT_ACTION: Record<string, { label: string; href: string }> = {
-  DRAFT: { label: "Isi business context", href: "context" },
-  INTAKE: { label: "Isi business context", href: "context" },
+  DRAFT: { label: "Isi business brief", href: "context" },
+  INTAKE: { label: "Isi business brief", href: "context" },
   COMPREHENDED: { label: "Pilih template", href: "templates" },
-  TEMPLATE_CHOSEN: { label: "Generate varian", href: "generate" },
-  GENERATING: { label: "Lihat progress", href: "generate" },
+  TEMPLATE_CHOSEN: { label: "Lihat preview", href: "preview" },
+  GENERATING: { label: "Lihat progress", href: "preview" },
   PREVIEWS: { label: "Tinjau preview", href: "preview" },
-  PICKED: { label: "Lanjut pembayaran", href: "payment" },
-  PAID: { label: "Status deploy", href: "deploy" },
-  DEPLOYED: { label: "Buka preview", href: "preview" },
-  ACTIVE: { label: "Buka preview", href: "preview" },
+  PICKED: { label: "Customize halaman", href: "customize" },
+  PAID: { label: "Publish halaman", href: "deploy" },
+  DEPLOYED: { label: "Buka halaman", href: "preview" },
+  ACTIVE: { label: "Buka halaman", href: "preview" },
 };
 
-export default async function ProjectDetailPage({
-  params,
-}: {
-  params: { projectId: string };
-}) {
+export default async function ProjectDetailPage(
+  props: {
+    params: Promise<{ projectId: string }>;
+  }
+) {
+  const params = await props.params;
   const user = await currentUser();
   const record = user ? await findProject(params.projectId) : null;
   if (
@@ -68,14 +68,28 @@ export default async function ProjectDetailPage({
     (project.status === "DEPLOYED" || project.status === "ACTIVE") && project.previewUrl
       ? { label: "Buka halaman", href: project.previewUrl }
       : next;
-  const currentRank = STATUS_RANK[project.status] ?? 0;
+  const templateReady = Boolean(project.templateCode);
+  const currentRank =
+    project.status === "TEMPLATE_CHOSEN" && templateReady
+      ? Math.max(STATUS_RANK[project.status] ?? 0, 2)
+      : (STATUS_RANK[project.status] ?? 0);
 
   return (
     <div>
       <PageHeader
         title={project.clientLabel}
-        description={`${project.productType} · dibuat ${dateTimeID(project.createdAt)}`}
-        actions={<StatusBadge status={project.status} />}
+        description={`${productLabel(project.productType)} · dibuat ${dateTimeID(project.createdAt)}`}
+        actions={
+          <div className="flex flex-wrap items-center gap-2">
+            <StatusBadge status={project.status} />
+            <Link
+              href={`/app/projects/${project.id}/workspace`}
+              className="rounded-full border border-line px-4 py-2 text-sm font-medium text-ink hover:border-ink/40"
+            >
+              Buka Workspace
+            </Link>
+          </div>
+        }
       />
 
       <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
@@ -132,7 +146,7 @@ export default async function ProjectDetailPage({
             </p>
             <Link
               href={nextAction.href.startsWith("/") ? nextAction.href : `/app/projects/${project.id}/${nextAction.href}`}
-              className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-accent px-5 text-sm font-medium text-on-accent transition-colors duration-150 hover:bg-accent-strong"
+              className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-accent px-5 text-sm font-medium text-on-accent transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:bg-accent-strong"
             >
               {nextAction.label}
               <ArrowRight className="h-4 w-4" aria-hidden="true" />

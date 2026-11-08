@@ -3,16 +3,42 @@
 import { useState, useTransition } from "react";
 import { api } from "@/shared/lib/api";
 import { rupiah } from "@/shared/lib/format";
-import { Badge, Button, Card, Empty, Input, Modal, Table, Tbody, Td, Th, Thead, Tr, useToast } from "@/shared/ui";
+import { Badge, Button, Card, Empty, Input, Modal, Select, type SelectOption, Table, Tbody, Td, Th, Thead, Tr, useToast } from "@/shared/ui";
 import type { Package } from "@/shared/types";
+
+const TIER_OPTIONS: SelectOption[] = [
+  { value: "FREE", label: "FREE" },
+  { value: "PRO", label: "PRO" },
+  { value: "AGENCY", label: "AGENCY" },
+  { value: "ADDON", label: "ADDON" },
+];
+
+const BILLING_TYPE_OPTIONS: SelectOption[] = [
+  { value: "FREE", label: "FREE" },
+  { value: "SUBSCRIPTION", label: "SUBSCRIPTION" },
+  { value: "PAY_PER_DEPLOY", label: "PAY_PER_DEPLOY" },
+  { value: "LIFETIME", label: "LIFETIME" },
+];
 
 export function PackageManager({ initial }: { initial: Package[] }) {
   const { toast } = useToast();
   const [items, setItems] = useState(initial);
   const [pending, startTransition] = useTransition();
-  const [form, setForm] = useState({ name: "", price: "", deploy_included: "" });
+  const [form, setForm] = useState({
+    name: "",
+    price: "",
+    deploy_included: "",
+    tier: "FREE",
+    billing_type: "PAY_PER_DEPLOY",
+  });
   const [editing, setEditing] = useState<Package | null>(null);
-  const [editForm, setEditForm] = useState({ name: "", price: "", deploy_included: "" });
+  const [editForm, setEditForm] = useState({
+    name: "",
+    price: "",
+    deploy_included: "",
+    tier: "FREE",
+    billing_type: "PAY_PER_DEPLOY",
+  });
 
   function add() {
     const price = Number(form.price);
@@ -24,9 +50,11 @@ export function PackageManager({ initial }: { initial: Package[] }) {
           name: form.name,
           price,
           deploy_included,
+          tier: form.tier as Package["tier"],
+          billing_type: form.billing_type as Package["billing_type"],
         });
         setItems((current) => [...current, created]);
-        setForm({ name: "", price: "", deploy_included: "" });
+        setForm({ name: "", price: "", deploy_included: "", tier: "FREE", billing_type: "PAY_PER_DEPLOY" });
         toast({ title: "Paket ditambahkan" });
       } catch (error) {
         toast({
@@ -79,6 +107,8 @@ export function PackageManager({ initial }: { initial: Package[] }) {
       name: item.name,
       price: String(item.price),
       deploy_included: String(item.deploy_included),
+      tier: item.tier,
+      billing_type: item.billing_type,
     });
   }
 
@@ -96,6 +126,8 @@ export function PackageManager({ initial }: { initial: Package[] }) {
           name: editForm.name,
           price,
           deploy_included,
+          tier: editForm.tier as Package["tier"],
+          billing_type: editForm.billing_type as Package["billing_type"],
         });
         setItems((current) =>
           current.map((entry) => (entry.id === editing.id ? updated : entry)),
@@ -115,7 +147,7 @@ export function PackageManager({ initial }: { initial: Package[] }) {
   return (
     <div className="space-y-4">
       <Card title="Tambah paket">
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-5">
           <Input
             label="Nama"
             value={form.name}
@@ -133,6 +165,18 @@ export function PackageManager({ initial }: { initial: Package[] }) {
             value={form.deploy_included}
             onChange={(event) => setForm({ ...form, deploy_included: event.target.value })}
           />
+          <Select
+            label="Tier"
+            value={form.tier}
+            onChange={(event) => setForm({ ...form, tier: event.target.value })}
+            options={TIER_OPTIONS}
+          />
+          <Select
+            label="Billing Type"
+            value={form.billing_type}
+            onChange={(event) => setForm({ ...form, billing_type: event.target.value })}
+            options={BILLING_TYPE_OPTIONS}
+          />
         </div>
         <div className="mt-4 flex justify-end">
           <Button onClick={add} loading={pending}>Tambah Paket</Button>
@@ -146,6 +190,8 @@ export function PackageManager({ initial }: { initial: Package[] }) {
               <Th>Paket</Th>
               <Th>Harga</Th>
               <Th>Kuota</Th>
+              <Th>Tier</Th>
+              <Th>Billing Type</Th>
               <Th>Status</Th>
               <Th>Aksi</Th>
             </Tr>
@@ -156,6 +202,8 @@ export function PackageManager({ initial }: { initial: Package[] }) {
                 <Td label="Paket">{item.name}</Td>
                 <Td label="Harga">{rupiah(item.price)}</Td>
                 <Td label="Kuota">{item.deploy_included}</Td>
+                <Td label="Tier">{item.tier}</Td>
+                <Td label="Billing Type">{item.billing_type}</Td>
                 <Td label="Status">
                   <Badge variant={item.active ? "success" : "neutral"}>
                     {item.active ? "Aktif" : "Nonaktif"}
@@ -205,7 +253,7 @@ export function PackageManager({ initial }: { initial: Package[] }) {
           </>
         }
       >
-        <div className="grid gap-3">
+        <div className="grid gap-3 sm:grid-cols-2">
           <Input
             label="Nama"
             value={editForm.name}
@@ -222,6 +270,18 @@ export function PackageManager({ initial }: { initial: Package[] }) {
             type="number"
             value={editForm.deploy_included}
             onChange={(event) => setEditForm({ ...editForm, deploy_included: event.target.value })}
+          />
+          <Select
+            label="Tier"
+            value={editForm.tier}
+            onChange={(event) => setEditForm({ ...editForm, tier: event.target.value })}
+            options={TIER_OPTIONS}
+          />
+          <Select
+            label="Billing Type"
+            value={editForm.billing_type}
+            onChange={(event) => setEditForm({ ...editForm, billing_type: event.target.value })}
+            options={BILLING_TYPE_OPTIONS}
           />
         </div>
       </Modal>

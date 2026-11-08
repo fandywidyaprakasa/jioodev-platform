@@ -3,7 +3,7 @@ import {
   parseSections,
   validateSectionContent,
   validateSections,
-} from "@/shared/lib/section-schema";
+} from "@/modules/sections";
 import type { Section } from "@/shared/types";
 
 const base: Section = {

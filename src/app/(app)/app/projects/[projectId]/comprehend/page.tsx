@@ -1,21 +1,22 @@
-import { ComprehendReview } from "@/modules/projects/components/comprehend-review";
+import { ComprehendReview } from "@/modules/projects/client";
 import {
   canAccess,
   findProject,
   getBusinessProfile,
   summarizeBusiness,
-} from "@/shared/lib/projects-server";
+} from "@/modules/projects";
 import { notFound } from "next/navigation";
-import { currentUser } from "@/shared/lib/server-auth";
+import { currentUser } from "@/modules/auth";
 import { PageHeader } from "@/shared/ui";
 
 export const dynamic = "force-dynamic";
 
-export default async function ComprehendPage({
-  params,
-}: {
-  params: { projectId: string };
-}) {
+export default async function ComprehendPage(
+  props: {
+    params: Promise<{ projectId: string }>;
+  }
+) {
+  const params = await props.params;
   const user = await currentUser();
   const project = user
     ? await findProject(params.projectId).catch(() => null)

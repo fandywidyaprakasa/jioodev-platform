@@ -70,6 +70,12 @@ function corsHeaders(req: NextRequest) {
  */
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+
+  // Mitigasi CVE image optimizer: endpoint tidak dipakai (images.unoptimized).
+  if (pathname.startsWith("/_next/image")) {
+    return new NextResponse(null, { status: 404 });
+  }
+
   const adminIps = (process.env.ADMIN_IP_ALLOWLIST ?? "")
     .split(",")
     .map((value) => value.trim())
@@ -172,6 +178,7 @@ export async function middleware(req: NextRequest) {
 
 function isGuestPath(pathname: string) {
   if (pathname === "/app" || pathname === "/app/projects") return true;
+  if (pathname === "/app/templates") return true;
   if (pathname === "/app/projects/new") return true;
   if (!pathname.startsWith("/app/projects/")) return false;
   if (/\/(payment|deploy)(\/|$)/.test(pathname)) return false;

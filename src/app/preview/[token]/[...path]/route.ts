@@ -1,12 +1,13 @@
-import { resolvePreview } from "@/shared/lib/preview-render";
-import { readTemplatePath } from "@/shared/lib/template-file";
+import { resolvePreview } from "@/modules/preview";
+import { readTemplatePath } from "@/modules/catalog";
 
 const CACHE = "public, max-age=3600";
 
 export async function GET(
   _request: Request,
-  { params }: { params: { token: string; path: string[] } },
+  props: { params: Promise<{ token: string; path: string[] }> }
 ) {
+  const params = await props.params;
   const context = await resolvePreview(params.token).catch(() => null);
   if (!context) return new Response("Not found", { status: 404 });
 

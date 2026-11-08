@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { decodePreviewToken, encodePreviewToken, isOutputRevoked } from "@/shared/lib/jobs-server";
+import { decodePreviewToken, encodePreviewToken, isOutputRevoked } from "@/modules/generation";
 
 const previous = process.env.PREVIEW_TOKEN_SECRET;
 

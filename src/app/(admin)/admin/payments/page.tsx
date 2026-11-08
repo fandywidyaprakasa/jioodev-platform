@@ -1,5 +1,5 @@
-import { PaymentQueue } from "@/modules/admin/components/payment-queue";
-import { listPayments } from "@/shared/lib/admin-server";
+import { PaymentQueue } from "@/modules/admin/client";
+import { listPayments } from "@/modules/payments";
 import { PageHeader } from "@/shared/ui";
 
 export const dynamic = "force-dynamic";

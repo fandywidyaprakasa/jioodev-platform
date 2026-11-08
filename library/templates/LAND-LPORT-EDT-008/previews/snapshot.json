@@ -1,0 +1,28 @@
+{
+  "asset_code": "LAND-LPORT-EDT-008",
+  "version": 3,
+  "status": "READY",
+  "template_hash": "sha256:643c8a1f996bd2e643c6fc0977de83cf3c79b0c019c2d4ee4ea0719ef3c9e4d9",
+  "render_hash": "sha256:40d76e3666a6e37bc68dbaea13c8b0808fc94a9d6d0cd44ed34ee4e1416cbbd5",
+  "renderer": "template-preview",
+  "renderer_version": "1",
+  "captured_at": "2026-11-04T18:44:53.818Z",
+  "captured_by": "snapshot-template-previews.mjs",
+  "viewports": {
+    "web": {
+      "file": "web.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "tablet": {
+      "file": "tablet.webp",
+      "width": 834,
+      "height": 1112
+    },
+    "mobile": {
+      "file": "mobile.webp",
+      "width": 390,
+      "height": 844
+    }
+  }
+}

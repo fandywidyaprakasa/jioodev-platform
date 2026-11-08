@@ -1,11 +1,9 @@
-import { renderComposition } from "@/shared/lib/composition-render";
+import { renderComposition } from "@/modules/workspace";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(
-  _request: Request,
-  { params }: { params: { id: string } },
-) {
+export async function GET(_request: Request, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const { html } = await renderComposition(params.id);
     return new Response(html, {

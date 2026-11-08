@@ -1,11 +1,9 @@
-import { renderTemplateByCode } from "@/shared/lib/preview-render";
+import { renderTemplateByCode } from "@/modules/preview";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(
-  _request: Request,
-  { params }: { params: { code: string } },
-) {
+export async function GET(_request: Request, props: { params: Promise<{ code: string }> }) {
+  const params = await props.params;
   try {
     const html = await renderTemplateByCode(params.code);
     return new Response(html, {

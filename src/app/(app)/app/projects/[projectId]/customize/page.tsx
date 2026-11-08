@@ -1,23 +1,25 @@
-import { CustomizeEditor } from "@/modules/sections/components/customize-editor";
+import { CustomizeEditor } from "@/modules/sections/client";
 import { mockCopy, mockSections } from "@/shared/lib/mock-data";
-import { getProjectCopy } from "@/shared/lib/copy-server";
-import { getLatestJob } from "@/shared/lib/jobs-server";
+import { getProjectCopy } from "@/modules/projects";
+import { getLatestJob } from "@/modules/generation";
+import { listSectionVariants } from "@/modules/sections";
 import {
   canAccess,
   findProject,
   getProjectSections,
-} from "@/shared/lib/projects-server";
+} from "@/modules/projects";
 import { notFound, redirect } from "next/navigation";
-import { currentUser } from "@/shared/lib/server-auth";
+import { currentUser } from "@/modules/auth";
 import { PageHeader } from "@/shared/ui";
 
 export const dynamic = "force-dynamic";
 
-export default async function CustomizePage({
-  params,
-}: {
-  params: { projectId: string };
-}) {
+export default async function CustomizePage(
+  props: {
+    params: Promise<{ projectId: string }>;
+  }
+) {
+  const params = await props.params;
   const user = await currentUser();
   const project = user
     ? await findProject(params.projectId).catch(() => null)
@@ -40,6 +42,12 @@ export default async function CustomizePage({
     getProjectCopy(params.projectId, mockCopy),
     getLatestJob(params.projectId).catch(() => null),
   ]);
+  const editableSections = await Promise.all(
+    sections.map(async (section) => ({
+      ...section,
+      variants: await listSectionVariants(section.code).catch(() => []),
+    })),
+  );
   const chosen = (project.chosen_variant as { id?: string } | null)?.id;
   const variant =
     job?.variants.find((item) => item.id === chosen) ?? job?.variants[0];
@@ -52,7 +60,7 @@ export default async function CustomizePage({
       />
       <CustomizeEditor
         projectId={params.projectId}
-        sections={sections}
+        sections={editableSections}
         copy={copy}
         previewUrl={variant?.previewUrl}
         businessName={project.client_label ?? undefined}

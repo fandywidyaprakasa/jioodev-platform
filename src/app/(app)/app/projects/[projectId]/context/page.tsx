@@ -1,24 +1,27 @@
-import { AssetUploader } from "@/modules/projects/components/asset-uploader";
-import { BusinessIntakeForm } from "@/modules/projects/components/business-intake-form";
+import { AssetUploader } from "@/modules/projects/client";
+import { BusinessIntakeForm } from "@/modules/projects/client";
 import { notFound } from "next/navigation";
-import { currentUser } from "@/shared/lib/server-auth";
+import { currentUser } from "@/modules/auth";
 import {
   canAccess,
   findProject,
   getBusinessProfile,
-} from "@/shared/lib/projects-server";
+} from "@/modules/projects";
 import { mockBusinessContext } from "@/shared/lib/mock-data";
-import { listProjectAssets } from "@/shared/lib/assets-server";
+import { listProjectAssets } from "@/modules/projects";
 import type { BusinessContext } from "@/shared/types";
 import { PageHeader } from "@/shared/ui";
 
 export const dynamic = "force-dynamic";
 
-export default async function ContextPage({
-  params,
-}: {
-  params: { projectId: string };
-}) {
+export default async function ContextPage(
+  props: {
+    params: Promise<{ projectId: string }>;
+    searchParams?: Promise<{ mode?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const user = await currentUser();
   const project = user ? await findProject(params.projectId) : null;
   if (!project || !user || !canAccess(
@@ -44,14 +47,28 @@ export default async function ContextPage({
     : { ...mockBusinessContext, businessName: "" };
 
   const assets = await listProjectAssets(params.projectId).catch(() => []);
+  const mode = searchParams?.mode === "idea" ? "idea" : "guide";
+  const autoComprehend = ["DRAFT", "INTAKE", "COMPREHENDED"].includes(
+    project.status ?? "",
+  );
 
   return (
     <div className="space-y-4">
       <PageHeader
-        title="Business Context"
-        description="Isi konteks bisnis agar template dan copy relevan."
+        title="Business Brief"
+        description={
+          mode === "idea"
+            ? "Tulis ide dan preferensi Anda; AI merapikan menjadi brief yang siap diproduksi."
+            : "Ceritakan bisnis Anda; AI membantu merumuskan arah website yang sesuai."
+        }
       />
-      <BusinessIntakeForm projectId={params.projectId} initial={initial} />
+      <BusinessIntakeForm
+        projectId={params.projectId}
+        initial={initial}
+        mode={mode}
+        autoComprehend={autoComprehend}
+        hasTemplate={Boolean(project.template_id)}
+      />
       <AssetUploader projectId={params.projectId} initial={assets} />
     </div>
   );

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { dispatchHermesJob, hermesConfigured } from "@/shared/lib/jobs-server";
+import { dispatchHermesJob, hermesConfigured } from "@/modules/generation";
 
 const fetchMock = vi.fn();
 

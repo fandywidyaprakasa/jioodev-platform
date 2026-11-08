@@ -14,7 +14,7 @@ export function Progress({ value, max = 100, label }: ProgressProps) {
       {label ? (
         <div className="mb-1 flex items-center justify-between text-xs text-muted">
           <span>{label}</span>
-          <span>{percent}%</span>
+          <span className="tabular-nums">{percent}%</span>
         </div>
       ) : null}
       <div
@@ -26,7 +26,7 @@ export function Progress({ value, max = 100, label }: ProgressProps) {
         className="h-2 w-full overflow-hidden rounded-full bg-line"
       >
         <div
-          className="h-full rounded-full bg-accent transition-[width]"
+          className="h-full rounded-full bg-accent transition-[width] duration-200 ease-out"
           style={{ width: `${percent}%` }}
         />
       </div>

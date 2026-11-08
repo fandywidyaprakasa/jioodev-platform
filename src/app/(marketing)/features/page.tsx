@@ -50,7 +50,7 @@ export default function FeaturesPage() {
             <h2 className="text-[15px] font-semibold tracking-[-0.01em] text-ink">
               {title}
             </h2>
-            <p className="mt-2 max-w-[48ch] text-sm leading-relaxed text-muted">
+            <p className="mt-2 max-w-[48ch] text-pretty text-sm leading-relaxed text-muted">
               {body}
             </p>
           </article>
@@ -64,7 +64,7 @@ export default function FeaturesPage() {
         </p>
         <Link
           href="/register"
-          className="inline-flex min-h-12 items-center gap-2 rounded-full bg-accent px-6 text-sm font-medium text-on-accent transition-colors duration-150 hover:bg-accent-strong"
+          className="inline-flex min-h-12 items-center gap-2 rounded-full bg-accent px-6 text-sm font-medium text-on-accent transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:bg-accent-strong"
         >
           Mulai sekarang
           <ArrowRight className="h-4 w-4" aria-hidden="true" />

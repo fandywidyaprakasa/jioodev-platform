@@ -1,17 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
-  canTransition,
-  resolveProject,
-  setProjectStatus,
   canAccess,
   findProject,
-} from "@/shared/lib/projects-server";
-import { badRequest, notFound, requireActor } from "@/shared/lib/server-auth";
+  selectProjectVariant,
+} from "@/modules/projects";
+import { badRequest, notFound, requireActor } from "@/modules/auth";
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function POST(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const auth = await requireActor();
   if ("response" in auth) return auth.response;
   const project = await findProject(params.id).catch(() => null);
@@ -28,29 +24,17 @@ export async function POST(
   }
   if (!project && auth.user.role !== "admin") return notFound();
 
-  const { record, mock } = await resolveProject(params.id);
-  if (!record && !mock) return notFound();
-
   const body = (await request.json().catch(() => null)) as
     | { variant_id?: string }
     | null;
   if (!body?.variant_id) return badRequest("variant_id wajib diisi.");
 
-  const current = record?.status ?? mock?.status ?? "PREVIEWS";
-  if (!canTransition(current, "PICKED")) {
+  const result = await selectProjectVariant(params.id, body.variant_id);
+  if (!result.ok) {
     return NextResponse.json(
-      {
-        error: {
-          code: "INVALID_TRANSITION",
-          message: `Status ${current} tidak dapat menuju PICKED.`,
-        },
-      },
-      { status: 409 },
+      { error: { code: result.code, message: result.message } },
+      { status: result.code === "NOT_FOUND" ? 404 : 409 },
     );
   }
-
-  await setProjectStatus(params.id, "PICKED", {
-    chosen_variant: { id: body.variant_id },
-  });
-  return NextResponse.json({ status: "PICKED", variant_id: body.variant_id });
+  return NextResponse.json(result.value);
 }

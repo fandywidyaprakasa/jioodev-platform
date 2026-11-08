@@ -2,6 +2,7 @@
 
 import { Loader2, Monitor, Smartphone, Tablet } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { PREVIEW_IFRAME_SANDBOX } from "@/lib/iframe-sandbox";
 
 export type PreviewDevice = "desktop" | "tablet" | "mobile";
 
@@ -52,9 +53,7 @@ export function PreviewDeviceToggle({
           aria-pressed={device === id}
           aria-label={`Preview ${label}`}
           title={label}
-          className={`grid place-items-center rounded transition-colors duration-150 ${
-            overlay ? "h-9 w-9" : "h-10 w-10 sm:h-8 sm:w-8"
-          } ${
+          className={`grid h-10 w-10 place-items-center rounded-md transition-colors duration-150 ${
             device === id
               ? "bg-accent-soft text-accent"
               : "text-muted hover:bg-paper hover:text-ink"
@@ -113,6 +112,7 @@ export function TemplateLivePreview({
           loading="lazy"
           tabIndex={compact ? -1 : undefined}
           aria-hidden={compact || undefined}
+          sandbox={PREVIEW_IFRAME_SANDBOX}
           onLoad={() => setLoading(false)}
         />
       ) : null}

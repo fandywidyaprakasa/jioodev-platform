@@ -1,7 +1,7 @@
-import { AccountForm } from "@/modules/account/components/account-form";
-import { ThemeToggle } from "@/modules/account/components/theme-toggle";
-import { getAccountProfile } from "@/shared/lib/account-server";
-import { currentUser } from "@/shared/lib/server-auth";
+import { AccountForm } from "@/modules/account/client";
+import { ThemeToggle } from "@/modules/account/client";
+import { getAccountProfile } from "@/modules/account";
+import { currentUser } from "@/modules/auth";
 import { Card, PageHeader } from "@/shared/ui";
 
 export const dynamic = "force-dynamic";

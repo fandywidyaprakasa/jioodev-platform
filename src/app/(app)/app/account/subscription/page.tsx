@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
-import { getSubscription } from "@/shared/lib/account-server";
-import { currentUser } from "@/shared/lib/server-auth";
+import { getSubscription } from "@/modules/account";
+import { currentUser } from "@/modules/auth";
 import { dateID } from "@/shared/lib/format";
 import { Card, PageHeader, Progress, Stat, StatusBadge } from "@/shared/ui";
 

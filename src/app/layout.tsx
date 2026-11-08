@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "@/styles/tokens.css";
 import "./globals.css";
 import { ToastProvider } from "@/shared/ui/toast";
-import { AuthSessionProvider } from "@/modules/auth/session-provider";
+import { AuthSessionProvider } from "@/modules/auth/client";
 
 const themeScript = `(function(){try{var t=localStorage.getItem("jioodev-theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.dataset.theme=t;}catch(e){}})();`;
 

@@ -1,0 +1,28 @@
+{
+  "asset_code": "PB-html5up-editorial",
+  "version": 3,
+  "status": "READY",
+  "template_hash": "sha256:d537b6a5ea49be1de46aadead566e81ebe6af5be1802780090e9a8fa3d3cfe96",
+  "render_hash": "sha256:6e0e82a455fa137a4ef410966b7102ffd0f25f797cde2a5dbff0361cd8900660",
+  "renderer": "template-preview",
+  "renderer_version": "1",
+  "captured_at": "2026-11-04T18:45:33.037Z",
+  "captured_by": "snapshot-template-previews.mjs",
+  "viewports": {
+    "web": {
+      "file": "web.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "tablet": {
+      "file": "tablet.webp",
+      "width": 834,
+      "height": 1112
+    },
+    "mobile": {
+      "file": "mobile.webp",
+      "width": 390,
+      "height": 844
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { listAudit } from "@/shared/lib/activity-server";
+import { listAudit } from "@/modules/activity";
 import { dateTimeID } from "@/shared/lib/format";
 import { Empty, PageHeader, Table, Tbody, Td, Th, Thead, Tr } from "@/shared/ui";
 

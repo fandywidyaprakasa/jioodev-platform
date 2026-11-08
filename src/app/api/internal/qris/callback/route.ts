@@ -1,7 +1,7 @@
 import { timingSafeEqual } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
-import { applyQrisCallback } from "@/shared/lib/payments-server";
-import { badRequest, notFound } from "@/shared/lib/server-auth";
+import { applyQrisCallback } from "@/modules/payments";
+import { badRequest, notFound } from "@/modules/auth";
 
 interface QrisWebhookBody {
   charge_id?: string;

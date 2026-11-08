@@ -1,0 +1,28 @@
+{
+  "asset_code": "LAND-LCONV-EDT-006",
+  "version": 3,
+  "status": "READY",
+  "template_hash": "sha256:18bd0bee50e923139f97b0a61647f016ba297cc99133f0820b188bba7e2055ea",
+  "render_hash": "sha256:0c70f9aa60c9ca2728f1ea3810fbdd5998096403c5f1638320c7b2300743e844",
+  "renderer": "template-preview",
+  "renderer_version": "1",
+  "captured_at": "2026-11-04T18:44:47.369Z",
+  "captured_by": "snapshot-template-previews.mjs",
+  "viewports": {
+    "web": {
+      "file": "web.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "tablet": {
+      "file": "tablet.webp",
+      "width": 834,
+      "height": 1112
+    },
+    "mobile": {
+      "file": "mobile.webp",
+      "width": 390,
+      "height": 844
+    }
+  }
+}

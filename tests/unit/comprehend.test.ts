@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { summarizeBusiness } from "@/shared/lib/projects-server";
+import { summarizeBusiness } from "@/modules/projects";
 
 describe("comprehend fallback", () => {
   it("returns the safe fallback when context is missing", () => {
@@ -23,7 +23,9 @@ describe("comprehend fallback", () => {
     });
     expect(result.summary).toContain("Kopi Pagi");
     expect(result.summary).toContain("Pekerja kantor");
-    expect(result.summary).toContain("SAL");
+    expect(result.summary).toContain("F&B");
+    expect(result.summary).toContain("Penjualan");
+    expect(result.summary).not.toContain("SAL");
     expect(result.summary).toContain("WhatsApp");
     expect(result.confidence).toBeGreaterThan(0.5);
   });

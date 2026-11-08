@@ -1,0 +1,28 @@
+{
+  "asset_code": "PB-fnb-b2b",
+  "version": 3,
+  "status": "READY",
+  "template_hash": "sha256:e43dd137091c8ba32478a50f46ad6079112bc5ed612d9a83b0cb688e3250a72d",
+  "render_hash": "sha256:8a76aa424290a74647b10e12249806d59820da9265f498209838bd1f29369be9",
+  "renderer": "template-preview",
+  "renderer_version": "1",
+  "captured_at": "2026-11-04T18:45:13.445Z",
+  "captured_by": "snapshot-template-previews.mjs",
+  "viewports": {
+    "web": {
+      "file": "web.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "tablet": {
+      "file": "tablet.webp",
+      "width": 834,
+      "height": 1112
+    },
+    "mobile": {
+      "file": "mobile.webp",
+      "width": 390,
+      "height": 844
+    }
+  }
+}

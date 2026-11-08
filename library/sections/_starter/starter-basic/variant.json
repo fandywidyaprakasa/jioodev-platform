@@ -1,0 +1,17 @@
+{
+  "record_type": "variant",
+  "code": "starter-basic",
+  "name": "Starter Basic",
+  "display_name": "starter-basic",
+  "slot_code": "_starter",
+  "html_partial": "sections/_starter/starter-basic/index.html",
+  "css_scope": "sections/_starter/starter-basic/style.css",
+  "js_scope": "",
+  "compatible_themes": ["split-edt"],
+  "compatible_tiers": ["BASIC", "PRO", "AGENCY"],
+  "dependencies": [],
+  "license": "JiooDev Free",
+  "status": "DRAFT",
+  "version": 1,
+  "reviewer": "Template Team"
+}

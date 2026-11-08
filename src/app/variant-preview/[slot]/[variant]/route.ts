@@ -1,12 +1,13 @@
-import { renderVariantPreview } from "@/shared/lib/composition-render";
-import { findSlotContent } from "@/shared/lib/workspace-server";
+import { renderVariantPreview } from "@/modules/workspace";
+import { findSlotContent } from "@/modules/workspace";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(
   _request: Request,
-  { params }: { params: { slot: string; variant: string } },
+  props: { params: Promise<{ slot: string; variant: string }> }
 ) {
+  const params = await props.params;
   try {
     const content = await findSlotContent(params.slot);
     const html = await renderVariantPreview(params.slot, params.variant, content);

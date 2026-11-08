@@ -1,21 +1,22 @@
 import { redirect, notFound } from "next/navigation";
-import { GenerationProgress } from "@/modules/transformation/components/generation-progress";
+import { GenerationProgress } from "@/modules/generation/client";
 import { mockJob } from "@/shared/lib/mock-data";
-import { createOrGetJob } from "@/shared/lib/jobs-server";
+import { createOrGetJob } from "@/modules/generation";
 import {
   canAccess,
   findProject,
-} from "@/shared/lib/projects-server";
-import { currentUser } from "@/shared/lib/server-auth";
+} from "@/modules/projects";
+import { currentUser } from "@/modules/auth";
 import { PageHeader } from "@/shared/ui";
 
 export const dynamic = "force-dynamic";
 
-export default async function GeneratePage({
-  params,
-}: {
-  params: { projectId: string };
-}) {
+export default async function GeneratePage(
+  props: {
+    params: Promise<{ projectId: string }>;
+  }
+) {
+  const params = await props.params;
   const user = await currentUser();
   const record = user
     ? await findProject(params.projectId).catch(() => null)

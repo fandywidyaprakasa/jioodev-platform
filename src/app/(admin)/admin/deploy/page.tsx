@@ -1,5 +1,5 @@
-import { DeployQueue } from "@/modules/admin/components/deploy-queue";
-import { listDeployments } from "@/shared/lib/deploy-server";
+import { DeployQueue } from "@/modules/publishing/client";
+import { listDeployments } from "@/modules/publishing";
 import { PageHeader } from "@/shared/ui";
 
 export const dynamic = "force-dynamic";

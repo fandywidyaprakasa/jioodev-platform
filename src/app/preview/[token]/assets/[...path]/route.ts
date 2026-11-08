@@ -1,6 +1,6 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import { resolvePreview } from "@/shared/lib/preview-render";
+import { resolvePreview } from "@/modules/preview";
 
 const TYPES: Record<string, string> = {
   ".svg": "image/svg+xml",
@@ -15,8 +15,9 @@ const TYPES: Record<string, string> = {
 
 export async function GET(
   _request: Request,
-  { params }: { params: { token: string; path: string[] } },
+  props: { params: Promise<{ token: string; path: string[] }> }
 ) {
+  const params = await props.params;
   const context = await resolvePreview(params.token).catch(() => null);
   if (!context) return new Response("Not found", { status: 404 });
 

@@ -70,7 +70,7 @@ export function QrisPanel({ payment }: { payment: Payment }) {
       >
         {manual ? (
           <div className="flex aspect-square max-w-[260px] flex-col items-center justify-center gap-2 rounded-md border border-dashed border-line bg-paper p-4 text-center">
-            <span className="font-display text-2xl text-ink">
+            <span className="font-display text-2xl text-ink tabular-nums">
               {rupiah(current.amount)}
             </span>
             <span className="text-xs text-muted">
@@ -101,7 +101,7 @@ export function QrisPanel({ payment }: { payment: Payment }) {
           </div>
           <div className="flex items-center justify-between gap-3">
             <dt className="text-muted">Nominal</dt>
-            <dd className="font-display text-xl text-ink">{rupiah(current.amount)}</dd>
+            <dd className="font-display text-xl text-ink tabular-nums">{rupiah(current.amount)}</dd>
           </div>
           <div className="flex items-center justify-between gap-3">
             <dt className="text-muted">Status</dt>
@@ -124,7 +124,7 @@ export function QrisPanel({ payment }: { payment: Payment }) {
           {current.status === "CONFIRMED" ? (
             <Link
               href={`/app/projects/${current.projectId}/deploy`}
-              className="rounded-full bg-accent px-4 py-2 text-sm font-medium text-on-accent hover:bg-accent-strong"
+              className="inline-flex items-center rounded-full bg-accent px-4 py-2 text-sm font-medium text-on-accent transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:bg-accent-strong"
             >
               Lanjut ke Deploy
             </Link>

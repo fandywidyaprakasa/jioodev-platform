@@ -1,0 +1,28 @@
+{
+  "asset_code": "LAND-LSPLIT-EDT-001",
+  "version": 3,
+  "status": "READY",
+  "template_hash": "sha256:4eaead52682eb47ef02cb46308efd103674e069c2c7caca9069a11aaad1d165a",
+  "render_hash": "sha256:5f300bb7550465e6297c02f9846da06551e505aac0b9226aed90386cab60d01d",
+  "renderer": "template-preview",
+  "renderer_version": "1",
+  "captured_at": "2026-11-04T18:44:55.885Z",
+  "captured_by": "snapshot-template-previews.mjs",
+  "viewports": {
+    "web": {
+      "file": "web.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "tablet": {
+      "file": "tablet.webp",
+      "width": 834,
+      "height": 1112
+    },
+    "mobile": {
+      "file": "mobile.webp",
+      "width": 390,
+      "height": 844
+    }
+  }
+}

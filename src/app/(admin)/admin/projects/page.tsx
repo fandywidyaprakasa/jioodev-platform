@@ -1,5 +1,5 @@
-import { ProjectList } from "@/modules/projects/components/project-list";
-import { listProjects } from "@/shared/lib/projects-server";
+import { ProjectList } from "@/modules/projects/client";
+import { listProjects } from "@/modules/projects";
 import { PageHeader } from "@/shared/ui";
 
 export const dynamic = "force-dynamic";

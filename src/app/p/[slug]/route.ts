@@ -1,13 +1,16 @@
-import { renderPublishedPage } from "@/shared/lib/published-server";
+import { renderPublishedPage } from "@/modules/publishing";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(
-  request: Request,
-  { params }: { params: { slug: string } },
-) {
+export async function GET(request: Request, props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
   const origin = new URL(request.url).origin;
-  const html = await renderPublishedPage(params.slug, origin).catch(() => null);
+  let html: string | null;
+  try {
+    html = await renderPublishedPage(params.slug, origin);
+  } catch {
+    return new Response("Halaman sedang tidak tersedia.", { status: 503 });
+  }
   if (!html) {
     return new Response("Halaman tidak ditemukan.", { status: 404 });
   }

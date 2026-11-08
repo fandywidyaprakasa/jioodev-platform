@@ -6,10 +6,12 @@ html {
   -webkit-text-size-adjust: 100%;
   color-scheme: light;
   scrollbar-color: var(--color-line) transparent;
+  --image-outline: rgb(0 0 0 / 0.1);
 }
 
 [data-theme="dark"] {
   color-scheme: dark;
+  --image-outline: rgb(255 255 255 / 0.1);
 }
 
 body {
@@ -31,6 +33,22 @@ select {
 
 table {
   font-variant-numeric: tabular-nums;
+}
+
+img {
+  outline: 1px solid var(--image-outline);
+  outline-offset: -1px;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 :focus-visible {

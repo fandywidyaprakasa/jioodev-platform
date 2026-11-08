@@ -46,7 +46,7 @@ export function CommandPalette({ items }: { items: NavItem[] }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex items-center gap-2 rounded-md border border-line px-2.5 py-1.5 text-xs text-muted hover:border-ink/40 hover:text-ink"
+        className="flex min-h-10 items-center gap-2 rounded-md border border-line px-2.5 py-1.5 text-xs text-muted transition-[border-color,color] duration-150 hover:border-ink/40 hover:text-ink"
         aria-label="Buka pencarian (Command K)"
       >
         <Search className="h-3.5 w-3.5" aria-hidden="true" />

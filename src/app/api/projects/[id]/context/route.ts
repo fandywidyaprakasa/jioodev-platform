@@ -1,18 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { badRequest, notFound, requireActor } from "@/shared/lib/server-auth";
+import { badRequest, notFound, requireActor } from "@/modules/auth";
 import {
   canAccess,
   findProject,
   getBusinessProfile,
-  patchProject,
-  saveBusinessProfile,
-} from "@/shared/lib/projects-server";
+  saveProjectBusinessContext,
+} from "@/modules/projects";
 import type { BusinessContext } from "@/shared/types";
 
-export async function GET(
-  _request: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function GET(_request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const auth = await requireActor();
   if ("response" in auth) return auth.response;
 
@@ -42,10 +39,8 @@ export async function GET(
   } satisfies BusinessContext);
 }
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function PUT(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const auth = await requireActor();
   if ("response" in auth) return auth.response;
 
@@ -80,12 +75,7 @@ export async function PUT(
   };
 
   try {
-    const current = project.status ?? "DRAFT";
-    await saveBusinessProfile(params.id, ctx);
-    await patchProject(params.id, {
-      client_label: ctx.businessName,
-      status: current === "DRAFT" ? "INTAKE" : current,
-    });
+    await saveProjectBusinessContext(params.id, ctx);
     return NextResponse.json(ctx);
   } catch (e) {
     console.error("[context] save failed", e);

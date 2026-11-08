@@ -1,0 +1,28 @@
+{
+  "asset_code": "PB-fnb-tier-pro",
+  "version": 3,
+  "status": "READY",
+  "template_hash": "sha256:99c2a7d8f3432963c05fd7c8080a77a411d7a1bddbc112d06eea9022978aecc3",
+  "render_hash": "sha256:2115181efb082cbd19f9a398508e537be39122887679e1529a847ad69c315157",
+  "renderer": "template-preview",
+  "renderer_version": "1",
+  "captured_at": "2026-11-04T18:45:28.629Z",
+  "captured_by": "snapshot-template-previews.mjs",
+  "viewports": {
+    "web": {
+      "file": "web.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "tablet": {
+      "file": "tablet.webp",
+      "width": 834,
+      "height": 1112
+    },
+    "mobile": {
+      "file": "mobile.webp",
+      "width": 390,
+      "height": 844
+    }
+  }
+}

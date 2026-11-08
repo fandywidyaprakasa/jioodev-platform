@@ -1,10 +1,10 @@
 import { getServerSession } from "next-auth";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { authOptions } from "@/modules/auth/auth-options";
-import { audit } from "@/modules/auth/pocketbase";
-import { claimGuestProjects } from "@/shared/lib/projects-server";
-import { GUEST_COOKIE } from "@/shared/lib/server-auth";
+import { authOptions } from "@/modules/auth";
+import { audit } from "@/modules/auth";
+import { claimGuestProjects } from "@/modules/projects";
+import { GUEST_COOKIE } from "@/modules/auth";
 
 export async function POST() {
   const session = await getServerSession(authOptions);
@@ -17,7 +17,7 @@ export async function POST() {
     );
   }
 
-  const guestId = cookies().get(GUEST_COOKIE)?.value;
+  const guestId = (await cookies()).get(GUEST_COOKIE)?.value;
   let claimed = 0;
   if (guestId) {
     claimed = await claimGuestProjects(guestId, userId).catch(() => 0);

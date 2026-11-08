@@ -2,19 +2,29 @@ import { ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { TemplateDetailPreview } from "@/modules/catalog/components/template-detail-preview";
-import { getTemplate } from "@/shared/lib/templates-server";
-import { getTheme } from "@/shared/lib/catalog-server";
+import { TemplateDetailPreview } from "@/modules/catalog/client";
+import { getTemplate } from "@/modules/catalog";
+import {
+  industryLabels,
+  layoutLabel,
+  productLabel,
+  purposeLabels,
+  styleLabel,
+  tierLabel,
+} from "@/shared/lib/taxonomy";
+import { ALL_PRODUCT_TYPES } from "@/shared/types";
+import { getTheme } from "@/modules/catalog";
 import { Badge, PageHeader } from "@/shared/ui";
 
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { code: string };
-}): Promise<Metadata> {
-  const template = await getTemplate(params.code);
+export async function generateMetadata(
+  props: {
+    params: Promise<{ code: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+  const template = await getTemplate(params.code, ALL_PRODUCT_TYPES);
   if (!template) return { title: "Template tidak ditemukan — JiooDev" };
   return {
     title: `${template.name} — JiooDev`,
@@ -22,15 +32,16 @@ export async function generateMetadata({
   };
 }
 
-export default async function TemplateDetailPage({
-  params,
-}: {
-  params: { code: string };
-}) {
-  const template = await getTemplate(params.code);
+export default async function TemplateDetailPage(
+  props: {
+    params: Promise<{ code: string }>;
+  }
+) {
+  const params = await props.params;
+  const template = await getTemplate(params.code, ALL_PRODUCT_TYPES);
   if (!template) notFound();
   const theme = template.themeId
-    ? await getTheme(template.themeId).catch(() => null)
+    ? await getTheme(template.themeId, ALL_PRODUCT_TYPES).catch(() => null)
     : null;
 
   return (
@@ -38,20 +49,16 @@ export default async function TemplateDetailPage({
       <PageHeader
         title={template.name}
         description={template.description}
+        back={{
+          href: theme ? `/templates/theme/${theme.themeId}` : "/templates",
+          label: theme ? `Kembali ke ${theme.name}` : "Kembali ke katalog",
+        }}
         actions={
           <>
-            {theme ? (
-              <Link
-                href={`/templates/theme/${theme.themeId}`}
-                className="text-sm font-medium text-accent hover:underline"
-              >
-                {theme.name}
-              </Link>
-            ) : null}
-            <Badge variant="accent">{template.productType}</Badge>
-            {template.tier ? <Badge>{template.tier}</Badge> : null}
-            <Badge>{template.layout}</Badge>
-            <Badge>{template.style}</Badge>
+            <Badge variant="accent">{productLabel(template.productType)}</Badge>
+            {template.tier ? <Badge>{tierLabel(template.tier)}</Badge> : null}
+            <Badge>{layoutLabel(template.layout)}</Badge>
+            <Badge>{styleLabel(template.style)}</Badge>
           </>
         }
       />
@@ -68,21 +75,21 @@ export default async function TemplateDetailPage({
             <div className="flex items-start justify-between gap-4 border-b border-line py-3.5">
               <dt className="text-muted">Industri</dt>
               <dd className="text-right text-ink">
-                {template.industries.join(", ") || "Umum"}
+                {industryLabels(template.industries) || "Umum"}
               </dd>
             </div>
             <div className="flex items-start justify-between gap-4 border-b border-line py-3.5">
               <dt className="text-muted">Tujuan</dt>
               <dd className="text-right text-ink">
-                {template.purposes.join(", ") || "General"}
+                {purposeLabels(template.purposes) || "Umum"}
               </dd>
             </div>
           </dl>
 
           <div className="mt-6 space-y-3">
             <Link
-              href="/register"
-              className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-accent px-5 text-sm font-medium text-on-accent transition-colors duration-150 hover:bg-accent-strong"
+              href={`/app/projects/new?template=${encodeURIComponent(template.code)}`}
+              className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-accent px-5 text-sm font-medium text-on-accent transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:bg-accent-strong"
             >
               Gunakan template
             </Link>
@@ -91,7 +98,7 @@ export default async function TemplateDetailPage({
                 href={template.previewUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex min-h-11 w-full items-center justify-center gap-1.5 rounded-full border border-line px-5 text-sm font-medium text-ink transition-colors duration-150 hover:border-ink/40"
+                className="inline-flex min-h-11 w-full items-center justify-center gap-1.5 rounded-full border border-line px-5 text-sm font-medium text-ink transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:border-ink/40"
               >
                 Buka preview
                 <ArrowUpRight className="h-4 w-4" aria-hidden="true" />

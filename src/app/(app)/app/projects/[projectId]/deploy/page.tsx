@@ -1,19 +1,20 @@
 import { notFound, redirect } from "next/navigation";
-import { DeployPanel } from "@/modules/admin/components/deploy-panel";
+import { DeployPanel } from "@/modules/publishing/client";
 import {
   canAccess,
   findProject,
-} from "@/shared/lib/projects-server";
-import { currentUser } from "@/shared/lib/server-auth";
+} from "@/modules/projects";
+import { currentUser } from "@/modules/auth";
 import { PageHeader } from "@/shared/ui";
 
 export const dynamic = "force-dynamic";
 
-export default async function DeployPage({
-  params,
-}: {
-  params: { projectId: string };
-}) {
+export default async function DeployPage(
+  props: {
+    params: Promise<{ projectId: string }>;
+  }
+) {
+  const params = await props.params;
   const user = await currentUser();
   const record = user
     ? await findProject(params.projectId).catch(() => null)

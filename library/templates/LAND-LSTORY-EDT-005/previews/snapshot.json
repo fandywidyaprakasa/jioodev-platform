@@ -1,0 +1,28 @@
+{
+  "asset_code": "LAND-LSTORY-EDT-005",
+  "version": 3,
+  "status": "READY",
+  "template_hash": "sha256:bfd889e49b8b74171e75ba6dbd569d089aa54329459b7513e7123d5f7d97781e",
+  "render_hash": "sha256:b84713839b28215d47a03e2cce9c4e87698817e30796c4ef797c7852defa4c1b",
+  "renderer": "template-preview",
+  "renderer_version": "1",
+  "captured_at": "2026-11-04T18:44:57.940Z",
+  "captured_by": "snapshot-template-previews.mjs",
+  "viewports": {
+    "web": {
+      "file": "web.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "tablet": {
+      "file": "tablet.webp",
+      "width": 834,
+      "height": 1112
+    },
+    "mobile": {
+      "file": "mobile.webp",
+      "width": 390,
+      "height": 844
+    }
+  }
+}

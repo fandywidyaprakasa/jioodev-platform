@@ -1,0 +1,28 @@
+{
+  "asset_code": "LAND-LMENU-EDT-007",
+  "version": 3,
+  "status": "READY",
+  "template_hash": "sha256:bc7501948e7461fccffe02decb1feeb7c69a974414d7bb2cff84d9f31e64ae3b",
+  "render_hash": "sha256:8894ea624c991c32872d72477aacd56a4ac1ba9624587612e562554fd6727a41",
+  "renderer": "template-preview",
+  "renderer_version": "1",
+  "captured_at": "2026-11-04T18:44:51.662Z",
+  "captured_by": "snapshot-template-previews.mjs",
+  "viewports": {
+    "web": {
+      "file": "web.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "tablet": {
+      "file": "tablet.webp",
+      "width": 834,
+      "height": 1112
+    },
+    "mobile": {
+      "file": "mobile.webp",
+      "width": 390,
+      "height": 844
+    }
+  }
+}

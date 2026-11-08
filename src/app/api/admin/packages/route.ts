@@ -4,8 +4,8 @@ import {
   deletePackage,
   listPackages,
   updatePackage,
-} from "@/shared/lib/admin-server";
-import { badRequest, requireUser } from "@/shared/lib/server-auth";
+} from "@/modules/admin";
+import { badRequest, requireUser } from "@/modules/auth";
 
 export async function GET() {
   const auth = await requireUser("admin");
@@ -20,7 +20,13 @@ export async function POST(request: NextRequest) {
   if ("response" in auth) return auth.response;
 
   const body = (await request.json().catch(() => null)) as
-    | { name?: string; price?: number; deploy_included?: number }
+    | {
+        name?: string;
+        price?: number;
+        deploy_included?: number;
+        tier?: "FREE" | "PRO" | "AGENCY" | "ADDON";
+        billing_type?: "FREE" | "SUBSCRIPTION" | "PAY_PER_DEPLOY" | "LIFETIME";
+      }
     | null;
   if (!body?.name || !body.price || !body.deploy_included) {
     return badRequest("name, price, dan deploy_included wajib diisi.");
@@ -30,6 +36,8 @@ export async function POST(request: NextRequest) {
     name: body.name,
     price: body.price,
     deploy_included: body.deploy_included,
+    tier: body.tier,
+    billing_type: body.billing_type,
   }).catch(() => null);
 
   if (!item) {
@@ -46,7 +54,15 @@ export async function PATCH(request: NextRequest) {
   if ("response" in auth) return auth.response;
 
   const body = (await request.json().catch(() => null)) as
-    | { id?: string; name?: string; price?: number; deploy_included?: number; active?: boolean }
+    | {
+        id?: string;
+        name?: string;
+        price?: number;
+        deploy_included?: number;
+        active?: boolean;
+        tier?: "FREE" | "PRO" | "AGENCY" | "ADDON";
+        billing_type?: "FREE" | "SUBSCRIPTION" | "PAY_PER_DEPLOY" | "LIFETIME";
+      }
     | null;
   if (!body?.id) return badRequest("id wajib diisi.");
 
@@ -55,6 +71,8 @@ export async function PATCH(request: NextRequest) {
     price: body.price,
     deploy_included: body.deploy_included,
     active: body.active,
+    tier: body.tier,
+    billing_type: body.billing_type,
   }).catch(() => null);
   if (!item) {
     return NextResponse.json(

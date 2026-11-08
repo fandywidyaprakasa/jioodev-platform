@@ -2,7 +2,8 @@
 /**
  * Apply Platform PocketBase schema from pocketbase/collections.json.
  * Usage:
- *   PB_URL=... PB_TOKEN=... node scripts/apply-pb-schema.mjs [--dry-run]
+ *   PB_URL=... PB_TOKEN=... node deploy/apply-schema.mjs [--dry-run]
+ *   PB_URL=... PB_ADMIN_EMAIL=... PB_ADMIN_PASSWORD=... node deploy/apply-schema.mjs
  * Read-only with --dry-run (no writes).
  */
 import fs from "node:fs";
@@ -21,6 +22,8 @@ if (!schemaPath) {
 const schema = JSON.parse(fs.readFileSync(schemaPath, "utf8"));
 const PB = process.env.PB_URL ?? process.env.POCKETBASE_PLATFORM_URL;
 const TOKEN = process.env.PB_TOKEN;
+const EMAIL = process.env.PB_ADMIN_EMAIL;
+const PASSWORD = process.env.PB_ADMIN_PASSWORD;
 const DRY = process.argv.includes("--dry-run");
 
 if (!PB) {
@@ -51,7 +54,25 @@ function rulesFor(def) {
 
 if (TOKEN) headers.Authorization = TOKEN;
 
+async function auth() {
+  if (TOKEN) return TOKEN;
+  if (!EMAIL || !PASSWORD) {
+    throw new Error(
+      "PB_TOKEN atau PB_ADMIN_EMAIL/PB_ADMIN_PASSWORD wajib di-set",
+    );
+  }
+  const response = await fetch(`${PB}/api/collections/_superusers/auth-with-password`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ identity: EMAIL, password: PASSWORD }),
+  });
+  if (!response.ok) throw new Error(`Auth admin gagal: ${response.status}`);
+  const body = await response.json();
+  return body.token;
+}
+
 async function main() {
+  headers.Authorization = await auth();
   const res = await fetch(`${PB}/api/collections?perPage=500`, { headers });
   if (!res.ok) throw new Error(`GET collections: ${res.status}`);
   const data = await res.json();

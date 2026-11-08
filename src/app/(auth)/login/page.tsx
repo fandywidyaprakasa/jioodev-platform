@@ -2,38 +2,60 @@
 
 import Link from "next/link";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
-import { GoogleIcon } from "@/shared/ui";
+import { useEffect, useState } from "react";
+import { authErrorMessage } from "@/modules/auth/client";
+import { Alert, GoogleIcon } from "@/shared/ui";
+
+function safeNext(raw: string | null) {
+  if (raw && raw.startsWith("/") && !raw.startsWith("//")) return raw;
+  return "/app";
+}
 
 export default function LoginPage() {
   const [remember, setRemember] = useState(false);
   const [status, setStatus] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("error");
+    if (code) setError(authErrorMessage(code));
+  }, []);
 
   function google() {
     const params = new URLSearchParams(window.location.search);
-    const next = params.get("next") || "/app";
+    const next = safeNext(params.get("next"));
     document.cookie = `jioodev_remember=${remember ? "1" : "0"}; path=/${
       remember ? "; max-age=2592000" : ""
     }; samesite=lax`;
+    setError(null);
     setStatus("Mengalihkan ke Google...");
     signIn("google", { callbackUrl: next });
   }
 
   return (
     <div className="rounded-lg border border-line bg-surface p-6 shadow-sm sm:p-8">
-      <h1 className="font-display text-3xl leading-tight tracking-[-0.025em] text-ink">
+      <h1 className="text-balance font-display text-3xl leading-tight tracking-[-0.025em] text-ink">
         Masuk ke workspace.
       </h1>
       <p className="mt-2 text-sm leading-relaxed text-muted">
         Gunakan akun Google. Tidak ada kata sandi tambahan yang perlu diingat.
       </p>
 
+      {error ? (
+        <div className="mt-5">
+          <Alert tone="danger" title="Gagal masuk">
+            {error}
+          </Alert>
+        </div>
+      ) : null}
+
       <button
         type="button"
         onClick={google}
         disabled={Boolean(status)}
         aria-busy={Boolean(status) || undefined}
-        className="mt-7 flex min-h-12 w-full items-center justify-center gap-2.5 rounded-full border border-line bg-paper px-4 text-sm font-medium text-ink transition-colors duration-150 hover:border-ink/40 disabled:cursor-wait disabled:opacity-70"
+        className="mt-7 flex min-h-12 w-full items-center justify-center gap-2.5 rounded-full border border-line bg-paper px-4 text-sm font-medium text-ink transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:border-ink/40 disabled:cursor-wait disabled:opacity-70"
       >
         <GoogleIcon />
         {status ? "Mengalihkan…" : "Lanjutkan dengan Google"}

@@ -36,6 +36,7 @@ import type {
   Subscription,
   Template,
 } from "@/shared/types";
+import { isMvpProductType } from "@/shared/types";
 
 const BASE = process.env.NEXT_PUBLIC_API_BASE ?? "/api";
 const USE_MOCK = process.env.NEXT_PUBLIC_API_MODE === "mock";
@@ -78,11 +79,20 @@ export const api = {
       USE_MOCK
         ? delay(mockProjects.find((project) => project.id === id))
         : request(`/projects/${id}`),
-    create: (productType: ProductType): Promise<Project> => {
+    create: (
+      productType: ProductType,
+      templateCode?: string,
+    ): Promise<Project> => {
+      if (!isMvpProductType(productType)) {
+        return Promise.reject(new Error("MVP hanya mendukung Landing (LAND)."));
+      }
       if (!USE_MOCK) {
         return request("/projects", {
           method: "POST",
-          body: JSON.stringify({ product_type: productType }),
+          body: JSON.stringify({
+            product_type: productType,
+            ...(templateCode ? { template_code: templateCode } : {}),
+          }),
         });
       }
       const project: Project = {
@@ -92,6 +102,7 @@ export const api = {
         status: "DRAFT",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        ...(templateCode ? { templateCode } : {}),
       };
       mockProjects.unshift(project);
       return delay(project);
@@ -320,13 +331,15 @@ export const api = {
       name: string;
       price: number;
       deploy_included: number;
+      tier?: Package["tier"];
+      billing_type?: Package["billing_type"];
     }): Promise<Package> =>
       USE_MOCK
         ? delay({
             id: `pkg_${Date.now()}`,
             name: input.name,
-            tier: "FREE",
-            billing_type: "PAY_PER_DEPLOY",
+            tier: input.tier ?? "FREE",
+            billing_type: input.billing_type ?? "PAY_PER_DEPLOY",
             price: input.price,
             max_sections: 5,
             js_allowed: false,
@@ -342,7 +355,7 @@ export const api = {
           }),
     updatePackage: (
       id: string,
-      patch: Partial<Pick<Package, "name" | "price" | "deploy_included" | "active">>,
+      patch: Partial<Pick<Package, "name" | "price" | "deploy_included" | "active" | "tier" | "billing_type">>,
     ): Promise<Package> =>
       USE_MOCK
         ? delay({
@@ -411,6 +424,62 @@ export const api = {
       if (project && project.status === "PICKED") project.status = "PAID";
       return delay({ ok: true as const, payment });
     },
+    listUsersWithSubscriptions: (): Promise<
+      Array<{
+        id: string;
+        email: string;
+        name: string;
+        subscription: {
+          id: string;
+          package_id: string;
+          package_name?: string;
+          period_start: string;
+          period_end: string | null;
+          quota_landing_total: number;
+          quota_landing_used: number;
+          quota_web_total: number;
+          quota_web_used: number;
+          status: string;
+        } | null;
+      }>
+    > => USE_MOCK ? delay([]) : request("/admin/subscriptions"),
+    grantSubscription: (input: {
+      userId: string;
+      packageId: string;
+      periodEnd?: string | null;
+      quotaLanding?: number;
+      quotaWeb?: number;
+    }): Promise<{ id: string }> =>
+      USE_MOCK
+        ? delay({ id: `sub_${Date.now()}` })
+        : request("/admin/subscriptions", {
+            method: "POST",
+            body: JSON.stringify(input),
+          }),
+    updateSubscription: (
+      id: string,
+      patch: {
+        package_id?: string;
+        period_end?: string | null;
+        quota_landing_total?: number;
+        quota_web_total?: number;
+        quota_landing_used?: number;
+        quota_web_used?: number;
+        status?: string;
+      },
+    ): Promise<void> =>
+      USE_MOCK
+        ? delay(undefined)
+        : request(`/admin/subscriptions/${id}`, {
+            method: "PATCH",
+            body: JSON.stringify(patch),
+          }),
+    revokeSubscription: (id: string): Promise<void> =>
+      USE_MOCK
+        ? delay(undefined)
+        : request(`/admin/subscriptions/${id}`, {
+            method: "DELETE",
+          }),
   },
 };
 

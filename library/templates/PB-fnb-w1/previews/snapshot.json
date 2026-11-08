@@ -1,0 +1,28 @@
+{
+  "asset_code": "PB-fnb-w1",
+  "version": 3,
+  "status": "READY",
+  "template_hash": "sha256:1839a763273f844e7dab6ab90b4e1b442035acb1abed0b0245799913b8094b0e",
+  "render_hash": "sha256:855b0cc3f0ab086fea1b42362edfb843612a8bb5248c73334345f32f02bd08e0",
+  "renderer": "template-preview",
+  "renderer_version": "1",
+  "captured_at": "2026-11-04T18:45:30.752Z",
+  "captured_by": "snapshot-template-previews.mjs",
+  "viewports": {
+    "web": {
+      "file": "web.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "tablet": {
+      "file": "tablet.webp",
+      "width": 834,
+      "height": 1112
+    },
+    "mobile": {
+      "file": "mobile.webp",
+      "width": 390,
+      "height": 844
+    }
+  }
+}

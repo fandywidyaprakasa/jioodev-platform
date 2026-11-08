@@ -23,7 +23,7 @@ function matches(item: Record<string, unknown>, filter: string) {
     });
 }
 
-vi.mock("@/shared/lib/pb-platform", () => {
+vi.mock("@/shared/infrastructure/pocketbase/pb-platform", () => {
   let seq = 0;
   return {
     getRecord: vi.fn(async (collection: string, id: string) => {
@@ -74,8 +74,9 @@ vi.mock("@/shared/lib/pb-platform", () => {
   };
 });
 
-vi.mock("@/shared/lib/qris", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@/shared/lib/qris")>();
+vi.mock("@/modules/payments/infrastructure/qris", async (importOriginal) => {
+  const actual =
+    await importOriginal<typeof import("@/modules/payments/infrastructure/qris")>();
   return {
     ...actual,
     createQrisCharge: vi.fn(),
@@ -85,23 +86,23 @@ vi.mock("@/shared/lib/qris", async (importOriginal) => {
   };
 });
 
-vi.mock("@/shared/lib/activity-server", () => ({
+vi.mock("@/modules/activity", () => ({
   logActivity: vi.fn(async () => undefined),
 }));
 
-vi.mock("@/shared/lib/notifications-server", () => ({
+vi.mock("@/modules/account", () => ({
   createNotification: vi.fn(async () => undefined),
 }));
 
-import { confirmPayment } from "@/shared/lib/admin-server";
+import { confirmPayment } from "@/modules/payments";
 import {
   applyQrisCallback,
   ensureProjectPayment,
   refundPayment,
   refreshPayment,
   toPayment,
-} from "@/shared/lib/payments-server";
-import { checkQrisCharge } from "@/shared/lib/qris";
+} from "@/modules/payments";
+import { checkQrisCharge } from "@/modules/payments";
 
 function reset() {
   for (const collection of Object.keys(store)) {

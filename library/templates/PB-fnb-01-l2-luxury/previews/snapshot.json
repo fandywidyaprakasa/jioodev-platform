@@ -1,0 +1,28 @@
+{
+  "asset_code": "PB-fnb-01-l2-luxury",
+  "version": 3,
+  "status": "READY",
+  "template_hash": "sha256:7ac7f166504dcaef806442d65f91c46496efe100f80a5d5956dc099066afb893",
+  "render_hash": "sha256:844bff9f144bf60a54534dd229b66c3e8bff33bacb8fa33de4b170557ae1b077",
+  "renderer": "template-preview",
+  "renderer_version": "1",
+  "captured_at": "2026-11-04T18:45:04.435Z",
+  "captured_by": "snapshot-template-previews.mjs",
+  "viewports": {
+    "web": {
+      "file": "web.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "tablet": {
+      "file": "tablet.webp",
+      "width": 834,
+      "height": 1112
+    },
+    "mobile": {
+      "file": "mobile.webp",
+      "width": 390,
+      "height": 844
+    }
+  }
+}

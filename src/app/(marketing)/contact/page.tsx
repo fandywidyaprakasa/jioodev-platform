@@ -1,6 +1,6 @@
 import { Mail, MessageCircle, Timer } from "lucide-react";
 import type { Metadata } from "next";
-import { ContactForm } from "@/modules/marketing/components/contact-form";
+import { ContactForm } from "@/modules/marketing/client";
 import { PageHeader } from "@/shared/ui";
 
 export const metadata: Metadata = {

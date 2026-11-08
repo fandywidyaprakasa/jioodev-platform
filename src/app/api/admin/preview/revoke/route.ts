@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-import { decodePreviewToken, getOutput, isOutputRevoked } from "@/shared/lib/jobs-server";
-import { updateRecord } from "@/shared/lib/pb-platform";
-import { badRequest, requireUser } from "@/shared/lib/server-auth";
+import { decodePreviewToken, revokeOutput } from "@/modules/generation";
+import { badRequest, requireUser } from "@/modules/auth";
 
 export async function POST(request: Request) {
   const auth = await requireUser("admin");
@@ -12,25 +11,17 @@ export async function POST(request: Request) {
     | null;
   if (!body) return badRequest("Body tidak valid.");
 
-  const outputId = body.output_id ?? (body.token ? decodePreviewToken(body.token)?.outputId : null);
+  const outputId =
+    body.output_id ??
+    (body.token ? decodePreviewToken(body.token)?.outputId : null);
   if (!outputId) return badRequest("output_id atau token wajib diisi.");
 
-  const output = await getOutput(outputId).catch(() => null);
-  if (!output) return NextResponse.json({ error: "Output tidak ditemukan." }, { status: 404 });
-  if (isOutputRevoked(output)) return NextResponse.json({ ok: true, output_id: outputId });
-
-  const revokedAt = new Date().toISOString();
-  try {
-    await updateRecord("production_outputs", outputId, { revoked_at: revokedAt });
-  } catch {
-    const quality =
-      output.quality && typeof output.quality === "object"
-        ? (output.quality as Record<string, unknown>)
-        : {};
-    await updateRecord("production_outputs", outputId, {
-      quality: { ...quality, revoked_at: revokedAt },
-    });
+  const result = await revokeOutput(outputId);
+  if (!result.ok) {
+    return NextResponse.json(
+      { error: "Output tidak ditemukan." },
+      { status: 404 },
+    );
   }
-
   return NextResponse.json({ ok: true, output_id: outputId });
 }

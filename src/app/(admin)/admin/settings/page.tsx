@@ -1,12 +1,12 @@
-import { AdminSettings } from "@/modules/admin/components/admin-settings";
-import { ThemeToggle } from "@/modules/account/components/theme-toggle";
-import { LanguageToggle } from "@/modules/account/components/language-toggle";
+import { AdminSettings } from "@/modules/admin/client";
+import { ThemeToggle } from "@/modules/account/client";
+import { LanguageToggle } from "@/modules/account/client";
 import { getLocale } from "@/shared/lib/locale";
 import { t } from "@/shared/lib/i18n";
 import { Card, PageHeader } from "@/shared/ui";
 
-export default function AdminSettingsPage() {
-  const locale = getLocale();
+export default async function AdminSettingsPage() {
+  const locale = await getLocale();
   return (
     <div className="space-y-6">
       <PageHeader

@@ -39,13 +39,18 @@ const variantIcon: Record<ToastVariant, typeof Info> = {
 
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<ToastItem[]>([]);
+  const [leaving, setLeaving] = useState<number[]>([]);
 
   const toast = useCallback((input: Omit<ToastItem, "id">) => {
     const id = Date.now() + Math.random();
     setItems((current) => [...current, { ...input, id, variant: input.variant ?? "info" }]);
     window.setTimeout(() => {
-      setItems((current) => current.filter((item) => item.id !== id));
-    }, 4500);
+      setLeaving((current) => [...current, id]);
+      window.setTimeout(() => {
+        setItems((current) => current.filter((item) => item.id !== id));
+        setLeaving((current) => current.filter((itemId) => itemId !== id));
+      }, 150);
+    }, 4350);
   }, []);
 
   const value = useMemo(() => ({ toast }), [toast]);
@@ -57,24 +62,29 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         aria-live="polite"
         className="pointer-events-none fixed bottom-4 right-4 z-[80] flex w-full max-w-sm flex-col gap-2"
       >
-        {items.map((item) => (
-          <div
-            key={item.id}
-            role={item.variant === "error" ? "alert" : "status"}
-            className={`pointer-events-auto flex items-start gap-2.5 rounded-md border p-3 text-sm shadow-md ${variantClass[item.variant ?? "info"]}`}
-          >
-            {(() => {
-              const Icon = variantIcon[item.variant ?? "info"];
-              return <Icon className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />;
-            })()}
-            <div>
-              <p className="font-medium">{item.title}</p>
-              {item.description ? (
-                <p className="mt-0.5 leading-relaxed opacity-80">{item.description}</p>
-              ) : null}
+        {items.map((item) => {
+          const isLeaving = leaving.includes(item.id);
+          return (
+            <div
+              key={item.id}
+              role={item.variant === "error" ? "alert" : "status"}
+              className={`pointer-events-auto flex items-start gap-2.5 rounded-md border p-3 text-sm shadow-md transition-[opacity,transform] duration-150 ease-out animate-[toast-in_150ms_ease-out] ${
+                isLeaving ? "translate-y-1 opacity-0" : "translate-y-0 opacity-100"
+              } ${variantClass[item.variant ?? "info"]}`}
+            >
+              {(() => {
+                const Icon = variantIcon[item.variant ?? "info"];
+                return <Icon className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />;
+              })()}
+              <div>
+                <p className="font-medium">{item.title}</p>
+                {item.description ? (
+                  <p className="mt-0.5 leading-relaxed opacity-80">{item.description}</p>
+                ) : null}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </ToastContext.Provider>
   );

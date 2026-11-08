@@ -1,13 +1,15 @@
 import { NextResponse } from "next/server";
-import { renderComposition } from "@/shared/lib/composition-render";
-import type { CompositionBlock } from "@/shared/lib/composition-render";
+import { requireUser } from "@/modules/auth";
+import { renderComposition } from "@/modules/workspace";
+import type { CompositionBlock } from "@/modules/workspace";
 
 export const dynamic = "force-dynamic";
 
-export async function POST(
-  request: Request,
-  { params }: { params: { id: string } },
-) {
+export async function POST(request: Request, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
+  const auth = await requireUser("admin");
+  if ("response" in auth) return auth.response;
+
   const body = (await request.json().catch(() => null)) as
     | {
         themeId?: string;

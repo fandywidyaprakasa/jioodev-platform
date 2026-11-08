@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { listProjects } from "@/shared/lib/projects-server";
-import { requireUser } from "@/shared/lib/server-auth";
+import { listProjects } from "@/modules/projects";
+import { requireUser } from "@/modules/auth";
 
 export async function GET() {
   const auth = await requireUser("admin");

@@ -18,10 +18,10 @@ export default function AuthLayout({
         </Link>
 
         <div className="max-w-md">
-          <h2 className="font-display text-[2.75rem] leading-[1.05] tracking-[-0.035em]">
+          <h2 className="text-balance font-display text-[2.75rem] leading-[1.05] tracking-[-0.035em]">
             Produk digital yang dimulai dari konteks, bukan template.
           </h2>
-          <p className="mt-5 max-w-[42ch] text-[15px] leading-relaxed text-paper/65">
+          <p className="mt-5 max-w-[42ch] text-pretty text-[15px] leading-relaxed text-paper/65">
             Satu alur dari brief bisnis ke website siap deploy. Anda memegang
             keputusan; produksinya kami urus.
           </p>

@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createOrGetJob } from "@/shared/lib/jobs-server";
-import { canAccess, findProject } from "@/shared/lib/projects-server";
-import { notFound, requireActor } from "@/shared/lib/server-auth";
+import { createOrGetJob, generationReadiness } from "@/modules/generation";
+import { canAccess, findProject } from "@/modules/projects";
+import { notFound, requireActor } from "@/modules/auth";
 
-export async function POST(
-  _request: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function POST(_request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const auth = await requireActor();
   if ("response" in auth) return auth.response;
 
@@ -23,26 +21,10 @@ export async function POST(
     return notFound();
   }
 
-  if (!["TEMPLATE_CHOSEN", "GENERATING", "PREVIEWS"].includes(project.status ?? "")) {
+  const readiness = generationReadiness(project);
+  if (!readiness.ok) {
     return NextResponse.json(
-      {
-        error: {
-          code: "INVALID_TRANSITION",
-          message: "Generate hanya tersedia setelah template dipilih.",
-        },
-      },
-      { status: 409 },
-    );
-  }
-
-  if (!project.template_id) {
-    return NextResponse.json(
-      {
-        error: {
-          code: "VALIDATION",
-          message: "Pilih template sebelum generate.",
-        },
-      },
+      { error: { code: readiness.code, message: readiness.message } },
       { status: 409 },
     );
   }

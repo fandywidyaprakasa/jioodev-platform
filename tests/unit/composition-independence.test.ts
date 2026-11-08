@@ -1,6 +1,6 @@
 import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { renderComposition } from "@/shared/lib/composition-render";
+import { renderComposition } from "@/modules/workspace";
 
 const previous = process.env.JIOODEV_LIBRARY_DIR;
 

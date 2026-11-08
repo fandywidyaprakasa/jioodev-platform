@@ -1,0 +1,28 @@
+{
+  "asset_code": "PB-fnb-tier-agency",
+  "version": 3,
+  "status": "READY",
+  "template_hash": "sha256:7f2c8086e8b601f133cadbbc87192a75a781168becd9bcf84dddbfd12eb90ab0",
+  "render_hash": "sha256:7fa3f3e8e5141fc26afeeea5b3a7670e88503b5ceaf34656c941c04ad8264991",
+  "renderer": "template-preview",
+  "renderer_version": "1",
+  "captured_at": "2026-11-04T18:45:23.818Z",
+  "captured_by": "snapshot-template-previews.mjs",
+  "viewports": {
+    "web": {
+      "file": "web.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "tablet": {
+      "file": "tablet.webp",
+      "width": 834,
+      "height": 1112
+    },
+    "mobile": {
+      "file": "mobile.webp",
+      "width": 390,
+      "height": 844
+    }
+  }
+}

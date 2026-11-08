@@ -1,7 +1,7 @@
 import { timingSafeEqual } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
-import { completeJob } from "@/shared/lib/jobs-server";
-import { badRequest } from "@/shared/lib/server-auth";
+import { completeJob } from "@/modules/generation";
+import { badRequest } from "@/modules/auth";
 import type { JobVariant } from "@/shared/types";
 
 export async function POST(request: NextRequest) {

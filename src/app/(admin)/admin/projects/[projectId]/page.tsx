@@ -1,16 +1,18 @@
 import { notFound } from "next/navigation";
-import { DeployPanel } from "@/modules/admin/components/deploy-panel";
+import { DeployPanel } from "@/modules/publishing/client";
 import { dateTimeID } from "@/shared/lib/format";
-import { findProject, toProject } from "@/shared/lib/projects-server";
+import { productLabel } from "@/shared/lib/taxonomy";
+import { findProject, toProject } from "@/modules/projects";
 import { Card, PageHeader, StatusBadge } from "@/shared/ui";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminProjectDetailPage({
-  params,
-}: {
-  params: { projectId: string };
-}) {
+export default async function AdminProjectDetailPage(
+  props: {
+    params: Promise<{ projectId: string }>;
+  }
+) {
+  const params = await props.params;
   const record = await findProject(params.projectId).catch(() => null);
   if (!record) notFound();
   const project = toProject(record);
@@ -19,7 +21,7 @@ export default async function AdminProjectDetailPage({
     <div className="space-y-6">
       <PageHeader
         title={project.clientLabel}
-        description={`${project.productType} · ${dateTimeID(project.createdAt)}`}
+        description={`${productLabel(project.productType)} · ${dateTimeID(project.createdAt)}`}
         actions={<StatusBadge status={project.status} />}
       />
       <Card title="Ringkasan">

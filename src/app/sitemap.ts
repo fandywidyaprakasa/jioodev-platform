@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
-import { listPublishedPages, publicBaseUrl } from "@/shared/lib/published-server";
-import { listThemes } from "@/shared/lib/catalog-server";
+import { listPublishedPages, publicBaseUrl } from "@/modules/publishing";
+import { listThemes } from "@/modules/catalog";
+import { ALL_PRODUCT_TYPES } from "@/shared/types";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const routes = ["", "/features", "/pricing", "/templates", "/contact", "/login", "/register"];
   const now = new Date();
   const pages = await listPublishedPages().catch(() => []);
-  const themes = await listThemes().catch(() => []);
+  const themes = await listThemes(ALL_PRODUCT_TYPES).catch(() => []);
   return [
     ...routes.map((route) => ({
       url: `${base}${route}`,

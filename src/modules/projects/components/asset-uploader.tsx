@@ -64,7 +64,7 @@ export function AssetUploader({
               <img
                 src={asset.url}
                 alt={asset.name}
-                className="h-12 w-12 rounded object-cover"
+                className="h-12 w-12 rounded-md object-cover"
               />
               <div className="min-w-0">
                 <p className="truncate text-sm font-medium text-ink">{asset.name}</p>

@@ -1,15 +1,23 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { Badge, Button } from "@/shared/ui";
+import {
+  industryLabels,
+  layoutLabel,
+  productLabel,
+  styleLabel,
+  tierLabel,
+} from "@/shared/lib/taxonomy";
 import type { ProductType, Theme, ThemeTier } from "@/shared/types";
 
-const PRODUCT_LABEL: Record<ProductType, string> = {
-  LAND: "Landing",
-  WEB: "Website",
-  COMM: "Commerce",
-};
+function themeGradient(style: string) {
+  if (style === "VAR") return "from-sky-100 via-white to-amber-50";
+  if (style === "MIN") return "from-zinc-100 via-white to-zinc-50";
+  return "from-[#f4e4da] via-[#fffcf6] to-[#e3d8c8]";
+}
 
 export function ThemeDetail({ theme }: { theme: Theme }) {
   const [product, setProduct] = useState<ProductType>(
@@ -22,13 +30,11 @@ export function ThemeDetail({ theme }: { theme: Theme }) {
   const activeTier = tiers.find((item) => item.tier === tier) ?? tiers[0];
   const variants = activeTier?.variants ?? [];
   const [selected, setSelected] = useState<string>();
-  const activeVariant =
-    variants.find((variant) => variant.code === selected) ?? variants[0];
 
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center gap-2">
-        <Badge variant="accent">{theme.style}</Badge>
+        <Badge variant="accent">{styleLabel(theme.style)}</Badge>
         <Badge>{theme.variantCount} varian</Badge>
       </div>
 
@@ -45,7 +51,7 @@ export function ThemeDetail({ theme }: { theme: Theme }) {
                 setSelected(undefined);
               }}
             >
-              {PRODUCT_LABEL[item.type]}
+              {productLabel(item.type)}
             </Button>
           ))}
         </div>
@@ -63,82 +69,59 @@ export function ThemeDetail({ theme }: { theme: Theme }) {
                 setSelected(undefined);
               }}
             >
-              {item.tier}
+              {tierLabel(item.tier)}
             </Button>
           ))}
         </div>
       ) : tiers[0] ? (
-        <p className="text-xs text-muted">Tier: {tiers[0].tier}</p>
+        <p className="text-xs text-muted">Tier: {tierLabel(tiers[0].tier)}</p>
       ) : null}
 
-      <div className="grid gap-4 lg:grid-cols-[1fr_1.1fr]">
-        <div className="space-y-2">
-          {variants.map((variant) => {
-            const active = activeVariant?.code === variant.code;
-            return (
-              <button
-                key={variant.code}
-                type="button"
-                onClick={() => setSelected(variant.code)}
-                aria-pressed={active}
-                className={`w-full rounded-md border px-3 py-2.5 text-left text-sm transition-colors ${
-                  active
-                    ? "border-accent bg-accent-soft"
-                    : "border-line hover:border-ink/30"
-                }`}
-              >
-                <span className="flex items-center justify-between gap-2">
-                  <span className="font-medium text-ink">
-                    {variant.variantLabel ?? variant.name}
-                  </span>
-                  <span className="text-[10px] uppercase tracking-wide text-muted">
-                    {variant.layout}
-                  </span>
-                </span>
-                <span className="mt-1 block text-xs text-muted">
-                  {variant.industries.join(", ") || "Umum"}
-                </span>
-              </button>
-            );
-          })}
-          {!variants.length ? (
-            <p className="text-sm text-muted">Belum ada varian pada tier ini.</p>
-          ) : null}
-        </div>
-
-        <div className="overflow-hidden rounded-lg border border-line bg-paper">
-          {activeVariant ? (
-            <>
-              <div className="flex items-center justify-between border-b border-line px-3 py-2 text-xs text-muted">
-                <span>{activeVariant.variantLabel ?? activeVariant.name}</span>
-                <Link
-                  href={`/templates/${activeVariant.code}`}
-                  className="font-medium text-accent hover:underline"
-                >
-                  Detail varian
-                </Link>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {variants.map((variant) => {
+          const active = variant.code === selected;
+          return (
+            <Link
+              key={variant.code}
+              href={`/templates/${variant.code}`}
+              onMouseEnter={() => setSelected(variant.code)}
+              className={`group overflow-hidden rounded-lg border bg-surface shadow-sm transition-[border-color,box-shadow,transform] duration-150 hover:-translate-y-0.5 hover:border-ink/30 hover:shadow-md ${
+                active ? "border-accent" : "border-line"
+              }`}
+            >
+              <div className="relative aspect-[16/10] overflow-hidden border-b border-line bg-white">
+                {variant.thumbnailUrl ? (
+                  <Image
+                    src={variant.thumbnailUrl}
+                    alt={`Thumbnail ${variant.variantLabel ?? variant.name}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 380px"
+                    className="object-cover"
+                  />
+                ) : (
+                  <div
+                    className={`h-full w-full bg-gradient-to-br ${themeGradient(theme.style)}`}
+                  />
+                )}
               </div>
-              <iframe
-                src={activeVariant.previewUrl}
-                title={`Preview ${activeVariant.name}`}
-                className="h-[460px] w-full bg-white"
-                loading="lazy"
-              />
-            </>
-          ) : (
-            <p className="p-4 text-sm text-muted">Pilih varian untuk preview.</p>
-          )}
-        </div>
+              <div className="p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <h2 className="text-[15px] font-semibold text-ink">
+                    {variant.variantLabel ?? variant.name}
+                  </h2>
+                  <Badge>{layoutLabel(variant.layout)}</Badge>
+                </div>
+                <p className="mt-1 line-clamp-1 text-xs text-muted">
+                  {industryLabels(variant.industries) || "Umum"}
+                </p>
+              </div>
+            </Link>
+          );
+        })}
+        {!variants.length ? (
+          <p className="text-sm text-muted">Belum ada varian pada tier ini.</p>
+        ) : null}
       </div>
-
-      {activeVariant ? (
-        <Link
-          href={`/templates/${activeVariant.code}`}
-          className="inline-flex min-h-12 items-center justify-center rounded-full bg-accent px-5 text-sm font-medium text-on-accent hover:bg-accent-strong"
-        >
-          Gunakan {activeVariant.variantLabel ?? activeVariant.name}
-        </Link>
-      ) : null}
     </div>
   );
 }

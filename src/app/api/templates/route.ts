@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { listTemplates } from "@/shared/lib/templates-server";
+import { listTemplates } from "@/modules/catalog";
 
 export const dynamic = "force-dynamic";
 

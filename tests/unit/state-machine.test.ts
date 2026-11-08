@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { canTransition, normalizeSections } from "@/shared/lib/projects-server";
+import { canTransition, normalizeSections } from "@/modules/projects";
 
 describe("project state machine", () => {
   it("allows the canonical happy path", () => {

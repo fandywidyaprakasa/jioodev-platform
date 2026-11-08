@@ -1,5 +1,5 @@
-import { PackageManager } from "@/modules/admin/components/package-manager";
-import { listPackages } from "@/shared/lib/admin-server";
+import { PackageManager } from "@/modules/admin/client";
+import { listPackages } from "@/modules/admin";
 import { PageHeader } from "@/shared/ui";
 
 export const dynamic = "force-dynamic";

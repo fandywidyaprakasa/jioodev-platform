@@ -1,21 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { badRequest, notFound, requireActor } from "@/shared/lib/server-auth";
+import { badRequest, notFound, requireActor } from "@/modules/auth";
 import {
+  applyProjectUpdate,
   canAccess,
-  canTransition,
   findProject,
-  patchProject,
   removeProject,
   toProject,
-} from "@/shared/lib/projects-server";
+} from "@/modules/projects";
 import type { Project, ProjectStatus } from "@/shared/types";
-
-const PATCHABLE: Partial<Record<keyof Project, string>> = {
-  businessName: "client_label",
-  templateCode: "template_id",
-  status: "status",
-  previewUrl: "preview_url",
-};
 
 const STATUSES: ProjectStatus[] = [
   "DRAFT",
@@ -48,19 +40,15 @@ async function owned(id: string) {
   return { project };
 }
 
-export async function GET(
-  _request: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function GET(_request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const ownedRes = await owned(params.id);
   if ("response" in ownedRes) return ownedRes.response;
   return NextResponse.json(toProject(ownedRes.project));
 }
 
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function PATCH(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const ownedRes = await owned(params.id);
   if ("response" in ownedRes) return ownedRes.response;
 
@@ -69,31 +57,15 @@ export async function PATCH(
     return badRequest("status tidak valid.", { field: "status" });
   }
 
-  const current = ownedRes.project.status ?? "DRAFT";
-  if (body.status && !canTransition(current, body.status)) {
-    return NextResponse.json(
-      {
-        error: {
-          code: "INVALID_TRANSITION",
-          message: `Transisi ${current} → ${body.status} tidak diizinkan.`,
-        },
-      },
-      { status: 409 },
-    );
-  }
-
-  const patch: Record<string, unknown> = {};
-  for (const [key, col] of Object.entries(PATCHABLE)) {
-    const value = (body as Record<string, unknown>)[key];
-    if (col && value !== undefined) patch[col] = value;
-  }
-  if (!Object.keys(patch).length) {
-    return NextResponse.json(toProject(ownedRes.project));
-  }
-
   try {
-    const project = await patchProject(params.id, patch);
-    return NextResponse.json(project);
+    const result = await applyProjectUpdate(params.id, body);
+    if (!result.ok) {
+      return NextResponse.json(
+        { error: { code: result.code, message: result.message } },
+        { status: result.code === "NOT_FOUND" ? 404 : 409 },
+      );
+    }
+    return NextResponse.json(result.value);
   } catch (e) {
     console.error("[projects] patch failed", e);
     return NextResponse.json(
@@ -103,10 +75,8 @@ export async function PATCH(
   }
 }
 
-export async function DELETE(
-  _request: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function DELETE(_request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const ownedRes = await owned(params.id);
   if ("response" in ownedRes) return ownedRes.response;
 

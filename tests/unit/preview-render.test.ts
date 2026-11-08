@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { renderTemplateByCode } from "@/shared/lib/preview-render";
+import { renderTemplateByCode } from "@/modules/preview";
 
 describe("template preview security", () => {
   it("rejects templates that are not READY", async () => {

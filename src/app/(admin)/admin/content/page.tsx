@@ -1,14 +1,15 @@
-import { ThemeCatalog } from "@/modules/catalog/components/theme-catalog";
-import { listThemes } from "@/shared/lib/catalog-server";
+import { ThemeCatalog } from "@/modules/catalog/client";
+import { listThemes } from "@/modules/catalog";
+import { ALL_PRODUCT_TYPES } from "@/shared/types";
 import { mockCopy, mockSections } from "@/shared/lib/mock-data";
-import { listMasterCopy, listMasterSections } from "@/shared/lib/master-hub";
+import { listMasterCopy, listMasterSections } from "@/modules/catalog";
 import { Alert, Badge, Card, PageHeader, Tabs, Table, Tbody, Td, Th, Thead, Tr } from "@/shared/ui";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminContentPage() {
   const [themes, sections, copyLibrary] = await Promise.all([
-    listThemes(),
+    listThemes(ALL_PRODUCT_TYPES),
     listMasterSections().catch(() => []),
     listMasterCopy().catch(() => []),
   ]);

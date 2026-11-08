@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getProjectJob } from "@/shared/lib/jobs-server";
-import { canAccess, findProject } from "@/shared/lib/projects-server";
-import { notFound, requireActor } from "@/shared/lib/server-auth";
+import { getProjectJob } from "@/modules/generation";
+import { canAccess, findProject } from "@/modules/projects";
+import { notFound, requireActor } from "@/modules/auth";
 
 export async function GET(
   _request: NextRequest,
-  { params }: { params: { id: string; jobId: string } },
+  props: { params: Promise<{ id: string; jobId: string }> }
 ) {
+  const params = await props.params;
   const auth = await requireActor();
   if ("response" in auth) return auth.response;
 

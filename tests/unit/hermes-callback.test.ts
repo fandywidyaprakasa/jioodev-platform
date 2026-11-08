@@ -1,11 +1,11 @@
 import { NextRequest } from "next/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("@/shared/lib/jobs-server", () => ({
+vi.mock("@/modules/generation", () => ({
   completeJob: vi.fn(),
 }));
 
-import { completeJob } from "@/shared/lib/jobs-server";
+import { completeJob } from "@/modules/generation";
 import { POST } from "@/app/api/internal/hermes/callback/route";
 
 function request(body: unknown, secret?: string) {

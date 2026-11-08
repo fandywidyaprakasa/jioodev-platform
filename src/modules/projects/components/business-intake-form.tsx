@@ -3,38 +3,31 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { api } from "@/shared/lib/api";
+import { INDUSTRY_LABELS, PURPOSE_LABELS } from "@/shared/lib/taxonomy";
 import { Button, Card, Input, Select, useToast } from "@/shared/ui";
 import type { BusinessContext } from "@/shared/types";
 
-const PURPOSES = [
-  ["SAL", "Penjualan"],
-  ["VIS", "Visibilitas"],
-  ["LDG", "Lead generation"],
-  ["ORD", "Order"],
-  ["BOK", "Booking"],
-  ["SSV", "Showcase layanan"],
-];
-
+const PURPOSES = Object.entries(PURPOSE_LABELS);
 const CHANNELS = ["WhatsApp", "Instagram", "Email", "Google Maps", "Marketplace"];
 
-const INDUSTRIES = [
-  { value: "FNB", label: "F&B" },
-  { value: "RET", label: "Retail" },
-  { value: "PRO", label: "Profesional" },
-  { value: "BEA", label: "Beauty" },
-  { value: "EVE", label: "Event" },
-  { value: "REA", label: "Properti" },
-  { value: "GEN", label: "Umum" },
-];
+const INDUSTRIES = Object.entries(INDUSTRY_LABELS)
+  .map(([value, label]) => ({ value, label }))
+  .sort((a, b) => (a.value === "GEN" ? 1 : b.value === "GEN" ? -1 : a.label.localeCompare(b.label)));
 
 type FieldErrors = Partial<Record<"businessName" | "industry" | "targetAudience" | "businessPurpose" | "channels" | "designPref" | "businessGoals", string>>;
 
 export function BusinessIntakeForm({
   projectId,
   initial,
+  mode = "guide",
+  autoComprehend = false,
+  hasTemplate = false,
 }: {
   projectId: string;
   initial: BusinessContext;
+  mode?: "idea" | "guide";
+  autoComprehend?: boolean;
+  hasTemplate?: boolean;
 }) {
   const router = useRouter();
   const { toast } = useToast();
@@ -123,8 +116,23 @@ export function BusinessIntakeForm({
           return;
         }
         window.localStorage.removeItem(storageKey);
+        if (autoComprehend) {
+          await api.projects.confirmComprehend(projectId);
+          if (hasTemplate) {
+            await api.projects.update(projectId, { status: "TEMPLATE_CHOSEN" });
+            toast({
+              title: "Brief tersimpan",
+              description: "Template yang dipilih siap dipreview.",
+            });
+            router.push(`/app/projects/${projectId}/preview`);
+            return;
+          }
+          toast({ title: "Brief tersimpan", description: "Lanjut pilih template." });
+          router.push(`/app/projects/${projectId}/templates`);
+          return;
+        }
         toast({ title: "Business context tersimpan" });
-        router.push(`/app/projects/${projectId}/comprehend`);
+        router.push(`/app/projects/${projectId}`);
       } catch (error) {
         const message =
           error instanceof Error ? error.message : "Draf tersimpan di perangkat ini.";
@@ -142,7 +150,11 @@ export function BusinessIntakeForm({
   return (
     <Card
       title={`Langkah ${step + 1} dari 3`}
-      description="Draf tersimpan otomatis di perangkat ini dan disinkronkan saat lanjut."
+      description={
+        mode === "idea"
+          ? "Tulis yang sudah Anda bayangkan; AI akan merapikan detail yang belum lengkap."
+          : "Draf tersimpan otomatis di perangkat ini dan disinkronkan saat lanjut."
+      }
     >
       <div className="mb-5 flex gap-2">
         {[0, 1, 2].map((index) => (
@@ -260,7 +272,7 @@ export function BusinessIntakeForm({
           />
           <div className="flex flex-col gap-1.5">
             <label htmlFor="businessGoals" className="text-sm font-medium text-ink">
-              Tujuan utama
+              {mode === "idea" ? "Ide dan hasil yang Anda inginkan" : "Tujuan utama"}
             </label>
             <textarea
               id="businessGoals"
@@ -275,7 +287,7 @@ export function BusinessIntakeForm({
                   ? "border-danger focus:border-danger focus:ring-danger/15"
                   : "border-line focus:border-accent"
               }`}
-              placeholder="Apa hasil yang ingin dicapai dari website ini?"
+              placeholder={mode === "idea" ? "Contoh: landing page untuk kafe, menu, lokasi, dan tombol WhatsApp." : "Apa hasil yang ingin dicapai dari website ini?"}
             />
             {errors.businessGoals ? (
               <p id="businessGoals-error" className="text-xs text-danger">
@@ -303,7 +315,7 @@ export function BusinessIntakeForm({
           </Button>
         ) : (
           <Button onClick={() => persist(false)} loading={pending}>
-            Simpan & Lanjut
+            {autoComprehend ? "Simpan & Pilih Template" : "Simpan & Lanjut"}
           </Button>
         )}
       </div>

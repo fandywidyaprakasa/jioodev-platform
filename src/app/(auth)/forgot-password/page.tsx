@@ -4,7 +4,7 @@ import { ArrowLeft } from "lucide-react";
 export default function ForgotPasswordPage() {
   return (
     <div className="rounded-lg border border-line bg-surface p-6 shadow-sm sm:p-8">
-      <h1 className="font-display text-3xl leading-tight tracking-[-0.025em] text-ink">
+      <h1 className="text-balance font-display text-3xl leading-tight tracking-[-0.025em] text-ink">
         Akun memakai Google.
       </h1>
       <p className="mt-2 text-sm leading-relaxed text-muted">
@@ -18,7 +18,7 @@ export default function ForgotPasswordPage() {
       </ol>
       <Link
         href="/login"
-        className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-accent px-5 text-sm font-medium text-on-accent transition-colors duration-150 hover:bg-accent-strong"
+        className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-accent px-5 text-sm font-medium text-on-accent transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:bg-accent-strong"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
         Kembali ke Masuk

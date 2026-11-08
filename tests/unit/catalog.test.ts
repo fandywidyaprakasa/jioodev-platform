@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { themeScore, themesForProduct } from "@/shared/lib/catalog-server";
+import { themeScore, themesForProduct } from "@/modules/catalog";
 import type { Theme, Template } from "@/shared/types";
 
 function variant(

@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getPaymentForUser } from "@/shared/lib/payments-server";
-import { notFound, requireUser } from "@/shared/lib/server-auth";
+import { getPaymentForUser } from "@/modules/payments";
+import { notFound, requireUser } from "@/modules/auth";
 import { rupiah } from "@/shared/lib/format";
 
-export async function GET(
-  _request: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function GET(_request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const auth = await requireUser();
   if ("response" in auth) return auth.response;
 

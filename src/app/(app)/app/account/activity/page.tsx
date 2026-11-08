@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
-import { listActivity } from "@/shared/lib/account-server";
-import { currentUser } from "@/shared/lib/server-auth";
+import { listActivity } from "@/modules/account";
+import { currentUser } from "@/modules/auth";
 import { dateTimeID } from "@/shared/lib/format";
 import { Card, Empty, PageHeader } from "@/shared/ui";
 

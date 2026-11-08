@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MarketingNav } from "@/modules/marketing/components/marketing-nav";
+import { MarketingNav } from "@/modules/marketing/client";
 import { ThemeSwitcher } from "@/shared/ui";
 
 const FOOTER_NAV = [
@@ -38,7 +38,7 @@ export default function MarketingLayout({
           <ThemeSwitcher />
           <Link
             href="/login"
-            className="inline-flex min-h-11 items-center rounded-full bg-accent px-4 text-sm font-medium text-on-accent transition-colors duration-150 hover:bg-accent-strong"
+            className="inline-flex min-h-11 items-center rounded-full bg-accent px-4 text-sm font-medium text-on-accent transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:bg-accent-strong"
           >
             Masuk
           </Link>
@@ -49,7 +49,7 @@ export default function MarketingLayout({
         <div className="mx-auto grid max-w-6xl gap-8 px-5 py-10 sm:grid-cols-[1.4fr_1fr_1fr]">
           <div>
             <div className="flex items-center gap-2.5">
-              <span className="grid h-7 w-7 place-items-center rounded bg-ink font-display text-xs text-paper">
+              <span className="grid h-7 w-7 place-items-center rounded-md bg-ink font-display text-xs text-paper">
                 J
               </span>
               <span className="font-display text-base font-semibold text-ink">

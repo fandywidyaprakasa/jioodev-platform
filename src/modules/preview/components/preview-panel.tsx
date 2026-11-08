@@ -2,27 +2,56 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import { api } from "@/shared/lib/api";
 import { Badge, Button, Card, useToast } from "@/shared/ui";
 import type { GenerationJob } from "@/shared/types";
+import { PREVIEW_IFRAME_SANDBOX } from "@/lib/iframe-sandbox";
 
 export function PreviewPanel({
   projectId,
   status,
   job,
+  axis,
 }: {
   projectId: string;
   status: string;
   job: GenerationJob | null;
+  axis: "style" | "layout";
 }) {
   const router = useRouter();
   const { toast } = useToast();
   const [pending, startTransition] = useTransition();
-  const variants = job?.variants ?? [];
+  const [current, setCurrent] = useState(job);
+  const variants = useMemo(() => current?.variants ?? [], [current]);
   const [selectedId, setSelectedId] = useState(variants[0]?.id ?? "");
   const [device, setDevice] = useState<"desktop" | "tablet" | "mobile">("desktop");
   const selected = variants.find((item) => item.id === selectedId) ?? variants[0];
+
+  useEffect(() => {
+    setCurrent(job);
+    setSelectedId(job?.variants[0]?.id ?? "");
+  }, [job]);
+
+  useEffect(() => {
+    if (
+      !current ||
+      (current.status !== "QUEUED" && current.status !== "PROCESSING")
+    ) {
+      return;
+    }
+    const timer = window.setInterval(() => {
+      api.generation
+        .get(projectId, current.id)
+        .then(setCurrent)
+        .catch(() => undefined);
+    }, 1500);
+    return () => window.clearInterval(timer);
+  }, [current, projectId]);
+
+  useEffect(() => {
+    if (!selectedId && variants[0]) setSelectedId(variants[0].id);
+  }, [selectedId, variants]);
 
   function pick() {
     if (!selected) return;
@@ -44,6 +73,25 @@ export function PreviewPanel({
   return (
     <div className="space-y-4">
       <Card title="Varian desain" description="Pilih arah desain, lalu bandingkan desktop dan mobile.">
+        <div className="mb-4 flex flex-wrap items-center gap-2">
+          <span className="text-xs font-medium uppercase tracking-wide text-muted">
+            Kunci axis
+          </span>
+          <Button
+            size="sm"
+            variant={axis === "style" ? "primary" : "secondary"}
+            onClick={() => router.push(`/app/projects/${projectId}/preview?axis=style`)}
+          >
+            Style → 3 layout
+          </Button>
+          <Button
+            size="sm"
+            variant={axis === "layout" ? "primary" : "secondary"}
+            onClick={() => router.push(`/app/projects/${projectId}/preview?axis=layout`)}
+          >
+            Layout → 3 style
+          </Button>
+        </div>
         {variants.length ? (
           <div className="flex flex-wrap gap-2">
             {variants.map((variant) => (
@@ -57,6 +105,11 @@ export function PreviewPanel({
               </Button>
             ))}
           </div>
+        ) : current?.status === "QUEUED" || current?.status === "PROCESSING" ? (
+          <p className="text-sm text-muted">
+            Menyiapkan varian dari template yang dipilih. Halaman ini akan
+            memperbarui otomatis.
+          </p>
         ) : (
           <p className="text-sm text-muted">
             Varian belum tersedia.{" "}
@@ -99,7 +152,7 @@ export function PreviewPanel({
       {selected ? (
         <div className="flex justify-center rounded-lg border border-line bg-paper p-4">
           <div
-            className={`overflow-hidden rounded-md border border-line bg-surface shadow-md transition-[width] ${
+            className={`overflow-hidden rounded-md border border-line bg-surface shadow-md transition-[width] duration-200 ease-out ${
               device === "mobile"
                 ? "w-[360px] max-w-full"
                 : device === "tablet"
@@ -117,6 +170,7 @@ export function PreviewPanel({
               src={selected.previewUrl}
               title={`Preview ${selected.label}`}
               className="h-[600px] w-full bg-white"
+              sandbox={PREVIEW_IFRAME_SANDBOX}
             />
           </div>
         </div>
@@ -129,9 +183,15 @@ export function PreviewPanel({
         <div className="flex flex-wrap items-center gap-2">
           <Link
             href={`/app/projects/${projectId}`}
-            className="rounded-full border border-line px-4 py-2 text-sm font-medium text-ink hover:border-ink/40"
+            className="inline-flex items-center rounded-full border border-line px-4 py-2 text-sm font-medium text-ink transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:border-ink/40"
           >
             Kembali ke Project
+          </Link>
+          <Link
+            href={`/app/projects/${projectId}/workspace`}
+            className="inline-flex items-center rounded-full border border-line px-4 py-2 text-sm font-medium text-ink transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:border-ink/40"
+          >
+            Buka Workspace
           </Link>
           {selected && status === "PREVIEWS" ? (
             <Button onClick={pick} loading={pending}>
@@ -140,7 +200,7 @@ export function PreviewPanel({
           ) : status === "GENERATING" ? (
             <Link
               href={`/app/projects/${projectId}/generate`}
-              className="rounded-full bg-accent px-4 py-2 text-sm font-medium text-on-accent hover:bg-accent-strong"
+              className="inline-flex items-center rounded-full bg-accent px-4 py-2 text-sm font-medium text-on-accent transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:bg-accent-strong"
             >
               Tunggu Generate
             </Link>

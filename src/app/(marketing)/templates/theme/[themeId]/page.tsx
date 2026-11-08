@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ThemeDetail } from "@/modules/catalog/components/theme-detail";
-import { getTheme } from "@/shared/lib/catalog-server";
+import { ThemeDetail } from "@/modules/catalog/client";
+import { getTheme } from "@/modules/catalog";
+import { ALL_PRODUCT_TYPES } from "@/shared/types";
 import { PageHeader } from "@/shared/ui";
 
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { themeId: string };
-}): Promise<Metadata> {
-  const theme = await getTheme(params.themeId).catch(() => null);
+export async function generateMetadata(
+  props: {
+    params: Promise<{ themeId: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+  const theme = await getTheme(params.themeId, ALL_PRODUCT_TYPES).catch(() => null);
   if (!theme) return { title: "Theme tidak ditemukan — JiooDev" };
   return {
     title: `${theme.name} — JiooDev`,
@@ -20,12 +21,13 @@ export async function generateMetadata({
   };
 }
 
-export default async function ThemeDetailPage({
-  params,
-}: {
-  params: { themeId: string };
-}) {
-  const theme = await getTheme(params.themeId).catch(() => null);
+export default async function ThemeDetailPage(
+  props: {
+    params: Promise<{ themeId: string }>;
+  }
+) {
+  const params = await props.params;
+  const theme = await getTheme(params.themeId, ALL_PRODUCT_TYPES).catch(() => null);
   if (!theme) notFound();
 
   return (
@@ -33,14 +35,7 @@ export default async function ThemeDetailPage({
       <PageHeader
         title={theme.name}
         description={theme.description}
-        actions={
-          <Link
-            href="/templates"
-            className="text-sm font-medium text-accent hover:underline"
-          >
-            Semua theme
-          </Link>
-        }
+        back={{ href: "/templates", label: "Kembali ke katalog" }}
       />
       <ThemeDetail theme={theme} />
     </div>

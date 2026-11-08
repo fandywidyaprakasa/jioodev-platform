@@ -124,18 +124,18 @@ export default function HomePage() {
     <div className="mx-auto max-w-6xl px-5">
       <section className="grid gap-12 py-16 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:gap-16 lg:py-24">
         <div>
-          <h1 className="max-w-[14ch] font-display text-[2.75rem] leading-[1.02] tracking-[-0.035em] text-ink sm:text-6xl lg:text-[4.4rem]">
+          <h1 className="max-w-[14ch] text-balance font-display text-[2.75rem] leading-[1.02] tracking-[-0.035em] text-ink sm:text-6xl lg:text-[4.4rem]">
             Website yang paham{" "}
             <em className="italic text-accent">bisnis Anda</em>, bukan cuma tampil rapi.
           </h1>
-          <p className="mt-6 max-w-[52ch] text-[17px] leading-relaxed text-muted">
+          <p className="mt-6 max-w-[52ch] text-pretty text-[17px] leading-relaxed text-muted">
             JiooDev membaca konteks bisnis, memilih fondasi desain yang relevan, lalu
             menyusun website siap deploy. Anda fokus pada keputusan; kami urus produksinya.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link
               href="/app/projects/new"
-              className="group inline-flex min-h-12 items-center gap-2 rounded-full bg-accent px-6 text-sm font-medium text-on-accent transition-colors duration-150 hover:bg-accent-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/35 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+              className="group inline-flex min-h-12 items-center gap-2 rounded-full bg-accent px-6 text-sm font-medium text-on-accent transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:bg-accent-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/35 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
             >
               Mulai tanpa akun
               <ArrowRight
@@ -145,7 +145,7 @@ export default function HomePage() {
             </Link>
             <Link
               href="/templates"
-              className="inline-flex min-h-12 items-center rounded-full border border-line bg-surface px-6 text-sm font-medium text-ink transition-colors duration-150 hover:border-ink/40"
+              className="inline-flex min-h-12 items-center rounded-full border border-line bg-surface px-6 text-sm font-medium text-ink transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:border-ink/40"
             >
               Lihat template
             </Link>
@@ -161,7 +161,7 @@ export default function HomePage() {
           <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted">
             {["Tanpa coding", "Preview aman", "Deploy terkelola"].map((item) => (
               <li key={item} className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-success" aria-hidden="true" />
+                <Check className="h-4 w-4 text-success" strokeWidth={1.5} aria-hidden="true" />
                 {item}
               </li>
             ))}
@@ -173,10 +173,10 @@ export default function HomePage() {
       <section className="border-y border-line py-14 lg:py-20">
         <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <div>
-            <h2 className="max-w-[16ch] font-display text-3xl leading-tight tracking-[-0.025em] text-ink sm:text-4xl">
+            <h2 className="max-w-[16ch] text-balance font-display text-3xl leading-tight tracking-[-0.025em] text-ink sm:text-4xl">
               Dari brief ke live dalam satu alur.
             </h2>
-            <p className="mt-4 max-w-[40ch] text-[15px] leading-relaxed text-muted">
+            <p className="mt-4 max-w-[40ch] text-pretty text-[15px] leading-relaxed text-muted">
               Setiap langkah menyimpan keputusan dan alasan di baliknya. Tidak ada
               desain yang dimulai dari halaman kosong.
             </p>
@@ -189,7 +189,7 @@ export default function HomePage() {
                 </span>
                 <div>
                   <h3 className="text-[15px] font-semibold text-ink">{item.title}</h3>
-                  <p className="mt-1.5 max-w-[58ch] text-sm leading-relaxed text-muted">
+                  <p className="mt-1.5 max-w-[58ch] text-pretty text-sm leading-relaxed text-muted">
                     {item.body}
                   </p>
                 </div>
@@ -202,10 +202,10 @@ export default function HomePage() {
       <section className="py-14 lg:py-20">
         <div className="flex flex-wrap items-end justify-between gap-5">
           <div>
-            <h2 className="font-display text-3xl leading-tight tracking-[-0.025em] text-ink sm:text-4xl">
+            <h2 className="text-balance font-display text-3xl leading-tight tracking-[-0.025em] text-ink sm:text-4xl">
               Template bukan titik akhir.
             </h2>
-            <p className="mt-3 max-w-[52ch] text-[15px] leading-relaxed text-muted">
+            <p className="mt-3 max-w-[52ch] text-pretty text-[15px] leading-relaxed text-muted">
               Fondasi yang sama, tiga arah produk. Struktur dan section tetap bisa
               disesuaikan setelah arah dipilih.
             </p>
@@ -246,10 +246,10 @@ export default function HomePage() {
         <div className="rounded-lg border border-line bg-accent-soft px-6 py-10 sm:px-10 sm:py-12">
           <div className="flex flex-wrap items-center justify-between gap-8">
             <div>
-              <h2 className="max-w-[22ch] font-display text-3xl leading-tight tracking-[-0.025em] text-ink sm:text-4xl">
+              <h2 className="max-w-[22ch] text-balance font-display text-3xl leading-tight tracking-[-0.025em] text-ink sm:text-4xl">
                 Mulai dari satu konteks bisnis.
               </h2>
-              <p className="mt-3 max-w-[46ch] text-sm leading-relaxed text-muted">
+              <p className="mt-3 max-w-[46ch] text-pretty text-sm leading-relaxed text-muted">
                 Gratis untuk membuat project dan melihat varian. Bayar hanya saat siap
                 deploy.
               </p>
@@ -257,13 +257,13 @@ export default function HomePage() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/app/projects/new"
-                className="inline-flex min-h-12 items-center rounded-full bg-accent px-6 text-sm font-medium text-on-accent transition-colors duration-150 hover:bg-accent-strong"
+                className="inline-flex min-h-12 items-center rounded-full bg-accent px-6 text-sm font-medium text-on-accent transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:bg-accent-strong"
               >
                 Buat project
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex min-h-12 items-center rounded-full border border-ink/15 bg-surface/70 px-6 text-sm font-medium text-ink transition-colors duration-150 hover:border-ink/40"
+                className="inline-flex min-h-12 items-center rounded-full border border-ink/15 bg-surface/70 px-6 text-sm font-medium text-ink transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:border-ink/40"
               >
                 Tanya dulu
               </Link>

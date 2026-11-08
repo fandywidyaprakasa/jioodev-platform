@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
-import { renderPreview, resolvePreview } from "@/shared/lib/preview-render";
+import { renderPreview, resolvePreview } from "@/modules/preview";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(
-  _request: Request,
-  { params }: { params: { token: string } },
-) {
+export async function GET(_request: Request, props: { params: Promise<{ token: string }> }) {
+  const params = await props.params;
   const context = await resolvePreview(params.token).catch(() => null);
   if (!context) {
     return new Response("Preview tidak ditemukan.", { status: 404 });

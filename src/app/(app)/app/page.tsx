@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { dateID } from "@/shared/lib/format";
-import { getSubscription, listNotifications } from "@/shared/lib/account-server";
-import { listProjects } from "@/shared/lib/projects-server";
-import { currentUser } from "@/shared/lib/server-auth";
+import { getSubscription, listNotifications } from "@/modules/account";
+import { listProjects } from "@/modules/projects";
+import { productLabel } from "@/shared/lib/taxonomy";
+import { currentUser } from "@/modules/auth";
 import { Card, PageHeader, Progress, Stat, StatusBadge } from "@/shared/ui";
 
 export const dynamic = "force-dynamic";
@@ -41,11 +42,11 @@ export default async function DashboardPage() {
     <div>
       <PageHeader
         title="Dashboard"
-        description="Ringkasan project, kuota, dan aktivitas terbaru."
+        description="Ringkasan project klien, kuota, dan aktivitas terbaru."
         actions={
           <Link
             href="/app/projects/new"
-            className="rounded-full bg-accent px-4 py-2 text-sm font-medium text-on-accent hover:bg-accent-strong"
+            className="inline-flex items-center rounded-full bg-accent px-4 py-2 text-sm font-medium text-on-accent transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:bg-accent-strong"
           >
             Buat Project
           </Link>
@@ -79,12 +80,12 @@ export default async function DashboardPage() {
             <div className="py-6">
               <p className="text-[15px] font-medium text-ink">Belum ada project.</p>
               <p className="mt-1 max-w-sm text-sm leading-relaxed text-muted">
-                Mulai dari satu tipe produk, lalu isi konteks bisnis. Varian pertama
-                biasanya siap dalam beberapa menit.
+                Mulai dari satu project Landing, lalu isi konteks bisnis klien. Varian
+                pertama biasanya siap dalam beberapa menit.
               </p>
               <Link
                 href="/app/projects/new"
-                className="mt-4 inline-flex min-h-11 items-center rounded-full bg-accent px-4 text-sm font-medium text-on-accent hover:bg-accent-strong"
+                className="mt-4 inline-flex min-h-11 items-center rounded-full bg-accent px-4 text-sm font-medium text-on-accent transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:bg-accent-strong"
               >
                 Buat project pertama
               </Link>
@@ -101,7 +102,7 @@ export default async function DashboardPage() {
                     {project.clientLabel}
                   </Link>
                   <p className="text-xs text-muted">
-                    {project.productType} · diperbarui {dateID(project.updatedAt)}
+                    {productLabel(project.productType)} · diperbarui {dateID(project.updatedAt)}
                   </p>
                 </div>
                 <StatusBadge status={project.status} />
@@ -118,6 +119,21 @@ export default async function DashboardPage() {
         </Card>
 
         <div className="space-y-4">
+          <Card
+            title="Template Library"
+            description="Mulai dari fondasi desain yang sudah siap."
+          >
+            <p className="text-sm leading-relaxed text-muted">
+              Pilih theme dan varian, lalu buat project dengan template tersebut
+              sudah terpasang.
+            </p>
+            <Link
+              href="/app/templates"
+              className="mt-4 inline-flex min-h-11 items-center rounded-full border border-line px-4 text-sm font-medium text-ink transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:border-ink/40"
+            >
+              Jelajahi template
+            </Link>
+          </Card>
           <Card title="Kuota & paket">
             <Progress
               value={sub.quotaUsed}

@@ -6,14 +6,13 @@ import {
   saveProjectSections,
   canAccess,
   findProject,
-} from "@/shared/lib/projects-server";
-import { badRequest, notFound, requireActor } from "@/shared/lib/server-auth";
-import { parseSections, validateSections } from "@/shared/lib/section-schema";
+} from "@/modules/projects";
+import { badRequest, notFound, requireActor } from "@/modules/auth";
+import { parseSections, validateSections } from "@/modules/sections";
+import { isWorkspaceOperationSupported } from "@/modules/workspace";
 
-export async function GET(
-  _request: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function GET(_request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const auth = await requireActor();
   if ("response" in auth) return auth.response;
   const project = await findProject(params.id).catch(() => null);
@@ -36,10 +35,8 @@ export async function GET(
   return NextResponse.json(sections);
 }
 
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function PATCH(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const auth = await requireActor();
   if ("response" in auth) return auth.response;
   const project = await findProject(params.id).catch(() => null);
@@ -56,12 +53,26 @@ export async function PATCH(
   }
   if (!project && auth.user.role !== "admin") return notFound();
 
+  if (!isWorkspaceOperationSupported(project, "section.content.edit")) {
+    return NextResponse.json(
+      { error: { code: "UNSUPPORTED_OPERATION", message: "Operasi section.content.edit tidak didukung oleh adapter terpasang." } },
+      { status: 403 },
+    );
+  }
+
   const parsed = parseSections(await request.json().catch(() => null));
   if (!parsed.sections) {
     return badRequest(parsed.error);
   }
 
-  const errors = await validateSections(parsed.sections);
+  const projectState =
+    project?.active_sections && typeof project.active_sections === "object" && !Array.isArray(project.active_sections)
+      ? (project.active_sections as { theme_id?: string; tier?: "BASIC" | "PRO" | "AGENCY" })
+      : {};
+  const errors = await validateSections(parsed.sections, {
+    themeId: projectState.theme_id,
+    tier: projectState.tier,
+  });
   if (errors.length) {
     return badRequest(errors[0], { errors });
   }

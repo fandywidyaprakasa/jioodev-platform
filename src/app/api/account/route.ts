@@ -3,8 +3,8 @@ import {
   getAccountProfile,
   saveAccountProfile,
   type AccountProfile,
-} from "@/shared/lib/account-server";
-import { requireUser } from "@/shared/lib/server-auth";
+} from "@/modules/account";
+import { requireUser } from "@/modules/auth";
 
 export async function GET() {
   const auth = await requireUser();

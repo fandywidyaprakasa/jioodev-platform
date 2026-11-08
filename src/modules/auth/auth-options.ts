@@ -1,6 +1,6 @@
 import type { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { audit, upsertUser } from "./pocketbase";
+import { audit, upsertUser } from "./infrastructure/pocketbase-auth";
 
 const adminEmails = (process.env.ALLOWED_ADMIN_EMAILS ?? "")
   .split(",")

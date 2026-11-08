@@ -1,8 +1,9 @@
 import { ArrowRight, Check } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { listPackages } from "@/shared/lib/admin-server";
+import { listPackages } from "@/modules/admin";
 import { rupiah } from "@/shared/lib/format";
+import { tierLabel } from "@/shared/lib/taxonomy";
 import { Badge, Empty, PageHeader } from "@/shared/ui";
 
 export const dynamic = "force-dynamic";
@@ -45,17 +46,18 @@ export default async function PricingPage() {
                   <h2 className="text-[15px] font-semibold text-ink">{item.name}</h2>
                   {featured ? <Badge variant="accent">Paling sering</Badge> : null}
                 </div>
-                <p className="mt-5 font-display text-4xl leading-none tracking-[-0.03em] text-ink">
+                <p className="mt-5 font-display text-4xl leading-none tracking-[-0.03em] text-ink tabular-nums">
                   {rupiah(item.price)}
                 </p>
                 <p className="mt-2 text-sm text-muted">
-                  {item.deploy_included} deploy · {item.max_sections} section · {item.tier}
+                  {item.deploy_included} deploy · {item.max_sections} section · {tierLabel(item.tier)}
                 </p>
                 <ul className="mt-6 space-y-2.5 border-t border-line pt-5 text-sm text-muted">
                   {INCLUDED.map((feature) => (
                     <li key={feature} className="flex items-start gap-2">
                       <Check
                         className="mt-0.5 h-4 w-4 shrink-0 text-success"
+                        strokeWidth={1.5}
                         aria-hidden="true"
                       />
                       {feature}
@@ -64,6 +66,7 @@ export default async function PricingPage() {
                   <li className="flex items-start gap-2">
                     <Check
                       className="mt-0.5 h-4 w-4 shrink-0 text-success"
+                      strokeWidth={1.5}
                       aria-hidden="true"
                     />
                     Deploy semi-manual
@@ -71,7 +74,7 @@ export default async function PricingPage() {
                 </ul>
                 <Link
                   href="/register"
-                  className={`mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-5 text-sm font-medium transition-colors duration-150 ${
+                  className={`mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-5 text-sm font-medium transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] ${
                     featured
                       ? "bg-accent text-on-accent hover:bg-accent-strong"
                       : "border border-line bg-surface text-ink hover:border-ink/40"
@@ -91,7 +94,7 @@ export default async function PricingPage() {
           action={
             <Link
               href="/contact"
-              className="inline-flex min-h-11 items-center rounded-full bg-accent px-5 text-sm font-medium text-on-accent hover:bg-accent-strong"
+              className="inline-flex min-h-11 items-center rounded-full bg-accent px-5 text-sm font-medium text-on-accent transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:bg-accent-strong"
             >
               Hubungi kami
             </Link>

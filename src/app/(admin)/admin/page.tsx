@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { dateID, rupiah } from "@/shared/lib/format";
-import { adminStats, listPackages } from "@/shared/lib/admin-server";
-import { listProjects } from "@/shared/lib/projects-server";
+import { adminStats, listPackages } from "@/modules/admin";
+import { listProjects } from "@/modules/projects";
+import { productLabel, tierLabel } from "@/shared/lib/taxonomy";
 import { Card, PageHeader, Stat, StatusBadge, Table, Tbody, Td, Th, Thead, Tr } from "@/shared/ui";
 
 export const dynamic = "force-dynamic";
@@ -49,7 +50,7 @@ export default async function AdminDashboardPage() {
                     {project.clientLabel}
                   </Link>
                 </Td>
-                <Td label="Tipe">{project.productType}</Td>
+                <Td label="Tipe">{productLabel(project.productType)}</Td>
                 <Td label="Status"><StatusBadge status={project.status} /></Td>
                 <Td label="Update">{dateID(project.updatedAt)}</Td>
               </Tr>
@@ -63,7 +64,7 @@ export default async function AdminDashboardPage() {
           {packages.map((item) => (
             <li key={item.id} className="flex items-center justify-between gap-3 py-3 text-sm">
               <span className="font-medium text-ink">{item.name}</span>
-              <span className="text-muted">{rupiah(item.price)} · {item.deploy_included} deploy · {item.tier}</span>
+              <span className="text-muted">{rupiah(item.price)} · {item.deploy_included} deploy · {tierLabel(item.tier)}</span>
               <StatusBadge status={item.status ?? (item.active ? "ACTIVE" : "EXPIRED")} />
             </li>
           ))}

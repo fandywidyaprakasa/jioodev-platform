@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { canAccess } from "@/shared/lib/projects-server";
-import type { PbProject } from "@/shared/lib/projects-server";
+import { canAccess } from "@/modules/projects";
+import type { PbProject } from "@/modules/projects";
 import { isSessionExpired, sessionMaxAgeMs } from "@/shared/lib/session-policy";
 
 const base = {

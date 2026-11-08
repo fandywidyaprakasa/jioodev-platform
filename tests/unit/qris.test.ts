@@ -4,7 +4,7 @@ const fetchMock = vi.fn();
 
 async function loadQris() {
   vi.resetModules();
-  return await import("@/shared/lib/qris");
+  return await import("@/modules/payments");
 }
 
 beforeEach(() => {

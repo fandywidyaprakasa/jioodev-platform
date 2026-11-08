@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
-import { NotificationList } from "@/modules/account/components/notification-list";
-import { listNotifications } from "@/shared/lib/account-server";
-import { currentUser } from "@/shared/lib/server-auth";
+import { NotificationList } from "@/modules/account/client";
+import { listNotifications } from "@/modules/account";
+import { currentUser } from "@/modules/auth";
 import { PageHeader } from "@/shared/ui";
 
 export const dynamic = "force-dynamic";

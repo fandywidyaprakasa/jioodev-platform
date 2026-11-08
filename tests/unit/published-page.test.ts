@@ -4,7 +4,7 @@ import {
   injectSeo,
   publicBaseUrl,
   slugify,
-} from "@/shared/lib/published-server";
+} from "@/modules/publishing";
 
 describe("published page helpers", () => {
   afterEach(() => {
@@ -17,11 +17,14 @@ describe("published page helpers", () => {
     expect(slugify("  Café  Ångström  ")).toBe("cafe-angstrom");
     expect(slugify("")).toBe("halaman");
     expect(slugify("---")).toBe("halaman");
+    expect(slugify("A")).toBe("a-page");
+    expect(slugify("ab")).toBe("ab-page");
     expect(slugify("a".repeat(80)).length).toBeLessThanOrEqual(48);
   });
 
   it("builds public paths", () => {
     expect(buildPublicPath("kopi-pagi")).toBe("/p/kopi-pagi");
+    expect(buildPublicPath("kopi-pagi", "about")).toBe("/p/kopi-pagi/about");
   });
 
   it("uses configured public base url", () => {

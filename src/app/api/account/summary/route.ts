@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import {
   getSubscription,
   listInvoices,
-} from "@/shared/lib/account-server";
-import { listProjects } from "@/shared/lib/projects-server";
-import { requireUser } from "@/shared/lib/server-auth";
+} from "@/modules/account";
+import { listProjects } from "@/modules/projects";
+import { requireUser } from "@/modules/auth";
 
 export async function GET() {
   const auth = await requireUser();

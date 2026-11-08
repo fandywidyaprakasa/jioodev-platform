@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { mockCopy } from "@/shared/lib/mock-data";
-import { getProjectCopy, saveProjectCopy } from "@/shared/lib/copy-server";
-import { canAccess, findProject } from "@/shared/lib/projects-server";
-import { badRequest, notFound, requireActor } from "@/shared/lib/server-auth";
+import { getProjectCopy, saveProjectCopy } from "@/modules/projects";
+import { canAccess, findProject } from "@/modules/projects";
+import { badRequest, notFound, requireActor } from "@/modules/auth";
 import type { CopyField } from "@/shared/types";
 
 async function authorize(id: string) {
@@ -23,10 +23,8 @@ async function authorize(id: string) {
   return { project };
 }
 
-export async function GET(
-  _request: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function GET(_request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const auth = await authorize(params.id);
   if ("response" in auth) return auth.response;
 
@@ -34,10 +32,8 @@ export async function GET(
   return NextResponse.json(fields);
 }
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function PUT(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const auth = await authorize(params.id);
   if ("response" in auth) return auth.response;
 

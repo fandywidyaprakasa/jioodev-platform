@@ -1,21 +1,24 @@
 import { notFound } from "next/navigation";
-import { PreviewPanel } from "@/modules/preview/components/preview-panel";
-import { createOrGetJob, getLatestJob } from "@/shared/lib/jobs-server";
+import { PreviewPanel } from "@/modules/preview/client";
+import { createOrGetJob, getLatestJob } from "@/modules/generation";
 import {
   canAccess,
   findProject,
   toProject,
-} from "@/shared/lib/projects-server";
-import { currentUser } from "@/shared/lib/server-auth";
+} from "@/modules/projects";
+import { currentUser } from "@/modules/auth";
 import { PageHeader } from "@/shared/ui";
 
 export const dynamic = "force-dynamic";
 
-export default async function PreviewPage({
-  params,
-}: {
-  params: { projectId: string };
-}) {
+export default async function PreviewPage(
+  props: {
+    params: Promise<{ projectId: string }>;
+    searchParams?: Promise<{ axis?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const user = await currentUser();
   const record = user
     ? await findProject(params.projectId).catch(() => null)
@@ -29,9 +32,10 @@ export default async function PreviewPage({
     notFound();
   }
   const project = toProject(record);
+  const axis = searchParams?.axis === "layout" ? "layout" : "style";
   const job =
-    (await getLatestJob(params.projectId).catch(() => null)) ??
-    (await createOrGetJob(params.projectId).catch(() => null));
+    (await createOrGetJob(params.projectId, { axis }).catch(() => null)) ??
+    (await getLatestJob(params.projectId).catch(() => null));
 
   return (
     <div>
@@ -43,6 +47,7 @@ export default async function PreviewPage({
         projectId={params.projectId}
         status={project.status}
         job={job}
+        axis={axis}
       />
     </div>
   );

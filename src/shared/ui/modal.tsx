@@ -1,7 +1,7 @@
 "use client";
 
 import { X } from "lucide-react";
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 export interface ModalProps {
   open: boolean;
@@ -25,6 +25,19 @@ export function Modal({
 }: ModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const previousFocus = useRef<HTMLElement | null>(null);
+  const [mounted, setMounted] = useState(open);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (open) {
+      setMounted(true);
+      const frame = window.requestAnimationFrame(() => setVisible(true));
+      return () => window.cancelAnimationFrame(frame);
+    }
+    setVisible(false);
+    const timer = window.setTimeout(() => setMounted(false), 150);
+    return () => window.clearTimeout(timer);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -62,12 +75,18 @@ export function Modal({
     };
   }, [open, onClose]);
 
-  if (!open) return null;
+  if (!open && !mounted) return null;
 
   const descriptionId = description ? "modal-description" : undefined;
 
   return (
-    <div className="fixed inset-0 z-[70] flex items-end justify-center bg-ink/40 p-4 sm:items-center">
+    <div className="fixed inset-0 z-[70] flex items-end justify-center p-4 sm:items-center">
+      <div
+        aria-hidden="true"
+        className={`absolute inset-0 bg-ink/40 transition-opacity duration-150 ease-out ${
+          visible ? "opacity-100" : "opacity-0"
+        }`}
+      />
       <div
         ref={dialogRef}
         role="dialog"
@@ -75,7 +94,9 @@ export function Modal({
         aria-labelledby="modal-title"
         aria-describedby={descriptionId}
         tabIndex={-1}
-        className="w-full max-w-lg rounded-lg border border-line bg-surface shadow-lg"
+        className={`relative w-full max-w-lg rounded-lg border border-line bg-surface shadow-lg transition-[opacity,transform] duration-150 ease-out ${
+          visible ? "translate-y-0 scale-100 opacity-100" : "translate-y-1 scale-[0.98] opacity-0"
+        }`}
       >
         <header className="flex items-start justify-between gap-4 border-b border-line p-4">
           <div>

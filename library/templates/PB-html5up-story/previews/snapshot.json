@@ -1,0 +1,28 @@
+{
+  "asset_code": "PB-html5up-story",
+  "version": 3,
+  "status": "READY",
+  "template_hash": "sha256:8ca870eed04a96963c1a6cb23896ffb68031639156dea2386c4c9fa0d5fdf9aa",
+  "render_hash": "sha256:ceb836175b0b42712811b4b5c5bf71dcf583d605e0beeb310cd94575a921edd8",
+  "renderer": "template-preview",
+  "renderer_version": "1",
+  "captured_at": "2026-11-04T18:45:48.981Z",
+  "captured_by": "snapshot-template-previews.mjs",
+  "viewports": {
+    "web": {
+      "file": "web.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "tablet": {
+      "file": "tablet.webp",
+      "width": 834,
+      "height": 1112
+    },
+    "mobile": {
+      "file": "mobile.webp",
+      "width": 390,
+      "height": 844
+    }
+  }
+}

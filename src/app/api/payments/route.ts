@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   ensureProjectPayment,
   getLatestProjectPayment,
-} from "@/shared/lib/payments-server";
-import { canAccess, findProject } from "@/shared/lib/projects-server";
-import { badRequest, notFound, requireUser } from "@/shared/lib/server-auth";
+} from "@/modules/payments";
+import { canAccess, findProject } from "@/modules/projects";
+import { badRequest, notFound, requireUser } from "@/modules/auth";
 
 export async function GET(request: NextRequest) {
   const auth = await requireUser();

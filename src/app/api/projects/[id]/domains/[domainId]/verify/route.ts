@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { listDomains, verifyDomain } from "@/shared/lib/deploy-server";
-import { canAccess, findProject } from "@/shared/lib/projects-server";
-import { notFound, requireUser } from "@/shared/lib/server-auth";
+import { listDomains, verifyDomain } from "@/modules/publishing";
+import { canAccess, findProject } from "@/modules/projects";
+import { notFound, requireUser } from "@/modules/auth";
 
 export async function POST(
   _request: NextRequest,
-  { params }: { params: { id: string; domainId: string } },
+  props: { params: Promise<{ id: string; domainId: string }> }
 ) {
+  const params = await props.params;
   const auth = await requireUser();
   if ("response" in auth) return auth.response;
 

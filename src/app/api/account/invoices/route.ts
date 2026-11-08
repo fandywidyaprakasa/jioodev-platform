@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { listInvoices } from "@/shared/lib/account-server";
-import { requireUser } from "@/shared/lib/server-auth";
+import { listInvoices } from "@/modules/account";
+import { requireUser } from "@/modules/auth";
 
 export async function GET() {
   const auth = await requireUser();

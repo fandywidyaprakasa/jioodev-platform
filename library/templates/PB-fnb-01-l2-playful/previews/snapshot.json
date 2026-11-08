@@ -1,0 +1,28 @@
+{
+  "asset_code": "PB-fnb-01-l2-playful",
+  "version": 3,
+  "status": "READY",
+  "template_hash": "sha256:af7ef3957ee34dfe7c8b6719908055ddcef9e4da5b90f82a4ff9caa161c8e305",
+  "render_hash": "sha256:2b117ffa72694027599fbee36f81b42e185a0d99a9d1d978831d3f41e96ab87b",
+  "renderer": "template-preview",
+  "renderer_version": "1",
+  "captured_at": "2026-11-04T18:45:08.917Z",
+  "captured_by": "snapshot-template-previews.mjs",
+  "viewports": {
+    "web": {
+      "file": "web.webp",
+      "width": 1440,
+      "height": 900
+    },
+    "tablet": {
+      "file": "tablet.webp",
+      "width": 834,
+      "height": 1112
+    },
+    "mobile": {
+      "file": "mobile.webp",
+      "width": 390,
+      "height": 844
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "record_type": "slot",
+  "code": "_starter",
+  "name": "Starter",
+  "display_name": "Starter",
+  "required": false,
+  "order_min": 1,
+  "order_max": 10,
+  "content_schema": {
+    "version": 1,
+    "fields": {
+      "title": {
+        "type": "text",
+        "required": true,
+        "label": "Title",
+        "placeholder": "Enter section title"
+      },
+      "description": {
+        "type": "text",
+        "required": false,
+        "label": "Description",
+        "placeholder": "Enter description text"
+      },
+      "cta": {
+        "type": "link",
+        "required": false,
+        "label": "Call to Action"
+      }
+    }
+  },
+  "tier_min": "BASIC",
+  "license": "JiooDev Free",
+  "status": "DRAFT",
+  "version": 1
+}

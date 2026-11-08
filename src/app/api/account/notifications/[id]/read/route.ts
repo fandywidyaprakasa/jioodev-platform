@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { markNotificationRead } from "@/shared/lib/account-server";
-import { notFound, requireUser } from "@/shared/lib/server-auth";
+import { markNotificationRead } from "@/modules/account";
+import { notFound, requireUser } from "@/modules/auth";
 
-export async function POST(
-  _request: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function POST(_request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const auth = await requireUser();
   if ("response" in auth) return auth.response;
 

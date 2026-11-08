@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { logActivity } from "@/shared/lib/activity-server";
-import { badRequest } from "@/shared/lib/server-auth";
+import { logActivity } from "@/modules/activity";
+import { badRequest } from "@/modules/auth";
 
 export async function POST(request: NextRequest) {
   const body = (await request.json().catch(() => null)) as
