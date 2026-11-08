@@ -215,9 +215,9 @@ describe("publishing deployment truthfulness", () => {
   it("does not return a stale LIVE deployment when no published page exists", async () => {
     seedDeployment("dep_1", "LIVE");
 
-    const deployment = await requestDeployment("p1");
-
-    expect(deployment).toBeNull();
+    await expect(requestDeployment("p1")).rejects.toMatchObject({
+      code: "NO_OUTPUT",
+    });
     expect(records.deployments.dep_1.status).toBe("LIVE");
   });
 
@@ -339,9 +339,26 @@ describe("project deploy route error handling", () => {
     expect(missing.status).toBe(404);
   });
 
-  it("returns 202 on POST success", async () => {
+  it("returns 202 on POST success after a real publish (PROVISIONING until probed)", async () => {
     seedDeployment("dep_1", "LIVE");
     seedPage("PUBLISHED");
+    const { getLatestJob, getOutput } = await import("@/modules/generation");
+    const { renderTemplateHtml } = await import("@/modules/preview");
+    vi.mocked(getLatestJob).mockResolvedValueOnce({
+      id: "job_1",
+      project_id: "p1",
+      status: "READY",
+      variants: [{ id: "v1" }],
+    } as never);
+    vi.mocked(getOutput).mockResolvedValueOnce({
+      id: "job_1",
+      project_id: "p1",
+      status: "READY",
+      report: { template: "LAND-LSPLIT-EDT-001" },
+    } as never);
+    vi.mocked(renderTemplateHtml).mockResolvedValueOnce(
+      "<!doctype html><html><head><title>Kopi Senja</title></head><body>Kopi Senja</body></html>",
+    );
 
     const response = await deployRoute.POST(
       {} as unknown as NextRequest,
@@ -350,7 +367,8 @@ describe("project deploy route error handling", () => {
 
     expect(response.status).toBe(202);
     const body = (await response.json()) as Rec;
-    expect(body.status).toBe("LIVE");
+    expect(body.status).toBe("PROVISIONING");
+    expect(body.health).toBe("UNKNOWN");
   });
 
   it("keeps a legitimate invalid transition at 409", async () => {

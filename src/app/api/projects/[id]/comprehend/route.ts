@@ -62,9 +62,16 @@ export async function PATCH(request: NextRequest, props: { params: Promise<{ id:
     corrections?: string;
   };
   if (body.confirmed) {
-    return NextResponse.json(
-      await confirmProjectComprehension(params.id, body.corrections),
+    const result = await confirmProjectComprehension(
+      params.id,
+      body.corrections,
     );
+    if (!result.ok) {
+      return NextResponse.json(result, {
+        status: result.code === "NOT_FOUND" ? 404 : 409,
+      });
+    }
+    return NextResponse.json(result);
   }
   return NextResponse.json({ ok: true, corrections: body.corrections ?? null });
 }

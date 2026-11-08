@@ -20,14 +20,12 @@ export function BusinessIntakeForm({
   projectId,
   initial,
   mode = "guide",
-  autoComprehend = false,
-  hasTemplate = false,
+  reviewComprehension = false,
 }: {
   projectId: string;
   initial: BusinessContext;
   mode?: "idea" | "guide";
-  autoComprehend?: boolean;
-  hasTemplate?: boolean;
+  reviewComprehension?: boolean;
 }) {
   const router = useRouter();
   const { toast } = useToast();
@@ -116,19 +114,12 @@ export function BusinessIntakeForm({
           return;
         }
         window.localStorage.removeItem(storageKey);
-        if (autoComprehend) {
-          await api.projects.confirmComprehend(projectId);
-          if (hasTemplate) {
-            await api.projects.update(projectId, { status: "TEMPLATE_CHOSEN" });
-            toast({
-              title: "Brief tersimpan",
-              description: "Template yang dipilih siap dipreview.",
-            });
-            router.push(`/app/projects/${projectId}/preview`);
-            return;
-          }
-          toast({ title: "Brief tersimpan", description: "Lanjut pilih template." });
-          router.push(`/app/projects/${projectId}/templates`);
+        if (reviewComprehension) {
+          toast({
+            title: "Brief tersimpan",
+            description: "Tinjau ringkasan pemahaman sebelum lanjut.",
+          });
+          router.push(`/app/projects/${projectId}/comprehend`);
           return;
         }
         toast({ title: "Business context tersimpan" });
@@ -315,7 +306,7 @@ export function BusinessIntakeForm({
           </Button>
         ) : (
           <Button onClick={() => persist(false)} loading={pending}>
-            {autoComprehend ? "Simpan & Pilih Template" : "Simpan & Lanjut"}
+            {reviewComprehension ? "Simpan & Tinjau Pemahaman" : "Simpan & Lanjut"}
           </Button>
         )}
       </div>

@@ -2,16 +2,17 @@
 
 import Link from "next/link";
 import { useEffect, useState, useTransition } from "react";
-import { api } from "@/shared/lib/api";
+import { api, type DeploymentState } from "@/shared/lib/api";
 import { Badge, Button, Card, Input, useToast } from "@/shared/ui";
-import type { Deployment, DomainRecord } from "@/shared/types";
+import type { DomainRecord } from "@/shared/types";
 
 export function DeployPanel({ projectId }: { projectId: string }) {
   const { toast } = useToast();
   const CNAME_TARGET =
     process.env.NEXT_PUBLIC_DOMAIN_CNAME_TARGET ?? "cname.jioo.site";
   const [pending, startTransition] = useTransition();
-  const [deployment, setDeployment] = useState<Deployment | null>(null);
+  const [deployment, setDeployment] = useState<DeploymentState | null>(null);
+  const [projectStatus, setProjectStatus] = useState("");
   const [domains, setDomains] = useState<DomainRecord[]>([]);
   const [domain, setDomain] = useState("");
 
@@ -24,6 +25,7 @@ export function DeployPanel({ projectId }: { projectId: string }) {
       .then(([state, list]) => {
         if (!active) return;
         setDeployment(state.deployment);
+        setProjectStatus(state.projectStatus);
         setDomains(list);
       })
       .catch(() => undefined);
@@ -32,15 +34,37 @@ export function DeployPanel({ projectId }: { projectId: string }) {
     };
   }, [projectId]);
 
+  function reportDeployment(result: DeploymentState, verifiedTitle: string) {
+    if (result.status === "LIVE" && result.health === "OK") {
+      toast({
+        title: verifiedTitle,
+        description: result.liveUrl || "Route publik dan aset merespons normal.",
+        variant: "success",
+      });
+      return;
+    }
+    if (result.status === "DEGRADED" || result.health === "FAIL") {
+      toast({
+        title: "Perlu perhatian",
+        description:
+          result.healthReason ??
+          `Status ${result.status} · health ${result.health}.`,
+        variant: "error",
+      });
+      return;
+    }
+    toast({
+      title: "Menerbitkan…",
+      description: `Status ${result.status} · health ${result.health}. Verifikasi menyusul.`,
+    });
+  }
+
   function deploy() {
     startTransition(async () => {
       try {
         const result = await api.projects.deploy(projectId);
         setDeployment(result);
-        toast({
-          title: "Halaman dipublish",
-          description: result.liveUrl || `Status: ${result.status}.`,
-        });
+        reportDeployment(result, "Situs live & terverifikasi");
       } catch (error) {
         toast({
           title: "Gagal memulai deploy",
@@ -51,17 +75,39 @@ export function DeployPanel({ projectId }: { projectId: string }) {
     });
   }
 
+  function republish() {
+    startTransition(async () => {
+      try {
+        await api.projects.publish(projectId);
+        const state = await api.projects.deployment(projectId);
+        setProjectStatus(state.projectStatus);
+        if (!state.deployment) {
+          toast({
+            title: "Perlu perhatian",
+            description:
+              "Publish selesai tetapi status deployment belum tersedia.",
+            variant: "error",
+          });
+          return;
+        }
+        setDeployment(state.deployment);
+        reportDeployment(state.deployment, "Situs diperbarui & terverifikasi");
+      } catch (error) {
+        toast({
+          title: "Gagal memperbarui situs",
+          description: error instanceof Error ? error.message : "Coba lagi.",
+          variant: "error",
+        });
+      }
+    });
+  }
+
   function health() {
     startTransition(async () => {
       try {
-        const state = await api.projects.deployment(projectId);
-        setDeployment(state.deployment);
-        toast({
-          title: "Status deployment",
-          description: state.deployment
-            ? `${state.deployment.status} · health ${state.deployment.health}`
-            : "Belum ada deployment.",
-        });
+        const result = await api.projects.deployHealth(projectId);
+        setDeployment(result);
+        reportDeployment(result, "Situs terverifikasi live");
       } catch (error) {
         toast({
           title: "Gagal memeriksa health",
@@ -115,7 +161,13 @@ export function DeployPanel({ projectId }: { projectId: string }) {
     });
   }
 
-  const live = deployment?.status === "LIVE";
+  const verifiedLive =
+    deployment?.status === "LIVE" && deployment?.health === "OK";
+  const needsAttention =
+    deployment?.status === "DEGRADED" || deployment?.health === "FAIL";
+  const sitePublished =
+    projectStatus === "ACTIVE" ||
+    ["PROVISIONING", "LIVE", "DEGRADED"].includes(deployment?.status ?? "");
   const publicUrl = deployment?.liveUrl;
 
   return (
@@ -123,8 +175,10 @@ export function DeployPanel({ projectId }: { projectId: string }) {
       <Card title="Halaman publik">
         <div className="flex items-center justify-between">
           <span className="text-sm text-muted">Status</span>
-          <Badge variant={live ? "success" : "warning"}>
-            {deployment?.status ?? "PENDING"}
+          <Badge
+            variant={verifiedLive ? "success" : needsAttention ? "danger" : "warning"}
+          >
+            {needsAttention ? "Perlu perhatian" : deployment?.status ?? "PENDING"}
           </Badge>
         </div>
         <dl className="mt-4 space-y-2 text-sm">
@@ -134,12 +188,25 @@ export function DeployPanel({ projectId }: { projectId: string }) {
           </div>
           <div className="flex justify-between gap-3">
             <dt className="text-muted">Health</dt>
-            <dd className="text-ink">{deployment?.health ?? "UNKNOWN"}</dd>
+            <dd className="text-right text-ink">
+              <span>{deployment?.health ?? "UNKNOWN"}</span>
+              {needsAttention && deployment?.healthReason ? (
+                <span className="mt-1 block text-xs text-danger">
+                  {deployment.healthReason}
+                </span>
+              ) : null}
+            </dd>
           </div>
         </dl>
+        {deployment?.status === "PROVISIONING" ? (
+          <p className="mt-3 text-xs text-muted">
+            Menunggu verifikasi route publik dan aset. Status live hanya
+            dilaporkan setelah probe berhasil.
+          </p>
+        ) : null}
         <div className="mt-4 flex gap-2">
-          <Button onClick={deploy} loading={pending}>
-            Publish Halaman
+          <Button onClick={sitePublished ? republish : deploy} loading={pending}>
+            {sitePublished ? "Perbarui situs" : "Publish Halaman"}
           </Button>
           <Button variant="secondary" onClick={health} disabled={pending}>
             Health Check
@@ -152,7 +219,7 @@ export function DeployPanel({ projectId }: { projectId: string }) {
           >
             Kembali ke Project
           </Link>
-          {live && publicUrl ? (
+          {verifiedLive && publicUrl ? (
             <a
               href={publicUrl}
               target="_blank"

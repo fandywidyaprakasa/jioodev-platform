@@ -7,10 +7,19 @@ import {
   findProject,
   getBusinessProfile,
 } from "@/modules/projects";
-import { mockBusinessContext } from "@/shared/lib/mock-data";
 import { listProjectAssets } from "@/modules/projects";
 import type { BusinessContext } from "@/shared/types";
 import { PageHeader } from "@/shared/ui";
+
+const EMPTY_BUSINESS_CONTEXT: BusinessContext = {
+  businessName: "",
+  industry: "",
+  businessPurpose: [],
+  targetAudience: "",
+  channels: [],
+  designPref: "",
+  businessGoals: "",
+};
 
 export const dynamic = "force-dynamic";
 
@@ -44,11 +53,11 @@ export default async function ContextPage(
         designPref: profile.design_pref ?? "",
         businessGoals: profile.business_goals ?? "",
       }
-    : { ...mockBusinessContext, businessName: "" };
+    : EMPTY_BUSINESS_CONTEXT;
 
   const assets = await listProjectAssets(params.projectId).catch(() => []);
   const mode = searchParams?.mode === "idea" ? "idea" : "guide";
-  const autoComprehend = ["DRAFT", "INTAKE", "COMPREHENDED"].includes(
+  const reviewComprehension = ["DRAFT", "INTAKE", "COMPREHENDED"].includes(
     project.status ?? "",
   );
 
@@ -62,12 +71,17 @@ export default async function ContextPage(
             : "Ceritakan bisnis Anda; AI membantu merumuskan arah website yang sesuai."
         }
       />
+      {!profile ? (
+        <p className="rounded-md border border-line bg-paper p-3 text-sm text-muted">
+          Belum ada konteks bisnis tersimpan. Isi brief di bawah untuk memulai;
+          ringkasan AI akan dibuat setelah brief disimpan.
+        </p>
+      ) : null}
       <BusinessIntakeForm
         projectId={params.projectId}
         initial={initial}
         mode={mode}
-        autoComprehend={autoComprehend}
-        hasTemplate={Boolean(project.template_id)}
+        reviewComprehension={reviewComprehension}
       />
       <AssetUploader projectId={params.projectId} initial={assets} />
     </div>

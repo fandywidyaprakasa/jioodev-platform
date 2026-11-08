@@ -71,6 +71,8 @@ function clone<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T;
 }
 
+export type DeploymentState = Deployment & { healthReason?: string };
+
 export const api = {
   projects: {
     list: (): Promise<Project[]> =>
@@ -125,11 +127,11 @@ export const api = {
             method: "PUT",
             body: JSON.stringify(context),
           }),
-    deployment: (id: string): Promise<{ deployment: Deployment | null; projectStatus: string }> =>
+    deployment: (id: string): Promise<{ deployment: DeploymentState | null; projectStatus: string }> =>
       USE_MOCK
         ? delay({ deployment: null, projectStatus: "PAID" })
         : request(`/projects/${id}/deploy`),
-    deploy: (id: string): Promise<Deployment> =>
+    deploy: (id: string): Promise<DeploymentState> =>
       USE_MOCK
         ? delay({
             id: `dep_${Date.now()}`,
@@ -141,6 +143,18 @@ export const api = {
             health: "OK",
           })
         : request(`/projects/${id}/deploy`, { method: "POST" }),
+    deployHealth: (id: string): Promise<DeploymentState> =>
+      USE_MOCK
+        ? delay({
+            id: `dep_${Date.now()}`,
+            projectId: id,
+            target: "container",
+            environment: "production",
+            status: "LIVE",
+            liveUrl: `/p/${id}`,
+            health: "OK",
+          })
+        : request(`/projects/${id}/deploy/health`, { method: "POST" }),
     publish: (id: string): Promise<PublishedPage> =>
       USE_MOCK
         ? delay({

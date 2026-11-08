@@ -13,14 +13,32 @@ import {
 
 type Tool = "sections" | "copy";
 
+export interface CustomizePageOption {
+  id: string;
+  title: string;
+  slug: string;
+  is_home: boolean;
+}
+
+interface SectionsErrorPayload {
+  error?: {
+    message?: string;
+    details?: { errors?: string[] };
+  };
+}
+
 export function CustomizeEditor({
   projectId,
+  pageId,
+  pages,
   sections,
   copy,
   previewUrl,
   businessName,
 }: {
   projectId: string;
+  pageId?: string;
+  pages: CustomizePageOption[];
   sections: SectionWithVariants[];
   copy: CopyField[];
   previewUrl?: string;
@@ -33,10 +51,38 @@ export function CustomizeEditor({
   const [suggestions, setSuggestions] = useState<Record<string, string[]>>({});
   const [showReal, setShowReal] = useState(false);
   const [previewKey, setPreviewKey] = useState(0);
+  const [saveError, setSaveError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
 
   const value = (key: string) =>
     fields.find((field) => field.key === key)?.value ?? "";
+
+  async function persistSections(next: SectionWithVariants[]) {
+    if (process.env.NEXT_PUBLIC_API_MODE === "mock") return next;
+    const base = process.env.NEXT_PUBLIC_API_BASE ?? "/api";
+    const query = pageId ? `?pageId=${encodeURIComponent(pageId)}` : "";
+    const response = await fetch(
+      `${base}/projects/${projectId}/sections${query}`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(next),
+      },
+    );
+    const payload = (await response.json().catch(() => null)) as
+      | SectionsErrorPayload
+      | null;
+    if (!response.ok) {
+      const message =
+        payload?.error?.message ??
+        `Gagal menyimpan section (${response.status}).`;
+      const details = payload?.error?.details?.errors?.filter(Boolean) ?? [];
+      throw new Error(
+        details.length ? `${message} ${details.join(" ")}` : message,
+      );
+    }
+    return payload;
+  }
 
   function move(index: number, direction: -1 | 1) {
     const next = [...items];
@@ -68,13 +114,17 @@ export function CustomizeEditor({
   function saveSections() {
     startTransition(async () => {
       try {
-        await api.sections.update(projectId, items);
+        await persistSections(items);
+        setSaveError(null);
         setPreviewKey((current) => current + 1);
         toast({ title: "Section tersimpan" });
       } catch (error) {
+        const message =
+          error instanceof Error ? error.message : "Coba lagi.";
+        setSaveError(message);
         toast({
           title: "Gagal menyimpan section",
-          description: error instanceof Error ? error.message : "Coba lagi.",
+          description: message,
           variant: "error",
         });
       }
@@ -103,7 +153,40 @@ export function CustomizeEditor({
   }
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[56px_minmax(280px,340px)_1fr]">
+    <div>
+      {pages.length > 1 ? (
+        <nav
+          aria-label="Pilih halaman"
+          className="mb-3 flex flex-wrap gap-2"
+        >
+          {pages.map((page) => {
+            const active = page.id === pageId;
+            return (
+              <Link
+                key={page.id}
+                href={`/app/projects/${projectId}/customize?page=${page.id}`}
+                aria-current={active ? "page" : undefined}
+                className={`inline-flex min-h-9 items-center rounded-full border px-3 text-sm font-medium transition-colors duration-150 ${
+                  active
+                    ? "border-accent bg-accent-soft text-accent"
+                    : "border-line text-muted hover:border-ink/40 hover:text-ink"
+                }`}
+              >
+                {page.is_home ? "Home" : page.title || page.slug || "Halaman"}
+              </Link>
+            );
+          })}
+        </nav>
+      ) : null}
+      {saveError ? (
+        <p
+          role="alert"
+          className="mb-3 rounded-md border border-danger/40 bg-danger/5 px-3 py-2 text-sm text-danger"
+        >
+          {saveError}
+        </p>
+      ) : null}
+      <div className="grid gap-4 lg:grid-cols-[56px_minmax(280px,340px)_1fr]">
       <nav
         aria-label="Panel alat"
         className="flex gap-1 rounded-lg border border-line bg-surface p-1 lg:flex-col"
@@ -318,7 +401,15 @@ export function CustomizeEditor({
         </div>
         <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-line bg-surface p-3 text-sm">
           <span className="text-muted">Perubahan tersimpan per bagian.</span>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
+            <Link
+              href={`/app/projects/${projectId}/workspace${
+                pageId ? `?page=${pageId}` : ""
+              }`}
+              className="inline-flex items-center rounded-full border border-line px-4 py-2 text-sm font-medium text-ink transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:border-ink/40"
+            >
+              Workspace
+            </Link>
             <Link
               href={`/app/projects/${projectId}`}
               className="inline-flex items-center rounded-full border border-line px-4 py-2 text-sm font-medium text-ink transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.96] hover:border-ink/40"
@@ -333,6 +424,7 @@ export function CustomizeEditor({
             </Link>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

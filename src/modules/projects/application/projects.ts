@@ -6,7 +6,7 @@ import {
   listRecords,
   updateRecord,
 } from "@/shared/infrastructure/pocketbase/pb-platform";
-import { mockComprehend, mockProjects } from "@/shared/lib/mock-data";
+import { mockProjects } from "@/shared/lib/mock-data";
 import { industryLabel, purposeLabels } from "@/shared/lib/taxonomy";
 import { HTML_PROJECT_TECHNOLOGY_CONFIG } from "@/modules/adapters";
 import { MVP_PRODUCT_TYPES } from "@/shared/types";
@@ -216,10 +216,15 @@ export async function getBusinessProfile(projectId: string) {
   }
 }
 
+export const EMPTY_COMPREHENSION_SUMMARY =
+  "Konteks bisnis belum diisi. Lengkapi business brief agar ringkasan AI dapat dibuat.";
+
 export function summarizeBusiness(
   profile: PbBusinessProfile | null,
 ): ComprehendResult {
-  if (!profile || !profile.business_name) return mockComprehend;
+  if (!profile || !profile.business_name) {
+    return { summary: EMPTY_COMPREHENSION_SUMMARY, confidence: 0 };
+  }
 
   const filled = [
     profile.business_name,
@@ -600,8 +605,17 @@ export async function saveProjectSections(
       return { ok: false, errors };
     }
   }
+  let includeUnassigned = false;
+  if (pageId) {
+    const pages = await listProjectPages(projectId).catch(() => []);
+    const page = pages.find((item) => item.id === pageId);
+    includeUnassigned = Boolean(page?.is_home);
+  }
   const existing = new Map(
-    (await listSectionRows(projectId, pageId)).map((row) => [row.section_code, row]),
+    (await listSectionRows(projectId, pageId, { includeUnassigned })).map((row) => [
+      row.section_code,
+      row,
+    ]),
   );
   for (const [index, section] of normalized.entries()) {
     const current = existing.get(section.code);
@@ -696,6 +710,17 @@ export async function selectProjectVariant(
   return { ok: true, value: { status: "PICKED", variant_id: variantId } };
 }
 
+function comprehensionPath(from: ProjectStatus): ProjectStatus[] | null {
+  const path: ProjectStatus[] =
+    from === "DRAFT" ? ["INTAKE", "COMPREHENDED"] : ["COMPREHENDED"];
+  let cursor = from;
+  for (const next of path) {
+    if (!canTransition(cursor, next)) return null;
+    cursor = next;
+  }
+  return path;
+}
+
 export async function comprehendProject(
   id: string,
 ): Promise<ProjectActionResult<ComprehendResult>> {
@@ -704,26 +729,92 @@ export async function comprehendProject(
     return { ok: false, code: "NOT_FOUND", message: "Data tidak ditemukan." };
   }
   const current: ProjectStatus = record?.status ?? mock?.status ?? "INTAKE";
+  if (PUBLISH_PROTECTED_STATUSES.includes(current)) {
+    return {
+      ok: false,
+      code: "INVALID_TRANSITION",
+      message: `Status ${current} tidak dapat diubah oleh alur pemahaman.`,
+    };
+  }
+  if (!comprehensionPath(current)) {
+    return {
+      ok: false,
+      code: "INVALID_TRANSITION",
+      message: `Status ${current} tidak dapat menuju COMPREHENDED.`,
+    };
+  }
   if (current !== "COMPREHENDED") {
-    if (!canTransition(current, "COMPREHENDED")) {
-      return {
-        ok: false,
-        code: "INVALID_TRANSITION",
-        message: `Status ${current} tidak dapat menuju COMPREHENDED.`,
-      };
-    }
     await setProjectStatus(id, "COMPREHENDED");
   }
   const profile = await getBusinessProfile(id).catch(() => null);
   return { ok: true, value: summarizeBusiness(profile) };
 }
 
+export interface ComprehendedContext {
+  summary: string;
+  confidence: number;
+  corrections: string | null;
+  confirmed_at: string;
+}
+
 export async function confirmProjectComprehension(
   id: string,
   corrections?: string,
-) {
-  await setProjectStatus(id, "COMPREHENDED");
-  return { ok: true as const, corrections: corrections ?? null };
+): Promise<
+  | { ok: true; corrections: string | null; comprehension: ComprehendedContext }
+  | { ok: false; code: string; message: string }
+> {
+  const { record, mock } = await resolveProject(id);
+  if (!record && !mock) {
+    return { ok: false, code: "NOT_FOUND", message: "Data tidak ditemukan." };
+  }
+
+  const current: ProjectStatus = record?.status ?? mock?.status ?? "DRAFT";
+  if (PUBLISH_PROTECTED_STATUSES.includes(current)) {
+    return {
+      ok: false,
+      code: "INVALID_TRANSITION",
+      message: `Status ${current} tidak dapat dikonfirmasi oleh alur pemahaman.`,
+    };
+  }
+  if (!comprehensionPath(current)) {
+    return {
+      ok: false,
+      code: "INVALID_TRANSITION",
+      message: `Status ${current} tidak dapat menuju COMPREHENDED.`,
+    };
+  }
+
+  const profile = await getBusinessProfile(id).catch(() => null);
+  const summary = summarizeBusiness(profile);
+  const comprehension: ComprehendedContext = {
+    summary: summary.summary,
+    confidence: summary.confidence,
+    corrections: corrections ?? null,
+    confirmed_at: new Date().toISOString(),
+  };
+
+  if (record) {
+    const state =
+      record.active_sections &&
+      typeof record.active_sections === "object" &&
+      !Array.isArray(record.active_sections)
+        ? (record.active_sections as Record<string, unknown>)
+        : {};
+    await patchProject(id, {
+      status: "COMPREHENDED",
+      active_sections: { ...state, comprehended_context: comprehension },
+    });
+  } else if (mock) {
+    mock.status = "COMPREHENDED";
+    mock.updatedAt = comprehension.confirmed_at;
+  }
+
+  return {
+    ok: true as const,
+    corrections: comprehension.corrections,
+    comprehension,
+  };
 }
 
 export async function saveProjectBusinessContext(

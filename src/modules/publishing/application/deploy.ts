@@ -26,6 +26,7 @@ export interface Deployment {
   status: string;
   liveUrl: string;
   health: string;
+  healthReason?: string;
 }
 
 export interface DomainRecord {
@@ -45,7 +46,7 @@ interface PbDeployment {
   environment?: string;
   status?: string;
   live_url?: string;
-  health?: string;
+  health?: unknown;
 }
 
 interface PbDomain {
@@ -58,7 +59,29 @@ interface PbDomain {
   verified_at?: string;
 }
 
+function readHealth(value: unknown): { status: string; reason?: string } {
+  if (typeof value === "string" && value.trim()) return { status: value };
+  if (value && typeof value === "object") {
+    const record = value as { status?: unknown; reason?: unknown };
+    const status =
+      typeof record.status === "string" && record.status.trim()
+        ? record.status
+        : "UNKNOWN";
+    const reason =
+      typeof record.reason === "string" && record.reason.trim()
+        ? record.reason
+        : undefined;
+    return reason ? { status, reason } : { status };
+  }
+  return { status: "UNKNOWN" };
+}
+
+function healthValue(status: string, reason?: string) {
+  return reason ? { status, reason } : status;
+}
+
 function toDeployment(item: PbDeployment): Deployment {
+  const health = readHealth(item.health);
   return {
     id: item.id,
     projectId: item.project_id ?? "",
@@ -66,7 +89,8 @@ function toDeployment(item: PbDeployment): Deployment {
     environment: item.environment ?? "production",
     status: item.status ?? "PENDING",
     liveUrl: item.live_url ?? "",
-    health: item.health ?? "UNKNOWN",
+    health: health.status,
+    ...(health.reason ? { healthReason: health.reason } : {}),
   };
 }
 
@@ -102,11 +126,13 @@ export async function listDeployments(): Promise<Deployment[]> {
 
 // Write order for requestDeployment:
 // 1. Read project and validate status.
-// 2. Read existing deployment.
-// 3. Read published page for an existing live deployment.
-// 4. publishProject (snapshot/promotion) when no reusable deployment.
-// 5. markPublished (deployment pointer + audit).
-// Read/write failures propagate; an invalid transition returns null.
+// 2. publishProject creates/promotes an immutable snapshot (idempotent for an
+//    unchanged content revision, so republish never duplicates versions).
+// 3. markPublished points the deployment at the promoted snapshot.
+// 4. checkDeploymentHealth verifies the public route + referenced assets before
+//    the caller can treat the deployment as LIVE.
+// Read/write failures propagate; an invalid transition returns null; publish
+// failures are raised with a structured `code` for the HTTP layer.
 async function ensureAuditLog(input: {
   actor?: string;
   action: string;
@@ -123,27 +149,56 @@ async function ensureAuditLog(input: {
   });
 }
 
+export type DeploymentFailureCode =
+  | "NOT_FOUND"
+  | "INVALID_TRANSITION"
+  | "PAYMENT_REQUIRED"
+  | "NO_OUTPUT"
+  | "HEALTH_FAILED"
+  | "VALIDATION_FAILED"
+  | "RENDER_FAILED"
+  | "CONFLICT";
+
+export interface DeploymentRequestError extends Error {
+  code: DeploymentFailureCode;
+}
+
+function failDeployment(code: DeploymentFailureCode, message: string): never {
+  const error = new Error(message) as DeploymentRequestError;
+  error.name = "DeploymentRequestError";
+  error.code = code;
+  throw error;
+}
+
 export async function requestDeployment(
   projectId: string,
 ): Promise<Deployment | null> {
   const project = await findProject(projectId);
-  if (!project) return null;
+  if (!project) failDeployment("NOT_FOUND", "Project tidak ditemukan.");
 
   const status = project.status ?? "DRAFT";
   if (!["PAID", "DEPLOYED", "ACTIVE"].includes(status)) return null;
 
-  const existing = await getDeployment(projectId);
-  if (
-    existing &&
-    (existing.status === "LIVE" || existing.status === "PROVISIONING")
-  ) {
-    const page = await findPublishedPageByProject(projectId);
-    if (page?.status === "PUBLISHED") return existing;
-  }
+  // Read the current pointer first so a deployment read failure surfaces before
+  // starting a new publish instead of being mistaken for a publish failure.
+  await getDeployment(projectId);
 
   const published = await publishProject(projectId);
-  if (!published.ok) return null;
-  return markPublished(projectId, published.page.url, published.page.slug);
+  if (!published.ok) {
+    failDeployment(published.code, published.message);
+  }
+
+  const deployment = await markPublished(
+    projectId,
+    published.page.url,
+    published.page.slug,
+  );
+  if (!deployment) {
+    failDeployment("NOT_FOUND", "Deployment tidak ditemukan.");
+  }
+
+  const verified = await checkDeploymentHealth(projectId);
+  return verified ?? deployment;
 }
 
 // Write order for markPublished (deployment pointer promotion):
@@ -165,10 +220,10 @@ export async function markPublished(
   const previewPath = buildPublicPath(slug);
   const alreadyComplete =
     !!existing &&
-    !!project &&
+    existing.status === "PROVISIONING" &&
     existing.liveUrl === liveUrl &&
-    project.deployment_id === existing.id &&
-    project.preview_url === previewPath;
+    project?.deployment_id === existing.id &&
+    project?.preview_url === previewPath;
 
   if (alreadyComplete && existing) {
     return toDeployment(existing);
@@ -202,7 +257,10 @@ export async function markPublished(
 
 // Write order for publishAndMarkLive:
 // 1. publishProject creates/promotes immutable snapshot + project ACTIVE.
-// 2. markPublished links the deployment pointer.
+// 2. markPublished links the deployment pointer (PROVISIONING on republish).
+// 3. checkDeploymentHealth probes the public route + assets so LIVE is only
+//    reported after verification. A failed probe leaves DEGRADED + reason while
+//    the project stays ACTIVE on the promoted snapshot.
 // If step 2 fails, the publish snapshot remains promoted and project ACTIVE;
 // retrying publishAndMarkLive is safe because publishProject returns the existing
 // promoted page and markPublished reconciles the deployment pointer.
@@ -212,7 +270,12 @@ export async function publishAndMarkLive(
 ) {
   const published = await publishProject(projectId, options);
   if (!published.ok) return published;
-  await markPublished(projectId, published.page.url, published.page.slug);
+  const deployment = await markPublished(
+    projectId,
+    published.page.url,
+    published.page.slug,
+  );
+  if (deployment) await checkDeploymentHealth(projectId);
   return published;
 }
 
@@ -264,47 +327,146 @@ export async function suspendDeployment(
 
 // Write order for checkDeploymentHealth:
 // 1. Read deployment + published page.
-// 2. Update deployment to DEGRADED/FAIL if no published page.
-// 3. Probe public route when base URL exists.
-// 4. Update deployment to LIVE/OK or DEGRADED/FAIL.
+// 2. Update deployment to DEGRADED/FAIL (+ reason) if no published page.
+// 3. Probe public route when base URL exists (bounded by a timeout).
+// 4. Probe a referenced public asset so a broken asset cannot hide behind a 200.
+// 5. Update deployment to LIVE/OK or DEGRADED/FAIL (+ reason).
 // Failures propagate; project status is never changed by this probe.
+const DEFAULT_PROBE_TIMEOUT_MS = 3_000;
+const PROBE_ASSET_EXT =
+  /\.(?:avif|bmp|css|gif|ico|jpe?g|js|json|png|svg|ttf|webp|woff2?)$/i;
+
+function probeTimeoutMs() {
+  const configured = Number(process.env.DEPLOY_HEALTH_TIMEOUT_MS);
+  return Number.isFinite(configured) && configured > 0
+    ? configured
+    : DEFAULT_PROBE_TIMEOUT_MS;
+}
+
+async function probe(url: string): Promise<Response | null> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), probeTimeoutMs());
+  try {
+    return await fetch(url, { cache: "no-store", signal: controller.signal });
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function referencedProbeAssets(html: string, pageUrl: string): string[] {
+  let base: URL;
+  try {
+    base = new URL(pageUrl);
+  } catch {
+    return [];
+  }
+  const pagePath = base.pathname.replace(/\/+$/, "") || "/";
+  const assets = new Set<string>();
+  for (const match of html.matchAll(/(?:src|href)\s*=\s*["']([^"']+)["']/gi)) {
+    const raw = match[1]?.trim();
+    if (!raw || raw.startsWith("#")) continue;
+    if (/^(?:data|blob|mailto|tel|javascript):/i.test(raw)) continue;
+    let resolved: URL;
+    try {
+      resolved = new URL(raw, base);
+    } catch {
+      continue;
+    }
+    if (resolved.protocol !== "http:" && resolved.protocol !== "https:") continue;
+    const assetPath = resolved.pathname.replace(/\/+$/, "") || "/";
+    if (assetPath === pagePath) continue;
+    if (!assetPath.includes("/media/") && !PROBE_ASSET_EXT.test(resolved.pathname)) {
+      continue;
+    }
+    assets.add(resolved.toString());
+  }
+  return [...assets];
+}
+
+async function setDeploymentHealth(
+  deployment: Deployment,
+  status: string,
+  health: string,
+  reason?: string,
+): Promise<Deployment> {
+  const updated = await updateRecord<PbDeployment>("deployments", deployment.id, {
+    status,
+    health: healthValue(health, reason),
+  });
+  return toDeployment(updated);
+}
+
 export async function checkDeploymentHealth(projectId: string) {
   const deployment = await getDeployment(projectId);
   if (!deployment) return null;
 
   const page = await findPublishedPageByProject(projectId);
   if (!page || page.status !== "PUBLISHED") {
-    const degraded = await updateRecord<PbDeployment>(
-      "deployments",
-      deployment.id,
-      { status: "DEGRADED", health: "FAIL" },
+    return setDeploymentHealth(
+      deployment,
+      "DEGRADED",
+      "FAIL",
+      "Halaman publik belum dipublish sehingga belum bisa diverifikasi.",
     );
-    return toDeployment(degraded);
   }
 
   const base = publicBaseUrl();
   const url = base ? `${base}${buildPublicPath(page.slug ?? "")}` : "";
   if (!url) {
     if (deployment.status !== "LIVE") return deployment;
-    const unverified = await updateRecord<PbDeployment>(
-      "deployments",
-      deployment.id,
-      { status: "DEGRADED", health: "UNKNOWN" },
+    return setDeploymentHealth(
+      deployment,
+      "DEGRADED",
+      "UNKNOWN",
+      "URL publik belum dikonfigurasi; status live belum terverifikasi.",
     );
-    return toDeployment(unverified);
   }
 
-  const response = await fetch(url, { cache: "no-store" }).catch(() => null);
-  const healthy = Boolean(response?.ok);
-  const updated = await updateRecord<PbDeployment>(
-    "deployments",
-    deployment.id,
-    {
-      status: healthy ? "LIVE" : "DEGRADED",
-      health: healthy ? "OK" : "FAIL",
-    },
-  );
-  return toDeployment(updated);
+  const response = await probe(url);
+  if (!response) {
+    return setDeploymentHealth(
+      deployment,
+      "DEGRADED",
+      "FAIL",
+      `Route publik ${buildPublicPath(page.slug ?? "")} tidak dapat dihubungi.`,
+    );
+  }
+  if (!response.ok) {
+    return setDeploymentHealth(
+      deployment,
+      "DEGRADED",
+      "FAIL",
+      `Route publik membalas ${response.status}.`,
+    );
+  }
+
+  let html = "";
+  try {
+    html = await response.text();
+  } catch {
+    html = "";
+  }
+  for (const asset of referencedProbeAssets(html, url).slice(0, 1)) {
+    const assetResponse = await probe(asset);
+    if (!assetResponse || !assetResponse.ok) {
+      let assetPath = asset;
+      try {
+        assetPath = new URL(asset).pathname;
+      } catch {
+        // keep the raw URL in the reason
+      }
+      return setDeploymentHealth(
+        deployment,
+        "DEGRADED",
+        "FAIL",
+        `Aset ${assetPath} tidak dapat diakses.`,
+      );
+    }
+  }
+
+  return setDeploymentHealth(deployment, "LIVE", "OK");
 }
 
 // Write order for rollbackDeployment (admin):

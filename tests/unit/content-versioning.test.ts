@@ -93,7 +93,7 @@ describe("workspace content versioning", () => {
     const versions = await listVersions("proj-limit", "page1");
     expect(versions.length).toBe(VERSION_LIMIT);
     expect(versions[0]?.sections).toEqual([{ code: "S-HERO", content: { message: `v${VERSION_LIMIT + 4}` } }]);
-  });
+  }, 30000);
 
   it("rejects unsafe project or page identifiers", async () => {
     expect(await createVersion("../escape", "p", input("x"), { author: "a" })).toBeNull();

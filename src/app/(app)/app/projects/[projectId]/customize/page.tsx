@@ -1,6 +1,6 @@
 import { CustomizeEditor } from "@/modules/sections/client";
 import { mockCopy, mockSections } from "@/shared/lib/mock-data";
-import { getProjectCopy } from "@/modules/projects";
+import { getProjectCopy, loadProjectSite } from "@/modules/projects";
 import { getLatestJob } from "@/modules/generation";
 import { listSectionVariants } from "@/modules/sections";
 import {
@@ -17,9 +17,11 @@ export const dynamic = "force-dynamic";
 export default async function CustomizePage(
   props: {
     params: Promise<{ projectId: string }>;
+    searchParams?: Promise<{ page?: string }>;
   }
 ) {
   const params = await props.params;
+  const searchParams = await props.searchParams;
   const user = await currentUser();
   const project = user
     ? await findProject(params.projectId).catch(() => null)
@@ -37,8 +39,17 @@ export default async function CustomizePage(
     redirect(`/app/projects/${params.projectId}/preview`);
   }
 
+  const site = await loadProjectSite(
+    params.projectId,
+    searchParams?.page,
+  ).catch(() => null);
+  const pageId = site?.page.id;
   const [sections, copy, job] = await Promise.all([
-    getProjectSections(params.projectId, mockSections),
+    pageId
+      ? getProjectSections(params.projectId, mockSections, pageId, {
+          includeUnassigned: Boolean(site?.page.is_home),
+        })
+      : getProjectSections(params.projectId, mockSections),
     getProjectCopy(params.projectId, mockCopy),
     getLatestJob(params.projectId).catch(() => null),
   ]);
@@ -60,6 +71,8 @@ export default async function CustomizePage(
       />
       <CustomizeEditor
         projectId={params.projectId}
+        pageId={pageId}
+        pages={site?.pages ?? []}
         sections={editableSections}
         copy={copy}
         previewUrl={variant?.previewUrl}

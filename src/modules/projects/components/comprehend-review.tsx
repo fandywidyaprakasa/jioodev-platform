@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { api } from "@/shared/lib/api";
@@ -17,6 +18,7 @@ export function ComprehendReview({
   const { toast } = useToast();
   const [corrections, setCorrections] = useState("");
   const [pending, startTransition] = useTransition();
+  const hasContext = result.confidence > 0 && result.summary.trim().length > 0;
 
   function confirm() {
     startTransition(async () => {
@@ -32,6 +34,24 @@ export function ComprehendReview({
         });
       }
     });
+  }
+
+  if (!hasContext) {
+    return (
+      <Card title="Ringkasan AI">
+        <p className="text-sm leading-relaxed text-ink">Konteks belum diisi.</p>
+        <p className="mt-2 text-sm text-muted">
+          Lengkapi business brief agar AI dapat merangkum bisnis Anda sebelum
+          pemahaman dikonfirmasi.
+        </p>
+        <Link
+          href={`/app/projects/${projectId}/context`}
+          className="mt-4 inline-flex min-h-11 items-center rounded-md border border-line px-4 text-sm font-medium text-ink transition-colors duration-150 hover:border-ink/40"
+        >
+          Isi business brief
+        </Link>
+      </Card>
+    );
   }
 
   return (

@@ -13,7 +13,7 @@ import {
   saveProjectSections,
   type PbProjectPage,
 } from "./projects";
-import { getProjectCopy } from "./copy";
+import { applyCopyToContent, getProjectCopy } from "./copy";
 import { listProjectAssets, type ProjectAsset } from "./assets";
 import { mockCopy } from "@/shared/lib/mock-data";
 import { loadWorkspace, type WorkspaceData } from "@/modules/workspace";
@@ -153,35 +153,10 @@ async function applyLegacyCopy(
     getBusinessProfile(projectId).catch(() => null),
     getProjectCopy(projectId, mockCopy).catch(() => mockCopy),
   ]);
-  const copyMap = new Map(copy.map((field) => [field.key, field.value]));
-  const hero = (content["S-HERO"] ?? {}) as Record<string, unknown>;
-  const footer = (content["S-FOOT"] ?? {}) as Record<string, unknown>;
-  const businessName =
-    siteSettings.site_name?.trim() ||
-    profile?.business_name ||
-    clientLabel;
-  content["S-HERO"] = {
-    ...hero,
-    ...(copyMap.get("hero_eyebrow") ? { eyebrow: copyMap.get("hero_eyebrow") } : {}),
-    ...(copyMap.get("hero_title") ? { headline: copyMap.get("hero_title") } : {}),
-    ...(copyMap.get("hero_subtitle") ? { subheadline: copyMap.get("hero_subtitle") } : {}),
-    ...(copyMap.get("cta_button")
-      ? {
-          primary_cta: {
-            ...((hero.primary_cta as Record<string, unknown>) ?? {}),
-            label: copyMap.get("cta_button"),
-          },
-        }
-      : {}),
-  };
-  content["S-FOOT"] = {
-    ...footer,
-    ...(businessName ? { business_name: businessName } : {}),
-    ...(siteSettings.footer_tagline
-      ? { tagline: siteSettings.footer_tagline }
-      : {}),
-  };
-  return content;
+  return applyCopyToContent(content, copy, {
+    businessName: profile?.business_name || clientLabel,
+    siteSettings,
+  });
 }
 
 function selectSitePage(pages: PbProjectPage[], pageId?: string) {
@@ -470,15 +445,20 @@ export async function saveProjectSite(
   const project = await findProject(projectId);
   if (!project) return null;
   const state = siteState(project);
-  const home = await ensureHomePage(projectId);
-  const pages = await listProjectPages(projectId);
-  const page =
-    (options.pageId ? pages.find((item) => item.id === options.pageId) : null) ??
-    home ??
-    pages[0] ??
-    null;
+  let page: PbProjectPage | null;
+  if (options.pageId) {
+    const pages = await listProjectPages(projectId);
+    page = pages.find((item) => item.id === options.pageId) ?? null;
+    if (!page) return null;
+    if (page.is_home) {
+      page = (await ensureHomePage(projectId)) ?? page;
+    }
+  } else {
+    page = await ensureHomePage(projectId);
+  }
   if (!page) return null;
   const saved = await saveProjectSections(projectId, sections, page.id);
+  if (!saved.ok) return saved;
   await patchProject(projectId, {
     active_sections: {
       ...state,
