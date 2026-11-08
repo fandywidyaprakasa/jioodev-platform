@@ -2,11 +2,19 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { isSessionExpired } from "@/shared/lib/session-policy";
+import {
+  createRateLimitStoreFromEnv,
+  getRateLimitStore,
+  setRateLimitStore,
+} from "@/shared/infrastructure/rate-limit";
+
+// Initialize once per process. Swap store via setRateLimitStore() in tests or
+// when wiring a Redis-backed implementation for multi-server.
+setRateLimitStore(createRateLimitStoreFromEnv());
 
 const GUEST_COOKIE = "jioodev_guest";
 const WINDOW_MS = 60_000;
 const MAX_REQUESTS = 120;
-const hits = new Map<string, { count: number; reset: number }>();
 
 function clientIp(req: NextRequest) {
   const forwarded = req.headers.get("x-forwarded-for");
@@ -17,16 +25,8 @@ function clientIp(req: NextRequest) {
 
 function rateLimit(req: NextRequest) {
   const ip = clientIp(req);
-  const now = Date.now();
-  const entry = hits.get(ip);
-  if (!entry || now > entry.reset) {
-    hits.set(ip, { count: 1, reset: now + WINDOW_MS });
-    return null;
-  }
-  entry.count += 1;
-  if (entry.count <= MAX_REQUESTS) return null;
-
-  const retry = Math.ceil((entry.reset - now) / 1000);
+  const result = getRateLimitStore().increment(ip, WINDOW_MS, MAX_REQUESTS);
+  if (result.allowed) return null;
   return new NextResponse(
     JSON.stringify({
       error: { code: "RATE_LIMITED", message: "Terlalu banyak permintaan." },
@@ -35,7 +35,7 @@ function rateLimit(req: NextRequest) {
       status: 429,
       headers: {
         "Content-Type": "application/json",
-        "Retry-After": String(retry),
+        "Retry-After": String(result.retryAfterSeconds),
       },
     },
   );

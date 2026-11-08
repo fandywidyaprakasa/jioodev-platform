@@ -417,28 +417,45 @@ export async function restoreQuota(
   await updateRecord<PbSubscription>("subscriptions", sub.id, patch);
 }
 
+// Multi-server note: the in-memory map below only deduplicates within one instance.
+// For true cross-instance idempotency, store an idempotency key on the payment record
+// (e.g. payments.idempotency_key, unique index) and check it before confirming.
+// That schema change requires explicit approval before deploy.
 const confirmInFlight = new Map<string, Promise<Payment | null>>();
 
 export function confirmPayment(
   id: string,
   actorId?: string,
+  idempotencyKey?: string,
 ): Promise<Payment | null> {
-  const pending = confirmInFlight.get(id);
+  const key = idempotencyKey ?? `${id}:${actorId ?? "system"}`;
+  const pending = confirmInFlight.get(key);
   if (pending) return pending;
-  const task = confirmPaymentOnce(id, actorId).finally(() => {
-    confirmInFlight.delete(id);
+  const task = confirmPaymentOnce(id, actorId, key).finally(() => {
+    confirmInFlight.delete(key);
   });
-  confirmInFlight.set(id, task);
+  confirmInFlight.set(key, task);
   return task;
 }
 
 async function confirmPaymentOnce(
   id: string,
   actorId?: string,
+  idempotencyKey?: string,
 ): Promise<Payment | null> {
   const payment = await getRecord<PbPayment>("payments", id).catch(() => null);
   if (!payment) return null;
   if (payment.status !== "PENDING") return toPayment(payment);
+
+  // Cross-instance idempotency guard (best-effort without schema change):
+  // if a previous confirm already recorded this key, treat as already confirmed.
+  const existingKey =
+    payment.raw_response && typeof payment.raw_response === "object"
+      ? (payment.raw_response as { idempotency_key?: unknown }).idempotency_key
+      : null;
+  if (existingKey && idempotencyKey && existingKey === idempotencyKey) {
+    return toPayment(payment);
+  }
 
   const now = new Date().toISOString();
   const updated = await updateRecord<PbPayment>("payments", id, {
@@ -446,6 +463,12 @@ async function confirmPaymentOnce(
     paid_at: now,
     confirmed_at: now,
     ...(actorId ? { confirmed_by: actorId } : {}),
+    raw_response: {
+      ...(payment.raw_response && typeof payment.raw_response === "object"
+        ? (payment.raw_response as Record<string, unknown>)
+        : {}),
+      ...(idempotencyKey ? { idempotency_key: idempotencyKey } : {}),
+    },
   });
 
   if (payment.project_id) {
